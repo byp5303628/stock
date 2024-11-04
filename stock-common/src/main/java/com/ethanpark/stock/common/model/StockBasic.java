@@ -4,6 +4,8 @@ package com.ethanpark.stock.common.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 /**
  * @author: baiyunpeng04
  * @since: 2024/11/5
@@ -15,16 +17,16 @@ public class StockBasic {
 
     private String name;
 
-    private Double startPrice;
+    private BigDecimal startPrice;
 
-    private Double endPrice;
+    private BigDecimal endPrice;
 
-    private Double highestPrice;
+    private BigDecimal highestPrice;
 
-    private Double lowestPrice;
+    private BigDecimal lowestPrice;
 
     /**
-     * yyyyMMdd
+     * yyyy-MM-dd
      */
     private String partitionDate;
 }
