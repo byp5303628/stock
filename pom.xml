@@ -21,6 +21,7 @@
         <module>stock-web</module>
         <module>stock-common</module>
         <module>stock-remote</module>
+        <module>stock-core</module>
     </modules>
 
     <dependencyManagement>

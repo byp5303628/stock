@@ -2,7 +2,7 @@ package com.ethanpark.stock.remote;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ethanpark.stock.common.model.StockBasic;
+import com.ethanpark.stock.remote.model.StockBasic;
 import com.ethanpark.stock.common.util.DateUtils;
 import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;

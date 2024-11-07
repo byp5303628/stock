@@ -1,4 +1,4 @@
-package com.ethanpark.stock.common.model;
+package com.ethanpark.stock.remote.model;
 
 
 import lombok.Getter;
