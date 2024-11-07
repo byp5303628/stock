@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,11 +19,17 @@ public class Task {
 
     private String taskType;
 
-    private Map<String, String> context;
+    private Map<String, String> context = new HashMap<>();
 
-    private TaskStatus status;
+    private TaskStatus status = TaskStatus.INIT;
+
+    private Integer retryTimes = 0;
+
+    private String errorMsg;
 
     private Date gmtCreate;
 
     private Date gmtModified;
+
+    private Date fireTime;
 }

@@ -1,18 +1,15 @@
-package com.ethanpark.stock.remote.model;
+package com.ethanpark.stock.common.entity;
 
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
 /**
  * @author: baiyunpeng04
- * @since: 2024/11/5
+ * @since: 2024/11/7
  */
-@Getter
-@Setter
-public class StockBasic {
+@Data
+public class StockBasicDO {
     private Long id;
 
     private String code;

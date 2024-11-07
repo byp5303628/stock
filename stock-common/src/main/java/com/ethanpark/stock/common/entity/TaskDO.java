@@ -18,7 +18,13 @@ public class TaskDO {
 
     private String status;
 
+    private Integer retryTimes;
+
+    private String resultMsg;
+
     private Date gmtCreate;
 
     private Date gmtModified;
+
+    private Date fireTime;
 }

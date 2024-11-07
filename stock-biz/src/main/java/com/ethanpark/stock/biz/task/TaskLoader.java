@@ -1,4 +1,4 @@
-package com.ethanpark.stock.core.task;
+package com.ethanpark.stock.biz.task;
 
 import com.ethanpark.stock.core.model.TaskConfig;
 import com.ethanpark.stock.core.service.TaskDomainService;

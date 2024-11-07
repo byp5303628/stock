@@ -1,7 +1,6 @@
 package com.ethanpark.stock.common.util;
 
 
-
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.ParseException;
@@ -56,17 +55,7 @@ public class DateUtils {
     }
 
     public static String plusDay(String partitionDate) {
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(partitionDate);
-            Calendar instance = Calendar.getInstance();
-            instance.setTime(date);
-            instance.add(Calendar.DAY_OF_MONTH, 1);
-
-            return new SimpleDateFormat("yyyy-MM-dd").format(instance.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return plusDay(partitionDate, 1);
     }
 
     public static String plusDay(String partitionDate, int count) {
@@ -75,6 +64,20 @@ public class DateUtils {
             Calendar instance = Calendar.getInstance();
             instance.setTime(date);
             instance.add(Calendar.DAY_OF_MONTH, count);
+
+            return new SimpleDateFormat("yyyy-MM-dd").format(instance.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String plusYear(String partitionDate) {
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(partitionDate);
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(date);
+            instance.add(Calendar.YEAR, 1);
 
             return new SimpleDateFormat("yyyy-MM-dd").format(instance.getTime());
         } catch (ParseException e) {
