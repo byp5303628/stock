@@ -32,6 +32,10 @@
             <artifactId>stock-biz</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.ethanpark.stock</groupId>
+            <artifactId>stock-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>

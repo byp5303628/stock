@@ -1,10 +1,12 @@
 package com.ethanpark.stock.core.converter;
 
 import com.alibaba.fastjson.JSON;
-import com.ethanpark.stock.common.entity.StockBasicDO;
-import com.ethanpark.stock.common.entity.TaskDO;
+import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
+import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import com.ethanpark.stock.core.model.Task;
 import com.ethanpark.stock.remote.model.StockBasic;
+
+import java.util.Date;
 
 /**
  * @author: baiyunpeng04
@@ -15,11 +17,14 @@ public class DbConverter {
         TaskDO dbEntity = new TaskDO();
 
         dbEntity.setId(domain.getId());
+        dbEntity.setTaskType(domain.getTaskType());
         dbEntity.setContext(JSON.toJSONString(domain.getContext()));
+        dbEntity.setRetryTimes(domain.getRetryTimes());
+        dbEntity.setResultMsg(domain.getResultMsg());
         dbEntity.setStatus(String.valueOf(domain.getStatus()));
-        dbEntity.setGmtCreate(domain.getGmtCreate());
-        dbEntity.setGmtModified(domain.getGmtModified());
-        dbEntity.setFireTime(domain.getFireTime());
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+        dbEntity.setFireTime(domain.getFireTime() == null ? new Date() : domain.getFireTime());
 
         return dbEntity;
     }

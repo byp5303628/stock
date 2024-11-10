@@ -1,6 +1,6 @@
-package com.ethanpark.stock.common.dal;
+package com.ethanpark.stock.common.dal.mappers;
 
-import com.ethanpark.stock.common.entity.TaskDO;
+import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

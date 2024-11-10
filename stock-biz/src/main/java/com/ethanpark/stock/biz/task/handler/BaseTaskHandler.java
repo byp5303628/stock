@@ -40,17 +40,17 @@ public abstract class BaseTaskHandler implements TaskHandler {
 
     protected void dealSuccess(Task task) {
         task.setStatus(TaskStatus.SUCCESS);
-        task.setErrorMsg("成功");
+        task.setResultMsg("成功");
         taskDomainService.save(task);
     }
 
     protected void dealFail(Task task, String errorMsg) {
         if (task.getRetryTimes() > 3) {
             task.setStatus(TaskStatus.FAIL);
-            task.setErrorMsg(errorMsg);
+            task.setResultMsg(errorMsg);
         } else {
             task.setRetryTimes(task.getRetryTimes() + 1);
-            task.setErrorMsg(errorMsg);
+            task.setResultMsg(errorMsg);
             task.setStatus(TaskStatus.RETRY);
         }
 

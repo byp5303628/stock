@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Import;
  * @since: 2024/11/5
  */
 @SpringBootApplication
-//@MapperScan("com.ethanpark.stock.common.dal")
 @Import(StockBizConfig.class)
 public class WebStarter {
     public static void main(String[] args) {

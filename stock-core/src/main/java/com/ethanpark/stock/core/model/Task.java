@@ -17,6 +17,8 @@ import java.util.Map;
 public class Task {
     private Long id;
 
+    private Long externalSerialNo;
+
     private String taskType;
 
     private Map<String, String> context = new HashMap<>();
@@ -25,7 +27,7 @@ public class Task {
 
     private Integer retryTimes = 0;
 
-    private String errorMsg;
+    private String resultMsg;
 
     private Date gmtCreate;
 

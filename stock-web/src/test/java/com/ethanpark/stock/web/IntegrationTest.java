@@ -1,7 +1,9 @@
 package com.ethanpark.stock.web;
 
+import com.ethanpark.stock.common.dal.mappers.TaskMapper;
+import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
+import com.ethanpark.stock.core.converter.DbConverter;
 import com.ethanpark.stock.core.model.Task;
-import com.ethanpark.stock.core.service.TaskDomainService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +21,7 @@ import javax.annotation.Resource;
 public class IntegrationTest {
 
     @Resource
-    private TaskDomainService taskDomainService;
+    private TaskMapper taskMapper;
 
     @Test
     public void test1() throws Exception {
@@ -29,8 +31,11 @@ public class IntegrationTest {
         nextTask.getContext().put("startDate", "2020-01-01");
         nextTask.getContext().put("endDate", "2020-12-31");
 
-        boolean save = taskDomainService.save(nextTask);
-        Assert.assertTrue(save);
+        TaskDO taskDO = DbConverter.toDbEntity(nextTask);
+
+        int insert = taskMapper.insert(taskDO);
+
+        Assert.assertTrue(insert > 0);
     }
 
 }

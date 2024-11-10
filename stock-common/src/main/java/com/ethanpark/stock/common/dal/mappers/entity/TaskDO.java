@@ -1,4 +1,4 @@
-package com.ethanpark.stock.common.entity;
+package com.ethanpark.stock.common.dal.mappers.entity;
 
 import lombok.Data;
 

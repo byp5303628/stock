@@ -1,7 +1,7 @@
 package com.ethanpark.stock.core.service;
 
-import com.ethanpark.stock.common.dal.StockBasicMapper;
-import com.ethanpark.stock.common.entity.StockBasicDO;
+import com.ethanpark.stock.common.dal.mappers.StockBasicMapper;
+import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
 import com.ethanpark.stock.core.converter.DbConverter;
 import com.ethanpark.stock.remote.model.StockBasic;
 import org.springframework.stereotype.Service;

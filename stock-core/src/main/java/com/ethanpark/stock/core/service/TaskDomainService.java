@@ -1,7 +1,7 @@
 package com.ethanpark.stock.core.service;
 
-import com.ethanpark.stock.common.dal.TaskMapper;
-import com.ethanpark.stock.common.entity.TaskDO;
+import com.ethanpark.stock.common.dal.mappers.TaskMapper;
+import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import com.ethanpark.stock.core.converter.DbConverter;
 import com.ethanpark.stock.core.converter.DomainConverter;
 import com.ethanpark.stock.core.model.Task;

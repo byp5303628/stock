@@ -1,6 +1,6 @@
-package com.ethanpark.stock.common.dal;
+package com.ethanpark.stock.common.dal.mappers;
 
-import com.ethanpark.stock.common.entity.StockBasicDO;
+import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
 
 /**
  * @author: baiyunpeng04
