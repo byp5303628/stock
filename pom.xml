@@ -16,6 +16,19 @@
         <relativePath/>
     </parent>
 
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun Maven</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>stock-biz</module>
         <module>stock-web</module>

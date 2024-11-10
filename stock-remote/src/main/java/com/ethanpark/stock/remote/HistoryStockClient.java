@@ -23,17 +23,20 @@ import java.util.List;
 @Slf4j
 @Service
 public class HistoryStockClient {
-    private static final String URL_PREFIX = "https://web.ifzq.gtimg" +
+    private static final String QFQ_URL_PREFIX = "https://web.ifzq.gtimg" +
             ".cn/appstock/app/fqkline/get?param=%s,day,%s,%s,500,qfq";
+
+    private static final String HFQ_URL_PREFIX = "https://web.ifzq.gtimg" +
+            ".cn/appstock/app/fqkline/get?param=%s,day,%s,%s,500,hfq";
 
 
     public List<StockBasic> queryStockHistory(String code, String startDate,
-                                              String endDate) {
+                                              String endDate, boolean front) {
         String key = getPrefix(code) + code;
 
         String startDateNew = DateUtils.plusDay(startDate);
 
-        String url = String.format(URL_PREFIX, key, startDateNew, endDate);
+        String url = String.format(front ? QFQ_URL_PREFIX : HFQ_URL_PREFIX, key, startDateNew, endDate);
 
 
         GetRequest getRequest = Unirest.get(url);
@@ -46,7 +49,7 @@ public class HistoryStockClient {
 
         JSONObject data = jsonObject.getJSONObject("data").getJSONObject(key);
         JSONArray jsonArray = data.getJSONArray(
-                "qfqday");
+                front ? "qfqday": "hfqday");
         if (CollectionUtils.isEmpty(jsonArray)) {
             return Collections.emptyList();
         }
@@ -87,8 +90,8 @@ public class HistoryStockClient {
         HistoryStockClient client = new HistoryStockClient();
 
         List<StockBasic> stockBasics = client.queryStockHistory("600519", "2020-01-01", "2021-01" +
-                "-01");
+                "-01", false);
 
-        System.out.println(stockBasics);
+        System.out.println(JSONArray.toJSONString(stockBasics));
     }
 }

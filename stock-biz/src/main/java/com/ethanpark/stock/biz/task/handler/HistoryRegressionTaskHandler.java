@@ -32,7 +32,7 @@ public class HistoryRegressionTaskHandler extends BaseTaskHandler {
         String endDate = context.get("endDate");
 
         List<StockBasic> stockBasics = historyStockClient.queryStockHistory(code, startDate,
-                endDate);
+                endDate, false);
 
         for (StockBasic stockBasic : stockBasics) {
             boolean b = stockBasicDomainService.saveStockBasic(stockBasic);
