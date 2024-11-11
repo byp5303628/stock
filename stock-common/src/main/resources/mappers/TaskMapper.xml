@@ -3,6 +3,7 @@
 <mapper namespace="com.ethanpark.stock.common.dal.mappers.TaskMapper">
     <resultMap id="BaseResultMap" type="com.ethanpark.stock.common.dal.mappers.entity.TaskDO">
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="external_serial_no" jdbcType="BIGINT" property="externalSerialNo"/>
         <result column="task_type" jdbcType="VARCHAR" property="taskType"/>
         <result column="context" jdbcType="VARCHAR" property="context"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
@@ -30,18 +31,19 @@
     </select>
 
     <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.TaskDO">
-        insert into task (task_type, context, status, retry_times, result_msg, gmt_create, gmt_modified, fire_time)
-        values (#{taskType}, #{context}, #{status}, #{retryTimes}, #{resultMsg}, #{gmtCreate}, #{gmtModified},
+        insert into task (external_serial_no, task_type, context, status, retry_times, result_msg, gmt_create, gmt_modified, fire_time)
+        values (#{externalSerialNo}, #{taskType}, #{context}, #{status}, #{retryTimes}, #{resultMsg}, #{gmtCreate}, #{gmtModified},
                 #{fireTime})
     </insert>
 
     <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.TaskDO">
         update task
-        set context     = #{context}
-          , status      = #{status}
-          , retry_times = #{retryTimes}
-          , result_msg  = #{resultMsg}
-          , fire_time   = #{fireTime}
+        set context            = #{context}
+          , external_serial_no = #{externalSerialNo}
+          , status             = #{status}
+          , retry_times        = #{retryTimes}
+          , result_msg         = #{resultMsg}
+          , fire_time          = #{fireTime}
         where id = #{id}
     </update>
 

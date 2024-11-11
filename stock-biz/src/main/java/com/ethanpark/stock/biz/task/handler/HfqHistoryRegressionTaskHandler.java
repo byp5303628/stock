@@ -1,5 +1,6 @@
 package com.ethanpark.stock.biz.task.handler;
 
+import com.ethanpark.stock.common.util.DateUtils;
 import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.model.Task;
 import com.ethanpark.stock.core.service.StockBasicDomainService;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @since: 2024/11/7
  */
 @Service
-public class HistoryRegressionTaskHandler extends BaseTaskHandler {
+public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
     @Resource
     private HistoryStockClient historyStockClient;
 
@@ -35,7 +36,7 @@ public class HistoryRegressionTaskHandler extends BaseTaskHandler {
                 endDate, false);
 
         for (StockBasic stockBasic : stockBasics) {
-            boolean b = stockBasicDomainService.saveStockBasic(stockBasic);
+            boolean b = stockBasicDomainService.saveHfqStockBasic(stockBasic);
 
             if (!b) {
                 return Result.fail("数据存储存在问题, 需要进行重试!");
@@ -43,16 +44,17 @@ public class HistoryRegressionTaskHandler extends BaseTaskHandler {
         }
 
         // 创建下一个任务
-        String nextStartDate = "";
-        String nextEndDate = "";
+        String nextStartDate = DateUtils.plusYear(startDate);
+        String nextEndDate = DateUtils.plusYear(endDate);
 
         Task nextTask = new Task();
         nextTask.setTaskType(getTaskType());
+        nextTask.setExternalSerialNo(task.getId());
         nextTask.getContext().put("code", code);
         nextTask.getContext().put("startDate", nextStartDate);
         nextTask.getContext().put("endDate", nextEndDate);
 
-        taskDomainService.save(task);
+        taskDomainService.save(nextTask);
 
         return Result.ok();
     }

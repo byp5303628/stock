@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.HfqStockBasicMapper">
+    <resultMap id="BaseResultMap" type="com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="startPrice" jdbcType="DECIMAL" column="start_price"/>
+        <result property="endPrice" jdbcType="DECIMAL" column="end_price"/>
+        <result property="highestPrice" jdbcType="DECIMAL" column="highest_price"/>
+        <result property="lowestPrice" jdbcType="DECIMAL" column="lowest_price"/>
+        <result property="totalValue" jdbcType="DECIMAL" column="total_value"/>
+        <result property="partitionDate" jdbcType="VARCHAR" column="partition_date"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+
+    <select id="selectByCodeAndPartitionDate" resultMap="BaseResultMap">
+        SELECT *
+        FROM hfq_stock_basic
+        WHERE code = #{code}
+          AND partition_date = #{partitionDate}
+        LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO">
+        insert into hfq_stock_basic (code, name, start_price, end_price, highest_price, lowest_price,
+                                     total_value, partition_date) value (#{code}, #{name}, #{startPrice}, #{endPrice},
+                                                                         #{highestPrice},
+                                                                         #{lowestPrice}, #{totalValue},
+                                                                         #{partitionDate})
+    </insert>
+
+    <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO">
+        update hfq_stock_basic
+        set code           = #{code},
+            partition_date = #{partitionDate},
+            name           = #{name},
+            start_price    = #{startPrice},
+            end_price      = #{endPrice},
+            highest_price  = #{highestPrice},
+            lowest_price   = #{lowestPrice},
+            total_value    = #{totalValue}
+        where id = #{id}
+    </update>
+
+</mapper>

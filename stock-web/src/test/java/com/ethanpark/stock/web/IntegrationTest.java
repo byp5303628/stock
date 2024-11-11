@@ -1,5 +1,7 @@
 package com.ethanpark.stock.web;
 
+import com.ethanpark.stock.biz.task.TaskConsumer;
+import com.ethanpark.stock.biz.task.TaskLoader;
 import com.ethanpark.stock.common.dal.mappers.TaskMapper;
 import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import com.ethanpark.stock.core.converter.DbConverter;
@@ -23,6 +25,9 @@ public class IntegrationTest {
     @Resource
     private TaskMapper taskMapper;
 
+    @Resource
+    private TaskConsumer taskConsumer;
+
     @Test
     public void test1() throws Exception {
         Task nextTask = new Task();
@@ -36,6 +41,11 @@ public class IntegrationTest {
         int insert = taskMapper.insert(taskDO);
 
         Assert.assertTrue(insert > 0);
+    }
+
+    @Test
+    public void test2() throws Exception {
+        taskConsumer.consume(2L);
     }
 
 }

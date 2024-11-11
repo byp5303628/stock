@@ -43,7 +43,7 @@ public class HistoryStockClient {
 
         HttpResponse<String> response = getRequest.asString();
 
-        log.info("查询结果: {}", response.getBody());
+//        log.info("查询结果: {}", response.getBody());
 
         JSONObject jsonObject = JSONObject.parseObject(response.getBody());
 
@@ -71,6 +71,7 @@ public class HistoryStockClient {
             stockDailyDigestDO.setEndPrice(new BigDecimal(strList.get(2)));
             stockDailyDigestDO.setHighestPrice(new BigDecimal(strList.get(3)));
             stockDailyDigestDO.setLowestPrice(new BigDecimal(strList.get(4)));
+            stockDailyDigestDO.setTotalValue(new BigDecimal(strList.get(5)));
 
             dos.add(stockDailyDigestDO);
         }
@@ -89,8 +90,8 @@ public class HistoryStockClient {
     public static void main(String[] args) {
         HistoryStockClient client = new HistoryStockClient();
 
-        List<StockBasic> stockBasics = client.queryStockHistory("600519", "2020-01-01", "2021-01" +
-                "-01", false);
+        List<StockBasic> stockBasics = client.queryStockHistory("600519", "2024-01-01", "2025-01" +
+                "-01", true);
 
         System.out.println(JSONArray.toJSONString(stockBasics));
     }

@@ -15,3 +15,4 @@ create table if not exists task
     index idx_gmt_modified (gmt_modified)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
+

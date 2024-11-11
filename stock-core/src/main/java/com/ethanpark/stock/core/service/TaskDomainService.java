@@ -39,7 +39,7 @@ public class TaskDomainService {
     public boolean save(Task task) {
         TaskDO taskDO = DbConverter.toDbEntity(task);
 
-        if (task.getId() != null || task.getId() != 0L) {
+        if (task.getId() != null && task.getId() != 0L) {
             return taskMapper.updateById(taskDO) > 0;
         } else {
             int cols = taskMapper.insert(taskDO);

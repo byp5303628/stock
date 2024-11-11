@@ -25,9 +25,7 @@ public class TaskConsumer {
     public void consume(Long taskId) {
         Task task = taskDomainService.loadById(taskId);
 
-        if (task == null
-                || task.getStatus() != TaskStatus.INIT
-                || task.getStatus() != TaskStatus.RETRY) {
+        if (task == null || (task.getStatus() != TaskStatus.INIT && task.getStatus() != TaskStatus.RETRY)) {
             log.info("状态不正确, 无需消费, taskId={}", taskId);
             return;
         }

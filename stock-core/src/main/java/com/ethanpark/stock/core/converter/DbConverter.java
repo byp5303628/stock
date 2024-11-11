@@ -19,8 +19,9 @@ public class DbConverter {
         dbEntity.setId(domain.getId());
         dbEntity.setTaskType(domain.getTaskType());
         dbEntity.setContext(JSON.toJSONString(domain.getContext()));
+        dbEntity.setExternalSerialNo(domain.getExternalSerialNo());
         dbEntity.setRetryTimes(domain.getRetryTimes());
-        dbEntity.setResultMsg(domain.getResultMsg());
+        dbEntity.setResultMsg(domain.getResultMsg() == null || domain.getResultMsg().length() < 256 ? domain.getResultMsg() : domain.getResultMsg().substring(0, 256));
         dbEntity.setStatus(String.valueOf(domain.getStatus()));
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
@@ -40,6 +41,10 @@ public class DbConverter {
         dbEntity.setStartPrice(domain.getStartPrice());
         dbEntity.setEndPrice(domain.getEndPrice());
         dbEntity.setPartitionDate(domain.getPartitionDate());
+        dbEntity.setTotalValue(domain.getTotalValue());
+
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
 
         return dbEntity;
     }

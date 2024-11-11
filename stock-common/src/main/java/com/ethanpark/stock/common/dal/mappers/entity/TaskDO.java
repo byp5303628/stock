@@ -12,6 +12,8 @@ import java.util.Date;
 public class TaskDO {
     private Long id;
 
+    private Long externalSerialNo;
+
     private String taskType;
 
     private String context;
