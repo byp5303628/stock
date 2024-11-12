@@ -1,4 +1,4 @@
-package com.ethanpark.stock.core.service;
+package com.ethanpark.stock.core.model;
 
 /**
  * @author: baiyunpeng04

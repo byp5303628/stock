@@ -3,7 +3,7 @@ package com.ethanpark.stock.core.converter;
 import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import com.ethanpark.stock.common.util.JsonUtils;
 import com.ethanpark.stock.core.model.Task;
-import com.ethanpark.stock.core.service.TaskStatus;
+import com.ethanpark.stock.core.model.TaskStatus;
 
 /**
  * @author: baiyunpeng04

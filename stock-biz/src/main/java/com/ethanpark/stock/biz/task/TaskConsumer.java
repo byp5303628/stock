@@ -2,7 +2,7 @@ package com.ethanpark.stock.biz.task;
 
 import com.ethanpark.stock.core.model.Task;
 import com.ethanpark.stock.core.service.TaskDomainService;
-import com.ethanpark.stock.core.service.TaskStatus;
+import com.ethanpark.stock.core.model.TaskStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

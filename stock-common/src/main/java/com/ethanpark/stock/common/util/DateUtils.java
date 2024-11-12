@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -84,5 +88,22 @@ public class DateUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static int getWeekOfYear(String partitionDate) {
+        Date date = parseStringToDate(partitionDate, "yyyy-MM-dd");
+
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        return localDate.get(weekFields.weekOfWeekBasedYear());
+    }
+
+    public static int getMonthOfYear(String partitionDate) {
+        Date date = parseStringToDate(partitionDate, "yyyy-MM-dd");
+
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return localDate.getMonthValue();
     }
 }

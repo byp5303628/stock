@@ -13,4 +13,13 @@ public class DateUtilsTest {
 
         Assert.assertEquals(resultDate, "2020-01-01");
     }
+
+    @Test
+    public void testGetWeekOfYear() {
+        String date = "2019-01-01";
+
+        int weekOfYear = DateUtils.getWeekOfYear(date);
+
+        Assert.assertEquals(weekOfYear, 1);
+    }
 }

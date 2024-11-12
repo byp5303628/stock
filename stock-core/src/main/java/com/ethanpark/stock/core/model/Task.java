@@ -1,6 +1,5 @@
 package com.ethanpark.stock.core.model;
 
-import com.ethanpark.stock.core.service.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
 
