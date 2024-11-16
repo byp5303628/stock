@@ -27,9 +27,13 @@ public class TaskDomainService {
 
         taskConfig.setTaskType("HfqHistoryRegressionTaskHandler");
         taskConfig.setLimit(20);
-        taskConfig.setCronExpression("* * * * * ?");
 
-        return Arrays.asList(taskConfig);
+        TaskConfig taskConfig2 = new TaskConfig();
+
+        taskConfig2.setTaskType("HistoryStrategyTaskHandler");
+        taskConfig2.setLimit(20);
+
+        return Arrays.asList(taskConfig, taskConfig2);
     }
 
     public List<Long> selectFireTaskIds(String taskName, int limit) {

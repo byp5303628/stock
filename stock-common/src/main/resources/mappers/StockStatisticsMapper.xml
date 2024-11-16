@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.StockStatisticsMapper">
+    <resultMap id="BaseResultMap" type="com.ethanpark.stock.common.dal.mappers.entity.StockStatisticsDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result property="statisticsName" jdbcType="VARCHAR" column="statistics_name"/>
+        <result property="statisticsType" jdbcType="VARCHAR" column="statistics_type"/>
+        <result property="statistics" jdbcType="VARCHAR" column="statistics"/>
+        <result property="partitionDate" jdbcType="VARCHAR" column="partition_date"/>
+    </resultMap>
+
+    <select id="selectByCodeAndCondition" resultMap="BaseResultMap">
+        SELECT *
+        FROM stock_statistics
+        WHERE code = #{code}
+          AND statistics_name = #{statisticsName}
+          AND partition_date = #{partitionDate}
+        LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.StockStatisticsDO">
+        insert into stock_statistics (code,  partition_date, statistic_type, statistics_name, statistics) value (#{code},
+                                                                         #{partitionDate}, #{statisticsType}, #{statisticsName}, #{statistics})
+    </insert>
+
+    <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.StockStatisticsDO">
+        update stock_statistics
+        set code            = #{code},
+            partition_date  = #{partitionDate},
+            statistic_type  = #{statisticsType},
+            statistics      = #{statistics},
+            statistics_name = #{statisticsName}
+        where id = #{id}
+    </update>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select *
+        from stock_statistics
+        where code = #{code}
+        order by partition_date
+        limit ${offset}, ${limitNum}
+    </select>
+</mapper>

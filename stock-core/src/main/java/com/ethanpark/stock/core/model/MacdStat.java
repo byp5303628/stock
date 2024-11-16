@@ -19,17 +19,11 @@ public class MacdStat {
     private int end;
     private int deaLimit;
 
+    private BigDecimal diff;
+
     private BigDecimal emaStart;
 
     private BigDecimal emaEnd;
-
-    public BigDecimal getDiff() {
-        if (emaStart == null || emaEnd == null) {
-            return null;
-        }
-
-        return emaStart.subtract(emaEnd);
-    }
 
     private BigDecimal dea;
 

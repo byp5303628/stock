@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
@@ -35,35 +34,37 @@ public class TaskLoader {
     @Resource
     private TaskDomainService taskDomainService;
 
-    private List<ScheduledFuture<?>> futures = new ArrayList<>();
+    private ScheduledFuture<?> future;
 
     @PostConstruct
     private void init() {
-        List<TaskConfig> taskConfigs = taskDomainService.getTaskConfigs();
+        ScheduledFuture<?> scheduleFuture =
+                threadPoolTaskScheduler.schedule(() -> load(),
+                        new CronTrigger("* * * * * ?"));
 
-        taskConfigs.forEach(taskConfig -> {
-            ScheduledFuture<?> scheduleFuture =
-                    threadPoolTaskScheduler.schedule(() -> load(taskConfig),
-                    new CronTrigger(taskConfig.getCronExpression()));
-
-            futures.add(scheduleFuture);
-        });
+        future = scheduleFuture;
     }
 
     @PreDestroy
     public void destroy() {
-        futures.forEach(i -> i.cancel(false));
+        if (future != null) {
+            future.cancel(true);
+        }
 
         threadPoolTaskExecutor.shutdown();
     }
 
-    public void load(TaskConfig taskConfig) {
-        log.info("开始进行任务捞取! taskType={}", taskConfig.getTaskType());
-        List<Long> taskIds = taskDomainService.selectFireTaskIds(taskConfig.getTaskType(),
-                taskConfig.getLimit());
+    public void load() {
+        List<TaskConfig> taskConfigs = taskDomainService.getTaskConfigs();
 
-        for (Long taskId : taskIds) {
-            threadPoolTaskExecutor.execute(() -> taskConsumer.consume(taskId));
+        for (TaskConfig taskConfig : taskConfigs) {
+            log.info("开始进行任务捞取! taskType={}", taskConfig.getTaskType());
+            List<Long> taskIds = taskDomainService.selectFireTaskIds(taskConfig.getTaskType(),
+                    taskConfig.getLimit());
+
+            for (Long taskId : taskIds) {
+                threadPoolTaskExecutor.execute(() -> taskConsumer.consume(taskId));
+            }
         }
     }
 }

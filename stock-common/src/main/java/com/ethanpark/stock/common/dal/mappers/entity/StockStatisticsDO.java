@@ -1,19 +1,15 @@
-package com.ethanpark.stock.core.model;
+package com.ethanpark.stock.common.dal.mappers.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author: baiyunpeng04
- * @since: 2024/11/13
+ * @since: 2024/11/17
  */
 @Getter
 @Setter
-public class StockStatistics {
+public class StockStatisticsDO {
     private Long id;
 
     private String code;
@@ -23,7 +19,7 @@ public class StockStatistics {
     /**
      * 指标类型, 用于区分不同的指标系列
      */
-    private StatisticsType statisticsType;
+    private String statisticsType;
 
     /**
      * 指标名称, 指标类型一致的时候, 用于区分子指标
@@ -33,5 +29,5 @@ public class StockStatistics {
     /**
      * Key为指标的名称
      */
-    private Map<String, BigDecimal> statistics = new HashMap<>();
+    private String statistics;
 }

@@ -5,7 +5,6 @@ import com.ethanpark.stock.biz.cal.impl.MonthStatStatisticsStrategy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +14,12 @@ import java.util.List;
  */
 @Service
 public class StatisticsStrategyFactory {
-    @Resource
-    private List<StatisticsStrategy> strategies;
+    private List<StatisticsStrategy> strategies = new ArrayList<>();
 
     @PostConstruct
     public void init() {
-        strategies = new ArrayList<>();
-
         strategies.add(new MonthStatStatisticsStrategy());
         strategies.add(new MacdStatStatisticsStrategy());
-
     }
 
 

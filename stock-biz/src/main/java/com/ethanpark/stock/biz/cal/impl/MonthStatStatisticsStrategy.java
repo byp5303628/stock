@@ -46,7 +46,8 @@ public class MonthStatStatisticsStrategy implements StatisticsStrategy {
             StockStatistics statistic = new StockStatistics();
             statistic.setCode(values.get(0).getCode());
             statistic.setPartitionDate(values.get(0).getPartitionDate().substring(0, 7) + "-01");
-            statistic.setStatisticType(getStatisticsType());
+            statistic.setStatisticsType(getStatisticsType());
+            statistic.setStatisticsName(getName());
 
             BigDecimal startPrice = values.get(0).getStartPrice();
             BigDecimal endPrice = values.get(values.size() - 1).getEndPrice();
@@ -86,6 +87,6 @@ public class MonthStatStatisticsStrategy implements StatisticsStrategy {
 
     @Override
     public StatisticsType getStatisticsType() {
-        return StatisticsType.MACD;
+        return StatisticsType.MONTH_STAT;
     }
 }

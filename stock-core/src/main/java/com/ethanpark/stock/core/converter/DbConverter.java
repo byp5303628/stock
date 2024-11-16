@@ -2,7 +2,9 @@ package com.ethanpark.stock.core.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
+import com.ethanpark.stock.common.dal.mappers.entity.StockStatisticsDO;
 import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
+import com.ethanpark.stock.core.model.StockStatistics;
 import com.ethanpark.stock.core.model.Task;
 import com.ethanpark.stock.remote.model.StockBasic;
 
@@ -24,7 +26,8 @@ public class DbConverter {
         dbEntity.setResultMsg(domain.getResultMsg() == null || domain.getResultMsg().length() < 256 ? domain.getResultMsg() : domain.getResultMsg().substring(0, 256));
         dbEntity.setStatus(String.valueOf(domain.getStatus()));
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
-        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() :
+                domain.getGmtModified());
         dbEntity.setFireTime(domain.getFireTime() == null ? new Date() : domain.getFireTime());
 
         return dbEntity;
@@ -44,7 +47,21 @@ public class DbConverter {
         dbEntity.setTotalValue(domain.getTotalValue());
 
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
-        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() :
+                domain.getGmtModified());
+
+        return dbEntity;
+    }
+
+    public static StockStatisticsDO toDbEntity(StockStatistics domain) {
+        StockStatisticsDO dbEntity = new StockStatisticsDO();
+
+        dbEntity.setId(domain.getId());
+        dbEntity.setCode(domain.getCode());
+        dbEntity.setPartitionDate(domain.getPartitionDate());
+        dbEntity.setStatisticsType(domain.getStatisticsType().name());
+        dbEntity.setStatisticsName(domain.getStatisticsName());
+        dbEntity.setStatistics(JSON.toJSONString(domain.getStatistics()));
 
         return dbEntity;
     }

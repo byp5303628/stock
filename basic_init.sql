@@ -46,3 +46,18 @@ create table if not exists stock_info
     index idx_gmt_modified (gmt_modified)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
+
+create table if not exists stock_statistics
+(
+    id              bigint                 not null primary key auto_increment,
+    code            varchar(16),
+    partition_date  varchar(32)            not null,
+    statistic_type  varchar(32)            not null,
+    statistics_name varchar(64)            not null,
+    statistics      json,
+    gmt_create      datetime default now() not null,
+    gmt_modified    datetime default now() not null on update now(),
+    unique index uniq_idx_code_partition_date (code, statistics_name, partition_date),
+    index idx_gmt_modified (gmt_modified)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;

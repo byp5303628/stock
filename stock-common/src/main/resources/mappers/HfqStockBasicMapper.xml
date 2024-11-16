@@ -44,4 +44,10 @@
         where id = #{id}
     </update>
 
+    <select id="selectList" resultMap="BaseResultMap">
+        select * from hfq_stock_basic
+        where code = #{code}
+        order by partition_date
+        limit ${offset}, ${limitNum}
+    </select>
 </mapper>

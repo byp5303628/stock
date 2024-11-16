@@ -21,12 +21,14 @@ public class MacdStatStatisticsStrategyTest {
             list.add(new BigDecimal(i));
         }
 
-        List<MacdStat> ema = new MacdStatStatisticsStrategy(10, 20).getEma(list, 12, 26);
+        List<MacdStat> ema = new MacdStatStatisticsStrategy(12, 26).calculateMacd(list);
 
         Assert.assertNotNull(ema);
 
         for (MacdStat macdStat : ema) {
-            System.out.println(macdStat.getEmaStart() + "  " + macdStat.getEmaEnd());
+//            System.out.println(macdStat.getEmaStart() + "  " + macdStat.getEmaEnd());
+            System.out.println(macdStat.getMacd());
+            System.out.println(2 * (macdStat.getDiff().doubleValue() - macdStat.getDea().doubleValue()));
         }
     }
 

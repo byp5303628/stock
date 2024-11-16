@@ -4,10 +4,14 @@ import com.ethanpark.stock.common.dal.mappers.HfqStockBasicMapper;
 import com.ethanpark.stock.common.dal.mappers.QfqStockBasicMapper;
 import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
 import com.ethanpark.stock.core.converter.DbConverter;
+import com.ethanpark.stock.core.converter.DomainConverter;
 import com.ethanpark.stock.remote.model.StockBasic;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: baiyunpeng04
@@ -22,21 +26,6 @@ public class StockBasicDomainService {
     @Resource
     private HfqStockBasicMapper hfqStockBasicMapper;
 
-    public boolean saveQfqStockBasic(StockBasic stockBasic) {
-        StockBasicDO stockBasicDO = DbConverter.toDbEntity(stockBasic);
-
-        StockBasicDO existEntity =
-                qfqStockBasicMapper.selectByCodeAndPartitionDate(stockBasic.getCode(),
-                        stockBasic.getPartitionDate());
-
-        if (existEntity == null) {
-            return qfqStockBasicMapper.insert(stockBasicDO) > 0;
-        } else {
-            stockBasicDO.setId(existEntity.getId());
-            return qfqStockBasicMapper.updateById(stockBasicDO) > 0;
-        }
-    }
-
     public boolean saveHfqStockBasic(StockBasic stockBasic) {
         StockBasicDO stockBasicDO = DbConverter.toDbEntity(stockBasic);
 
@@ -50,5 +39,30 @@ public class StockBasicDomainService {
             stockBasicDO.setId(existEntity.getId());
             return hfqStockBasicMapper.updateById(stockBasicDO) > 0;
         }
+    }
+
+    public List<StockBasic> queryAllHfqStockBasics(String code) {
+        int offset = 0;
+        int limit = 100;
+
+        List<StockBasic> stockBasics = new ArrayList<>();
+
+        while (true) {
+            List<StockBasicDO> stockBasicDOS = hfqStockBasicMapper.selectList(code, limit, offset);
+
+            if (CollectionUtils.isEmpty(stockBasicDOS)) {
+                break;
+            }
+
+            stockBasicDOS.forEach(i -> stockBasics.add(DomainConverter.toDomain(i)));
+
+            if (stockBasicDOS.size() < 100) {
+                break;
+            }
+
+            offset += limit;
+        }
+
+        return stockBasics;
     }
 }
