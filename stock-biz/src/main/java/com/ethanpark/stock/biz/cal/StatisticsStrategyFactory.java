@@ -1,8 +1,12 @@
 package com.ethanpark.stock.biz.cal;
 
+import com.ethanpark.stock.biz.cal.impl.MacdStatStatisticsStrategy;
+import com.ethanpark.stock.biz.cal.impl.MonthStatStatisticsStrategy;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +17,15 @@ import java.util.List;
 public class StatisticsStrategyFactory {
     @Resource
     private List<StatisticsStrategy> strategies;
+
+    @PostConstruct
+    public void init() {
+        strategies = new ArrayList<>();
+
+        strategies.add(new MonthStatStatisticsStrategy());
+        strategies.add(new MacdStatStatisticsStrategy());
+
+    }
 
 
     public List<StatisticsStrategy> getStrategies() {

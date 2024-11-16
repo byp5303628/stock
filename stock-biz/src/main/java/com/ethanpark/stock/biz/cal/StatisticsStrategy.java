@@ -21,4 +21,8 @@ public interface StatisticsStrategy {
     List<StockStatistics> calculate(List<StockBasic> stockBasicList);
 
     StatisticsType getStatisticsType();
+
+    default String getName() {
+        return getStatisticsType().name();
+    }
 }

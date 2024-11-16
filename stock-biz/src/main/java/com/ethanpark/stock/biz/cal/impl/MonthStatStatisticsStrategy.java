@@ -4,17 +4,18 @@ import com.ethanpark.stock.biz.cal.StatisticsStrategy;
 import com.ethanpark.stock.core.model.StatisticsType;
 import com.ethanpark.stock.core.model.StockStatistics;
 import com.ethanpark.stock.remote.model.StockBasic;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * @author: baiyunpeng04
  * @since: 2024/11/13
  */
-@Service
 public class MonthStatStatisticsStrategy implements StatisticsStrategy {
 
     /**
@@ -85,6 +86,6 @@ public class MonthStatStatisticsStrategy implements StatisticsStrategy {
 
     @Override
     public StatisticsType getStatisticsType() {
-        return StatisticsType.MONTH_STAT;
+        return StatisticsType.MACD;
     }
 }

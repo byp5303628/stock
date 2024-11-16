@@ -34,5 +34,15 @@ create table if not exists hfq_stock_basic
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-
-
+create table if not exists stock_info
+(
+    id           bigint                 not null primary key auto_increment,
+    code         varchar(16),
+    name         varchar(64),
+    ext_info     json,
+    gmt_create   datetime default now() not null,
+    gmt_modified datetime default now() not null on update now(),
+    unique index uniq_idx_code (code),
+    index idx_gmt_modified (gmt_modified)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
