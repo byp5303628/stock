@@ -9,7 +9,7 @@ import com.ethanpark.stock.core.model.TaskConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,7 +23,13 @@ public class TaskDomainService {
     private TaskMapper taskMapper;
 
     public List<TaskConfig> getTaskConfigs() {
-        return Collections.emptyList();
+        TaskConfig taskConfig = new TaskConfig();
+
+        taskConfig.setTaskType("HfqHistoryRegressionTaskHandler");
+        taskConfig.setLimit(20);
+        taskConfig.setCronExpression("* * * * * ?");
+
+        return Arrays.asList(taskConfig);
     }
 
     public List<Long> selectFireTaskIds(String taskName, int limit) {

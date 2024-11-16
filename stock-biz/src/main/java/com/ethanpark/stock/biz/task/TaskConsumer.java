@@ -30,6 +30,8 @@ public class TaskConsumer {
             return;
         }
 
+        log.info("开始进行任务处理! id={}", taskId);
+
         task.setStatus(TaskStatus.PROCESSING);
 
         taskDomainService.save(task);
@@ -37,5 +39,7 @@ public class TaskConsumer {
         TaskHandler taskHandler = taskHandlerFactory.selectHandler(task.getTaskType());
 
         taskHandler.handle(task);
+
+        log.info("任务处理完成! id={}", taskId);
     }
 }

@@ -54,6 +54,8 @@ public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
         nextTask.getContext().put("startDate", nextStartDate);
         nextTask.getContext().put("endDate", nextEndDate);
 
+        nextTask.setFireTime(DateUtils.parseStringToDate(nextStartDate, "yyyy-MM-dd"));
+
         taskDomainService.save(nextTask);
 
         return Result.ok();

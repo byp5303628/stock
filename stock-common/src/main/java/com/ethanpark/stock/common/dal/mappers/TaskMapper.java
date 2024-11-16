@@ -2,6 +2,7 @@ package com.ethanpark.stock.common.dal.mappers;
 
 import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Mapper
 public interface TaskMapper {
-    List<Long> selectFireTaskIds(String name, int limit);
+    List<Long> selectFireTaskIds(@Param("taskType") String name, @Param("limitNum") int limit);
 
     int insert(TaskDO taskDO);
 

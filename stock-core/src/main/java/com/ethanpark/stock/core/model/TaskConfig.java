@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class TaskConfig {
 
-    private String taskName;
+    private String taskType;
 
     private String cronExpression;
 
