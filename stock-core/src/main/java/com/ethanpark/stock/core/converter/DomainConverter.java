@@ -1,8 +1,11 @@
 package com.ethanpark.stock.core.converter;
 
 import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
+import com.ethanpark.stock.common.dal.mappers.entity.StockStatisticsDO;
 import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
 import com.ethanpark.stock.common.util.JsonUtils;
+import com.ethanpark.stock.core.model.StatisticsType;
+import com.ethanpark.stock.core.model.StockStatistics;
 import com.ethanpark.stock.core.model.Task;
 import com.ethanpark.stock.core.model.TaskStatus;
 import com.ethanpark.stock.remote.model.StockBasic;
@@ -45,6 +48,19 @@ public class DomainConverter {
 
         domain.setGmtCreate(dbEntity.getGmtCreate());
         domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
+    public static StockStatistics toDomain(StockStatisticsDO dbEntity) {
+        StockStatistics domain = new StockStatistics();
+
+        domain.setId(dbEntity.getId());
+        domain.setCode(dbEntity.getCode());
+        domain.setPartitionDate(dbEntity.getPartitionDate());
+        domain.setStatisticsType(StatisticsType.getByName(dbEntity.getStatisticsType()));
+        domain.setStatisticsName(dbEntity.getStatisticsName());
+        domain.setStatistics(JsonUtils.toBigDecimalMap(dbEntity.getStatistics()));
 
         return domain;
     }

@@ -34,4 +34,8 @@ public class StockStatistics {
      * Key为指标的名称
      */
     private Map<String, BigDecimal> statistics = new HashMap<>();
+
+    public BigDecimal getStatistic(String key) {
+        return statistics.get(key);
+    }
 }

@@ -1,5 +1,7 @@
 package com.ethanpark.stock.core.model;
 
+import com.alibaba.druid.util.StringUtils;
+
 /**
  * @author: baiyunpeng04
  * @since: 2024/11/13
@@ -15,5 +17,15 @@ public enum StatisticsType {
 
     StatisticsType(String description) {
         this.description = description;
+    }
+
+    public static StatisticsType getByName(String name) {
+        for (StatisticsType value : StatisticsType.values()) {
+            if (StringUtils.equals(name, value.name())) {
+                return value;
+            }
+        }
+
+        return null;
     }
 }

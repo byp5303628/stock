@@ -24,6 +24,10 @@
             <groupId>com.ethanpark.stock</groupId>
             <artifactId>stock-remote</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

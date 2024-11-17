@@ -38,6 +38,7 @@
         select *
         from stock_statistics
         where code = #{code}
+          and statistic_type = #{statisticsType}
         order by partition_date
         limit ${offset}, ${limitNum}
     </select>
