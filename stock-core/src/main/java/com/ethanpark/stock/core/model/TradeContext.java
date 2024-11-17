@@ -23,6 +23,10 @@ public class TradeContext {
 
     private List<TradeCycle> tradeCycles = new ArrayList<>();
 
+    public boolean hasStock() {
+        return amount > 0;
+    }
+
     public void purchase(StockBasic stockBasic) {
         if (amount == 1) {
             return;
