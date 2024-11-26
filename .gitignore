@@ -151,3 +151,5 @@ logs/
 document.html
 swagger.json
 reports/
+
+stock-frontend/node_modules

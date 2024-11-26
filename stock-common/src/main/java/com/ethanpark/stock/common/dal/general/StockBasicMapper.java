@@ -19,4 +19,6 @@ public interface StockBasicMapper {
 
     List<StockBasicDO> selectList(@Param("code") String code, @Param("limitNum") int limit,
                                   @Param("offset") int offset);
+
+    StockBasicDO selectLatest(@Param("code") String code);
 }

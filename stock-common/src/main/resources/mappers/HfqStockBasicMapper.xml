@@ -50,4 +50,11 @@
         order by partition_date
         limit ${offset}, ${limitNum}
     </select>
+
+    <select id="selectLatest" resultMap="BaseResultMap">
+        select * from hfq_stock_basic
+        where code = #{code}
+        order by partition_date desc
+        limit 1
+    </select>
 </mapper>
