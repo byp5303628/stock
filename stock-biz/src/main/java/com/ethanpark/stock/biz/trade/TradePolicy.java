@@ -16,4 +16,8 @@ public interface TradePolicy {
      * @return
      */
     String getDescription();
+
+    default String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

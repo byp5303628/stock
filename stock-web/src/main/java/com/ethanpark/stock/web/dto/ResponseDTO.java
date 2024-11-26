@@ -10,9 +10,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ResponseDTO<T> {
-    private int code;
+    private int code = 200;
 
-    private String msg;
+    private String msg = "成功";
 
     private T data;
+
+    public static <T> ResponseDTO<T> success(T data) {
+        ResponseDTO<T> responseDTO = new ResponseDTO<>();
+        responseDTO.setData(data);
+
+        return responseDTO;
+    }
 }

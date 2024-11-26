@@ -67,7 +67,6 @@ public class StockBasicDomainService {
     }
 
     public StockBasic getLatestStockBasic(String code) {
-        hfqStockBasicMapper.selectList(code, limit, offset);
-
+        return null;
     }
 }
