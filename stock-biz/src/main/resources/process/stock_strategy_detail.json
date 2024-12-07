@@ -1,0 +1,15 @@
+{
+  "processStageMap": {
+    "PROCESS": {
+      "actions": [
+        "getTradePolicyByNameAction",
+        "getStockCntAction",
+      ]
+    },
+    "ERROR_PROCESS": {
+      "actions": [
+        "commonErrorHandleAction"
+      ]
+    }
+  }
+}

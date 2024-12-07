@@ -18,10 +18,24 @@ export default [
         component: './Welcome',
     },
     {
-        path: '/strategy-list',
-        name: '策略列表',
+        path: '/strategy',
+        name: '策略',
         icon: 'bulb',
-        component: './StrategyList',
+        routes: [
+            {
+                path: '/strategy',
+                redirect: '/strategy-list',
+            },
+            {
+                name: '策略列表',
+                path: '/strategy/strategy-list',
+                component: './StrategyList',
+            },
+            {
+                path: '/strategy/strategy-list/strategy-detail',
+                component: './StrategyDetail'
+            }
+        ]
     },
     {
         path: '/',

@@ -58,7 +58,35 @@ create table if not exists stock_statistics
     gmt_create      datetime default now() not null,
     gmt_modified    datetime default now() not null on update now(),
     unique index uniq_idx_code_partition_date (code, statistics_name, partition_date),
-    index idx_code_partition_date_statistic_type(code, partition_date, statistic_type),
+    index idx_code_partition_date_statistic_type (code, partition_date, statistic_type),
+    index idx_gmt_modified (gmt_modified)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+create table if not exists trade_policy_regression
+(
+    id           bigint                 not null primary key auto_increment,
+    name         varchar(32),
+    task_id      bigint,
+    detail       json,
+
+    gmt_create   datetime default now() not null,
+    gmt_modified datetime default now() not null on update now(),
+    unique index uniq_idx_name (name),
+    index idx_gmt_modified (gmt_modified)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+create table if not exists stock_regression_detail
+(
+    id                bigint                 not null primary key auto_increment,
+    code              varchar(16),
+    trade_policy_name varchar(32),
+    trade_cycles      text,
+
+    gmt_create        datetime default now() not null,
+    gmt_modified      datetime default now() not null on update now(),
+    unique index uniq_idx_code_trade_policy_name (code, trade_policy_name),
     index idx_gmt_modified (gmt_modified)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

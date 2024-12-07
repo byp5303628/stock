@@ -16,9 +16,23 @@ public class ResponseDTO<T> {
 
     private T data;
 
+    public static <T> ResponseDTO<T> success() {
+        ResponseDTO<T> responseDTO = new ResponseDTO<>();
+
+        return responseDTO;
+    }
+
     public static <T> ResponseDTO<T> success(T data) {
         ResponseDTO<T> responseDTO = new ResponseDTO<>();
         responseDTO.setData(data);
+
+        return responseDTO;
+    }
+
+    public static <T> ResponseDTO<T> error(int code, String msg) {
+        ResponseDTO<T> responseDTO = new ResponseDTO<>();
+        responseDTO.setCode(code);
+        responseDTO.setMsg(msg);
 
         return responseDTO;
     }

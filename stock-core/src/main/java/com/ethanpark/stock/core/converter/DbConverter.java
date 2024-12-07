@@ -1,11 +1,11 @@
 package com.ethanpark.stock.core.converter;
 
 import com.alibaba.fastjson.JSON;
-import com.ethanpark.stock.common.dal.mappers.entity.StockBasicDO;
-import com.ethanpark.stock.common.dal.mappers.entity.StockStatisticsDO;
-import com.ethanpark.stock.common.dal.mappers.entity.TaskDO;
+import com.ethanpark.stock.common.dal.mappers.entity.*;
+import com.ethanpark.stock.core.model.StockRegressionDetail;
 import com.ethanpark.stock.core.model.StockStatistics;
 import com.ethanpark.stock.core.model.Task;
+import com.ethanpark.stock.core.model.TradePolicyRegression;
 import com.ethanpark.stock.remote.model.StockBasic;
 
 import java.util.Date;
@@ -64,5 +64,27 @@ public class DbConverter {
         dbEntity.setStatistics(JSON.toJSONString(domain.getStatistics()));
 
         return dbEntity;
+    }
+
+    public static TradePolicyRegressionDO toDbEntity(TradePolicyRegression regression) {
+        TradePolicyRegressionDO tradePolicyRegressionDO = new TradePolicyRegressionDO();
+
+        tradePolicyRegressionDO.setName(regression.getName());
+        tradePolicyRegressionDO.setId(regression.getId());
+        tradePolicyRegressionDO.setDetail(JSON.toJSONString(regression.getDetail()));
+        tradePolicyRegressionDO.setTaskId(regression.getTaskId());
+
+        return tradePolicyRegressionDO;
+    }
+
+    public static StockRegressionDetailDO toDbEntity(StockRegressionDetail domain) {
+        StockRegressionDetailDO result = new StockRegressionDetailDO();
+
+        result.setId(domain.getId());
+        result.setCode(domain.getCode());
+        result.setTradePolicyName(domain.getTradePolicyName());
+        result.setTradeCycles(JSON.toJSONString(domain.getTradeCycles()));
+
+        return result;
     }
 }

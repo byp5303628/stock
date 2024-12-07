@@ -1,5 +1,6 @@
 package com.ethanpark.stock.biz.trade.impl;
 
+import com.ethanpark.stock.core.model.StatisticsType;
 import com.ethanpark.stock.core.model.StockContext;
 import com.ethanpark.stock.core.model.StockStatistics;
 import com.ethanpark.stock.core.model.TradeContext;
@@ -7,6 +8,7 @@ import com.ethanpark.stock.remote.model.StockBasic;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,8 +30,6 @@ public class MacdDailyV4TradePolicy extends BaseTradePolicy {
                 continue;
             }
 
-
-
             StockStatistics statistic = statistics.get(i);
             BigDecimal diff = statistic.getStatistic("diff");
             BigDecimal dea = statistic.getStatistic("dea");
@@ -50,5 +50,10 @@ public class MacdDailyV4TradePolicy extends BaseTradePolicy {
     @Override
     public String getDescription() {
         return "macd > 0, diff < 0 金叉买入, 死叉卖出, 仅处理 下金叉";
+    }
+
+    @Override
+    public List<StatisticsType> getStatisticsTypes() {
+        return Arrays.asList(StatisticsType.MACD);
     }
 }

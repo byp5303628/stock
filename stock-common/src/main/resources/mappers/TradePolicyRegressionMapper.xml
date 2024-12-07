@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.TradePolicyRegressionMapper">
+
+    <resultMap id="result" type="com.ethanpark.stock.common.dal.mappers.entity.TradePolicyRegressionDO">
+        <id property="id" column="id" jdbcType="BIGINT" />
+        <result property="name" column="name" jdbcType="VARCHAR" />
+        <result property="taskId" column="task_id" jdbcType="BIGINT" />
+        <result property="detail" column="detail" jdbcType="CLOB" />
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="selectByName" resultMap="result">
+        select * from trade_policy_regression
+        where name = #{name} limit 1
+    </select>
+
+    <delete id="deleteByName">
+        delete from trade_policy_regression
+        where name = #{name}
+    </delete>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.TradePolicyRegressionDO">
+        insert into trade_policy_regression (name, task_id, detail, gmt_create, gmt_modified) value (#{name}, #{taskId}, #{detail}, now(), now())
+    </insert>
+
+    <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.TradePolicyRegressionDO">
+        update trade_policy_regression
+        set gmt_modified = now()
+          , detail       = #{detail}
+          , task_id      = #{taskId}
+        where id = #{id}
+    </update>
+
+</mapper>

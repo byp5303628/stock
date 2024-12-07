@@ -1,0 +1,17 @@
+{
+  "processStageMap": {
+    "PROCESS": {
+      "actions": [
+        "getTradePolicyByNameAction",
+        "validateTradePolicyRegressionExistsAction",
+        "queryAllStockCodeAction",
+        "createTaskAndFlushRegressionAction"
+      ]
+    },
+    "ERROR_PROCESS": {
+      "actions": [
+        "commonErrorHandleAction"
+      ]
+    }
+  }
+}
