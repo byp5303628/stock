@@ -18,9 +18,9 @@ public class StrategyDetailDTO {
 
     private String description;
 
-    private Integer verifyStockCnt;
+    private Integer verifyStockCnt = 0;
 
-    private Integer totalStockCnt;
+    private Integer totalStockCnt = 0;
 
     private List<HistogramItem> histogramItems;
 

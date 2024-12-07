@@ -30,7 +30,7 @@
         where ID = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.TaskDO">
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.TaskDO" useGeneratedKeys="true" keyProperty="id">
         insert into task (external_serial_no, task_type, context, status, retry_times, result_msg, gmt_create, gmt_modified, fire_time)
         values (#{externalSerialNo}, #{taskType}, #{context}, #{status}, #{retryTimes}, #{resultMsg}, #{gmtCreate}, #{gmtModified},
                 #{fireTime})

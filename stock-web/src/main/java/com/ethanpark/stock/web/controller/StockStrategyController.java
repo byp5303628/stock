@@ -13,10 +13,7 @@ import com.ethanpark.stock.web.dto.ResponseDTO;
 import com.ethanpark.stock.web.dto.StrategyDTO;
 import com.ethanpark.stock.web.dto.StrategyDetailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -52,7 +49,7 @@ public class StockStrategyController {
     }
 
     @GetMapping("/detail.json")
-    public ResponseDTO<StrategyDetailDTO> getStockStrategyByName(String name) {
+    public ResponseDTO<StrategyDetailDTO> getStockStrategyByName(@RequestParam("name") String name) {
         ProcessContext context = new ProcessContext();
 
         context.setProductCode("stock_strategy");
@@ -86,7 +83,7 @@ public class StockStrategyController {
     }
 
     @PostMapping("/create-regression.json")
-    public ResponseDTO<Void> createRegression(String name) {
+    public ResponseDTO<Void> createRegression(@RequestParam("name") String name) {
         ProcessContext context = new ProcessContext();
 
         context.setProductCode("stock_strategy");

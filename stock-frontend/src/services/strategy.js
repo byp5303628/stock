@@ -7,3 +7,9 @@ export async function getStockStrategyList() {
 export async function getStockStrategyByName(name) {
     return request(`/api/stock-strategy/detail.json?name=${name}`);
 }
+
+export async function startTradeRegression(name) {
+    return request(`/api/stock-strategy/create-regression.json?name=${name}`, {
+        method: 'POST',
+    })
+}

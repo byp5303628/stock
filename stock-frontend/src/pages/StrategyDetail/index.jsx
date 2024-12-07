@@ -1,8 +1,8 @@
 import { PageContainer } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
-import { getStockStrategyByName } from "@/services/strategy";
+import { getStockStrategyByName, startTradeRegression } from "@/services/strategy";
 import {useSearchParams} from "umi";
-import { Card } from "antd";
+import { Button, Card, message } from "antd";
 
 const StrategyDetail = () => {
 
@@ -23,6 +23,15 @@ const StrategyDetail = () => {
         <PageContainer
             title={name}
             content={strategy.description}
+            extra={<Button type={"primary"} onClick={() => {
+               startTradeRegression(name).then(r => {
+                   if (r && r.code === 200) {
+                       message.success("开始回溯!");
+                   } else {
+                       message.warning("系统繁忙, 请稍后重试!")
+                   }
+               })
+            }}>开始回溯</Button>}
         >
             <Card title={"总体统计"}>
 
