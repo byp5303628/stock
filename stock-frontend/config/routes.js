@@ -38,6 +38,22 @@ export default [
         ]
     },
     {
+        path: '/operation',
+        name: '运营工具',
+        icon: 'tool',
+        routes: [
+            {
+                path: '/operation',
+                redirect: '/operation/schedule-config-list',
+            },
+            {
+                path: '/operation/schedule-config-list',
+                name: '调度配置',
+                component: './OperationTool/ScheduleConfigList'
+            }
+        ]
+    },
+    {
         path: '/',
         redirect: '/welcome',
     },

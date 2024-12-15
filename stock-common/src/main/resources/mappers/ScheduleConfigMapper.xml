@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.ScheduleConfigMapper">
+
+    <resultMap id="result" type="com.ethanpark.stock.common.dal.mappers.entity.ScheduleConfigDO">
+        <id property="id" column="id" jdbcType="BIGINT" />
+        <result property="taskType" column="task_type" jdbcType="VARCHAR" />
+        <result property="cronExpression" column="cron_expression" jdbcType="VARCHAR" />
+        <result property="count" column="count" jdbcType="INTEGER" />
+        <result property="status" column="status" jdbcType="VARCHAR" />
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <select id="selectConfigs" resultMap="result">
+        select * from schedule_config;
+    </select>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.ScheduleConfigDO">
+        replace into schedule_config(task_type, cron_expression, `count`, status, gmt_create, gmt_modified) value (#{taskType}, #{cronExpression}, #{count}, #{status}, now(), now())
+    </insert>
+
+    <select id="selectByTaskType" resultMap="result">
+        select * from schedule_config
+        where task_type = #{taskType}
+    </select>
+
+    <select id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.ScheduleConfigDO">
+        update schedule_config
+        set task_type       = #{taskType}
+          , cron_expression = #{cronExpression}
+          , `count`         = #{count}
+          , status          = #{status}
+        where id = #{id}
+    </select>
+</mapper>

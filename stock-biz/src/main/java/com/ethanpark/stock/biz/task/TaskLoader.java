@@ -1,6 +1,7 @@
 package com.ethanpark.stock.biz.task;
 
-import com.ethanpark.stock.core.model.TaskConfig;
+import com.ethanpark.stock.core.model.ScheduleConfig;
+import com.ethanpark.stock.core.service.ScheduleConfigDomainService;
 import com.ethanpark.stock.core.service.TaskDomainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -36,6 +38,9 @@ public class TaskLoader {
 
     private ScheduledFuture<?> future;
 
+    @Resource
+    private ScheduleConfigDomainService scheduleConfigDomainService;
+
     @PostConstruct
     private void init() {
         ScheduledFuture<?> scheduleFuture =
@@ -54,13 +59,18 @@ public class TaskLoader {
         threadPoolTaskExecutor.shutdown();
     }
 
-    public void load() {
-        List<TaskConfig> taskConfigs = taskDomainService.getTaskConfigs();
 
-        for (TaskConfig taskConfig : taskConfigs) {
-            log.info("开始进行任务捞取! taskType={}", taskConfig.getTaskType());
-            List<Long> taskIds = taskDomainService.selectFireTaskIds(taskConfig.getTaskType(),
-                    taskConfig.getLimit());
+    public void load() {
+        List<ScheduleConfig> scheduleConfigs = scheduleConfigDomainService.getScheduleConfigs();
+
+        for (ScheduleConfig scheduleConfig : scheduleConfigs) {
+            if (!Objects.equals(scheduleConfig.getStatus(), "T")) {
+                continue;
+            }
+
+            log.info("开始进行任务捞取! taskType={}", scheduleConfig.getTaskType());
+            List<Long> taskIds = taskDomainService.selectFireTaskIds(scheduleConfig.getTaskType(),
+                    scheduleConfig.getCount());
 
             for (Long taskId : taskIds) {
                 threadPoolTaskExecutor.execute(() -> taskConsumer.consume(taskId));

@@ -2,10 +2,7 @@ package com.ethanpark.stock.core.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.ethanpark.stock.common.dal.mappers.entity.*;
-import com.ethanpark.stock.core.model.StockRegressionDetail;
-import com.ethanpark.stock.core.model.StockStatistics;
-import com.ethanpark.stock.core.model.Task;
-import com.ethanpark.stock.core.model.TradePolicyRegression;
+import com.ethanpark.stock.core.model.*;
 import com.ethanpark.stock.remote.model.StockBasic;
 
 import java.util.Date;
@@ -86,5 +83,20 @@ public class DbConverter {
         result.setTradeCycles(JSON.toJSONString(domain.getTradeCycles()));
 
         return result;
+    }
+
+    public static ScheduleConfigDO toDbEntity(ScheduleConfig domain) {
+        ScheduleConfigDO dbEntity = new ScheduleConfigDO();
+
+        dbEntity.setCronExpression(domain.getCronExpression());
+        dbEntity.setTaskType(domain.getTaskType());
+        dbEntity.setCount(domain.getCount());
+        dbEntity.setId(domain.getId());
+        dbEntity.setStatus(domain.getStatus());
+
+        dbEntity.setGmtCreate(domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified());
+
+        return dbEntity;
     }
 }

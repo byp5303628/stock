@@ -29,9 +29,17 @@ public class DateUtils {
      * @return
      */
     public static String formatDate(Date date, String pattern) {
+        if (date == null) {
+            return null;
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         dateFormat.setTimeZone(TimeZone.getTimeZone(DEFAULT_TIMEZONE));
         return dateFormat.format(date);
+    }
+
+    public static String formatDate(Date date) {
+        return formatDate(date, "yyyy-MM-dd HH:mm:ss");
     }
 
     public static String getToday() {

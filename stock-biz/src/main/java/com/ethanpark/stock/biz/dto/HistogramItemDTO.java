@@ -1,4 +1,4 @@
-package com.ethanpark.stock.web.dto;
+package com.ethanpark.stock.biz.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class HistogramItem {
+public class HistogramItemDTO {
     private String name;
 
     private Integer cnt;

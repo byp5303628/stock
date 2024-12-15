@@ -1,4 +1,4 @@
-package com.ethanpark.stock.web.dto;
+package com.ethanpark.stock.biz.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +22,11 @@ public class StrategyDetailDTO {
 
     private Integer totalStockCnt = 0;
 
-    private List<HistogramItem> histogramItems;
+    private List<HistogramItemDTO> histogramItemDTOS;
 
+    /**
+     * 算术平均
+     */
     private String avgTradeIncr;
 
     public String getVerifyRate() {
@@ -32,6 +35,6 @@ public class StrategyDetailDTO {
             return "尚未统计";
         }
 
-        return String.format("%2.f%%", 1D * verifyStockCnt / totalStockCnt * 100);
+        return String.format("%.2f%%", 1D * verifyStockCnt / totalStockCnt * 100);
     }
 }

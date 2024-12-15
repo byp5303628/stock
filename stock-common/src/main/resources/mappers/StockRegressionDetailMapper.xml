@@ -3,15 +3,28 @@
 <mapper namespace="com.ethanpark.stock.common.dal.mappers.StockRegressionDetailMapper">
 
     <resultMap id="result" type="com.ethanpark.stock.common.dal.mappers.entity.StockRegressionDetailDO">
-        <id property="id" column="id" jdbcType="BIGINT" />
-        <result property="code" column="code" jdbcType="VARCHAR" />
-        <result property="tradePolicyName" column="trade_policy_name" jdbcType="BIGINT" />
-        <result property="tradeCycles" column="trade_cycles" jdbcType="CLOB" />
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="tradePolicyName" column="trade_policy_name" jdbcType="BIGINT"/>
+        <result property="tradeCycles" column="trade_cycles" jdbcType="CLOB"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP" />
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <insert id="save" parameterType="com.ethanpark.stock.common.dal.mappers.entity.StockRegressionDetailDO">
         replace into stock_regression_detail (code, trade_policy_name, trade_cycles, gmt_create, gmt_modified) value (#{code}, #{tradePolicyName}, #{tradeCycles}, now(), now())
     </insert>
+
+    <select id="selectByPolicy" resultMap="result">
+        select *
+        from stock_regression_detail
+        where trade_policy_name = #{policy}
+    </select>
+
+    <select id="selectByCodeAndPolicy" resultMap="result">
+        select *
+        from stock_regression_detail
+        where code = #{code}
+          and trade_policy_name = #{policy}
+    </select>
 </mapper>

@@ -1,4 +1,4 @@
-package com.ethanpark.stock.web.dto;
+package com.ethanpark.stock.biz.dto;
 
 import lombok.Getter;
 import lombok.Setter;

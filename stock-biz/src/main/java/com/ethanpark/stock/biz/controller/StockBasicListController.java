@@ -1,4 +1,4 @@
-package com.ethanpark.stock.web.controller;
+package com.ethanpark.stock.biz.controller;
 
 import com.ethanpark.stock.core.service.StockBasicDomainService;
 import org.springframework.web.bind.annotation.RestController;

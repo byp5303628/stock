@@ -82,7 +82,7 @@ create table if not exists stock_regression_detail
     id                bigint                 not null primary key auto_increment,
     code              varchar(16),
     trade_policy_name varchar(32),
-    trade_cycles      text,
+    trade_cycles      mediumtext,
 
     gmt_create        datetime default now() not null,
     gmt_modified      datetime default now() not null on update now(),
