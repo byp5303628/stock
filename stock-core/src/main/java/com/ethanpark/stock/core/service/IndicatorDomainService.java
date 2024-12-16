@@ -1,13 +1,15 @@
 package com.ethanpark.stock.core.service;
 
+import com.ethanpark.stock.common.util.DateUtils;
 import com.ethanpark.stock.core.model.TradeCycle;
+import com.ethanpark.stock.core.model.indicator.Histogram;
 import com.ethanpark.stock.core.model.indicator.StockPredictIndicator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author: baiyunpeng04
@@ -26,10 +28,8 @@ public class IndicatorDomainService {
         indicator.setGoldCycleCnt(tradeCycles.size());
         TradeCycle first = tradeCycles.get(0);
 
-        TradeCycle last = tradeCycles.get(tradeCycles.size() - 1);
+        TradeCycle last = first;
 
-        indicator.setStartDate(first.getStartDate());
-        indicator.setEndDate(last.getEndDate());
 
         Double increaseTotal = 1D;
         Double increaseActual = 1D;
@@ -38,6 +38,10 @@ public class IndicatorDomainService {
         Double increaseMin = 1000D;
 
         for (TradeCycle tradeCycle : tradeCycles) {
+            if (!tradeCycle.isValid()) {
+                continue;
+            }
+
             increaseTotal = (tradeCycle.getIncrease() + 1) * increaseTotal;
             increaseActual = tradeCycle.getIncrease() + increaseActual;
 
@@ -48,8 +52,11 @@ public class IndicatorDomainService {
             if (tradeCycle.getIncrease() < increaseMin) {
                 increaseMin = tradeCycle.getIncrease();
             }
+            last = tradeCycle;
         }
 
+        indicator.setStartDate(first.getStartDate());
+        indicator.setEndDate(last.getEndDate());
         indicator.setIncreaseTotal(increaseTotal);
         indicator.setIncreaseActualTotal(increaseActual);
         indicator.setIncreaseMax(increaseMax);
@@ -57,9 +64,25 @@ public class IndicatorDomainService {
         indicator.setIncreaseAvg(increaseTotal / tradeCycles.size());
         indicator.setIncreaseActualAvg(increaseActual / tradeCycles.size());
 
-        Double range = increaseMax - increaseMin / 18;
+        indicator.setMonthIncrease(increaseActual / DateUtils.monthDiff(indicator.getStartDate(),
+                indicator.getEndDate()));
+        indicator.setYearIncrease(increaseActual / DateUtils.yearDiff(indicator.getStartDate(),
+                indicator.getEndDate()));
 
-        Map<String, Integer> map = new HashMap<>();
+        List<Histogram> hists = tradeCycles
+                .stream()
+                .map(i -> {
+                    Histogram histogram = new Histogram();
+
+                    histogram.setName(String.format("%s-%s", i.getStartDate(), i.getEndDate()));
+                    histogram.setValue(i.getIncrease());
+                    return histogram;
+                })
+                .filter(i -> i.getValue() != null)
+                .sorted(Comparator.comparingDouble(Histogram::getValue))
+                .collect(Collectors.toList());
+
+        indicator.setHistograms(hists);
 
         return indicator;
     }

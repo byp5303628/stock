@@ -1,4 +1,4 @@
-package com.ethanpark.stock.core.model.indicator;
+package com.ethanpark.stock.biz.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,11 +8,11 @@ import java.util.List;
 
 /**
  * @author: baiyunpeng04
- * @since: 2024/12/15
+ * @since: 2024/12/17
  */
 @Getter
 @Setter
-public class StockPredictIndicator {
+public class StockPredictIndicatorDTO {
     /**
      * 金叉个数
      */
@@ -71,5 +71,5 @@ public class StockPredictIndicator {
     /**
      * 盈利分布
      */
-    private List<Histogram> histograms = new ArrayList<>();
+    private List<HistogramItemDTO> histograms = new ArrayList<>();
 }

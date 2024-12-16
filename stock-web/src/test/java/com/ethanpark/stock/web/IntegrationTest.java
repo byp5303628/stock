@@ -1,10 +1,14 @@
 package com.ethanpark.stock.web;
 
+import com.ethanpark.stock.biz.controller.StockStrategyController;
+import com.ethanpark.stock.biz.dto.ResponseDTO;
+import com.ethanpark.stock.biz.dto.StockRegressionDetailDTO;
 import com.ethanpark.stock.biz.trade.TradePolicy;
 import com.ethanpark.stock.core.model.Task;
 import com.ethanpark.stock.core.model.TradeContext;
 import com.ethanpark.stock.core.service.TaskDomainService;
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,16 @@ public class IntegrationTest {
 
     @Autowired
     private List<TradePolicy> tradePolicies;
+
+    @Autowired
+    private StockStrategyController stockStrategyController;
+
+    @Test
+    public void testWeb() {
+        ResponseDTO<StockRegressionDetailDTO> macdDailyV1TradePolicy = stockStrategyController.getStockAndPolicyDetail("MacdDailyV1TradePolicy", "000973");
+
+        Assert.assertNotNull(macdDailyV1TradePolicy);
+    }
 
     @Test
     public void test3() throws Exception {

@@ -44,4 +44,8 @@ public class TradeCycle {
     public String getSalePrice() {
         return saleLog == null ? null : saleLog.getStockBasic().getEndPrice().toString();
     }
+
+    public boolean isValid() {
+        return purchaseLog != null && saleLog != null;
+    }
 }

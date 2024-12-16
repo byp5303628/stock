@@ -107,6 +107,40 @@ public class DateUtils {
         return localDate.get(weekFields.weekOfWeekBasedYear());
     }
 
+    /**
+     * 计算两个日期之间的精确月份差（包括小数部分）
+     *
+     * @param beginDate 第一个日期 (格式: yyyy-MM-dd)
+     * @param endDate 第二个日期 (格式: yyyy-MM-dd)
+     * @return 精确的月份差
+     */
+    public static double monthDiff(String beginDate, String endDate) {
+        LocalDate localDate1 = LocalDate.parse(beginDate);
+        LocalDate localDate2 = LocalDate.parse(endDate);
+
+        long days = Math.abs(localDate1.toEpochDay() - localDate2.toEpochDay());
+        double months = days / 30.436875; // 平均每月的天数
+
+        return Math.round(months * 100.0) / 100.0; // 四舍五入到两位小数
+    }
+
+    /**
+     * 计算两个日期之间的精确年份差（包括小数部分）
+     *
+     * @param beginDate 第一个日期 (格式: yyyy-MM-dd)
+     * @param endDate 第二个日期 (格式: yyyy-MM-dd)
+     * @return 精确的年份差
+     */
+    public static double yearDiff(String beginDate, String endDate) {
+        LocalDate localDate1 = LocalDate.parse(beginDate);
+        LocalDate localDate2 = LocalDate.parse(endDate);
+
+        long days = Math.abs(localDate1.toEpochDay() - localDate2.toEpochDay());
+        double years = days / 365.25; // 考虑闰年的平均每年天数
+
+        return Math.round(years * 100.0) / 100.0; // 四舍五入到两位小数
+    }
+
     public static int getMonthOfYear(String partitionDate) {
         Date date = parseStringToDate(partitionDate, "yyyy-MM-dd");
 

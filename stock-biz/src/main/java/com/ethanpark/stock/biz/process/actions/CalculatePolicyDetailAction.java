@@ -33,9 +33,5 @@ public class CalculatePolicyDetailAction implements BusinessAction {
 
         List<StockRegressionDetail> stockRegressionDetails = entity.getStockRegressionDetails();
         detailDTO.setVerifyStockCnt(stockRegressionDetails.size());
-
-        // 计算平均收益
-
-
     }
 }

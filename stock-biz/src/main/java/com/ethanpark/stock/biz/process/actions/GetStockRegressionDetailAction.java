@@ -31,5 +31,7 @@ public class GetStockRegressionDetailAction implements BusinessAction {
         if (regressionDetailByCodeAndPolicy == null) {
             return;
         }
+
+        entity.setStockRegressionDetail(regressionDetailByCodeAndPolicy);
     }
 }

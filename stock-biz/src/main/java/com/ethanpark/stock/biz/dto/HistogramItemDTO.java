@@ -12,7 +12,5 @@ import lombok.Setter;
 public class HistogramItemDTO {
     private String name;
 
-    private Integer cnt;
-
-    private String rate;
+    private Double value;
 }

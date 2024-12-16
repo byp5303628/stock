@@ -1,5 +1,6 @@
 package com.ethanpark.stock.core.model;
 
+import com.ethanpark.stock.core.model.indicator.StockPredictIndicator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,6 @@ public class StockRegressionDetail {
 
     private List<TradeCycle> tradeCycles = new ArrayList<>();
 
+    private StockPredictIndicator stockPredictIndicator;
 
 }

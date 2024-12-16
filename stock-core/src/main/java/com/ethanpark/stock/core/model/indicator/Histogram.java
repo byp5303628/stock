@@ -9,11 +9,16 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class HistogramRect {
+public class Histogram {
+    /**
+     * 起始到结束时间
+     */
     private String name;
-    private Integer cnt;
 
-    private Double begin;
+    /**
+     * 增长比例
+     */
+    private Double value = 0D;
 
-    private Double end;
+
 }

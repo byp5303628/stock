@@ -6,6 +6,7 @@ import com.ethanpark.stock.core.converter.DbConverter;
 import com.ethanpark.stock.core.converter.DomainConverter;
 import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.model.StockRegressionDetail;
+import com.ethanpark.stock.core.model.indicator.StockPredictIndicator;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +23,9 @@ public class StockRegressionDomainService {
     @Resource
     private StockRegressionDetailMapper stockRegressionDetailMapper;
 
+    @Resource
+    private IndicatorDomainService indicatorDomainService;
+
     public Result<Void> saveRegression(StockRegressionDetail stockRegressionDetail) {
         StockRegressionDetailDO dbEntity = DbConverter.toDbEntity(stockRegressionDetail);
 
@@ -32,12 +36,26 @@ public class StockRegressionDomainService {
         List<StockRegressionDetailDO> stockRegressionDetailDOS =
                 stockRegressionDetailMapper.selectByPolicy(policy);
 
-        return stockRegressionDetailDOS.stream().map(DomainConverter::toDomain).collect(Collectors.toList());
+        List<StockRegressionDetail> list = stockRegressionDetailDOS.stream().map(DomainConverter::toDomain).collect(Collectors.toList());
+
+        list.forEach(i -> {
+            StockPredictIndicator calculate = indicatorDomainService.calculate(i.getTradeCycles());
+
+            i.setStockPredictIndicator(calculate);
+        });
+
+        return list;
     }
 
     public StockRegressionDetail getRegressionDetailByCodeAndPolicy(String code, String policy) {
         StockRegressionDetailDO stockRegressionDetailDO = stockRegressionDetailMapper.selectByCodeAndPolicy(code, policy);
 
-        return DomainConverter.toDomain(stockRegressionDetailDO);
+        StockRegressionDetail domain = DomainConverter.toDomain(stockRegressionDetailDO);
+
+        StockPredictIndicator calculate = indicatorDomainService.calculate(domain.getTradeCycles());
+
+        domain.setStockPredictIndicator(calculate);
+
+        return domain;
     }
 }

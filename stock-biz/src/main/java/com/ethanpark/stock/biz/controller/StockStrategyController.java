@@ -2,6 +2,7 @@ package com.ethanpark.stock.biz.controller;
 
 import com.ethanpark.stock.biz.converter.DtoConverter;
 import com.ethanpark.stock.biz.dto.ResponseDTO;
+import com.ethanpark.stock.biz.dto.StockRegressionDetailDTO;
 import com.ethanpark.stock.biz.dto.StrategyDTO;
 import com.ethanpark.stock.biz.dto.StrategyDetailDTO;
 import com.ethanpark.stock.biz.engine.ProcessContext;
@@ -84,11 +85,11 @@ public class StockStrategyController {
     }
 
     @GetMapping("/stock-detail.json")
-    public ResponseDTO<> getStockAndPolicyDetail(@RequestParam("name") String name, @RequestParam("code") String code) {
+    public ResponseDTO<StockRegressionDetailDTO> getStockAndPolicyDetail(@RequestParam("name") String name, @RequestParam("code") String code) {
         ProcessContext context = new ProcessContext();
 
         context.setProductCode("stock_strategy");
-        context.setBusinessCode("stock_detail");
+        context.setBusinessCode("code_detail");
 
         StockStrategyDetailEntity entity = new StockStrategyDetailEntity();
 
@@ -102,17 +103,7 @@ public class StockStrategyController {
         processExecutor.execute(context);
 
         if (entity.isSuccess()) {
-            StrategyDetailDTO detailDTO = new StrategyDetailDTO();
-
-            TradePolicy tradePolicy = entity.getTradePolicy();
-            detailDTO.setName(tradePolicy.getName());
-            detailDTO.setDescription(tradePolicy.getDescription());
-            detailDTO.setTags(tradePolicy.getStatisticsTypes().stream()
-                    .map(Enum::name).collect(Collectors.toList()));
-
-            detailDTO.setTotalStockCnt(entity.getStockCnt());
-
-            return ResponseDTO.success(detailDTO);
+            return ResponseDTO.success(entity.getResultDTO());
         } else {
             return ResponseDTO.error(context.getResultCode(), context.getResultMsg());
         }
