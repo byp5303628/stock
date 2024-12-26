@@ -5,7 +5,6 @@ import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.biz.dto.StockRegressionDetailDTO;
 import com.ethanpark.stock.biz.trade.TradePolicy;
 import com.ethanpark.stock.core.model.Task;
-import com.ethanpark.stock.core.model.TradeContext;
 import com.ethanpark.stock.core.service.TaskDomainService;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -62,10 +61,10 @@ public class IntegrationTest {
     public void test1() throws Exception {
         String code = "600085";
 
-        for (TradePolicy tradePolicy : tradePolicies) {
-            TradeContext tradeContext = tradePolicy.trade(code);
+        ResponseDTO<StockRegressionDetailDTO> stockAndPolicyDetail = stockStrategyController.getStockAndPolicyDetail("MacdDailyV1TradePolicy", code);
 
-            FileUtils.writeStringToFile(new File("/Users/baiyunpeng04/workspace/stock/reports/" + code + "." + tradePolicy.getClass().getSimpleName() + ".md"), tradeContext.genReport(), "utf-8");
-        }
+        Assert.assertNotNull(stockAndPolicyDetail);
+
     }
+
 }

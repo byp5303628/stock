@@ -141,6 +141,15 @@ public class DateUtils {
         return Math.round(years * 100.0) / 100.0; // 四舍五入到两位小数
     }
 
+    public static int dayDiff(String beginDate, String endDate) {
+        LocalDate localDate1 = LocalDate.parse(beginDate);
+        LocalDate localDate2 = LocalDate.parse(endDate);
+
+        long days = Math.abs(localDate1.toEpochDay() - localDate2.toEpochDay());
+
+        return (int) days;
+    }
+
     public static int getMonthOfYear(String partitionDate) {
         Date date = parseStringToDate(partitionDate, "yyyy-MM-dd");
 

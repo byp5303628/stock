@@ -13,3 +13,7 @@ export async function startTradeRegression(name) {
         method: 'POST',
     })
 }
+
+export async function getStockPredictIndicator(data) {
+    return request(`/api/stock-strategy/stock-detail.json?code=${data.code}&name=${data.name}`);
+}

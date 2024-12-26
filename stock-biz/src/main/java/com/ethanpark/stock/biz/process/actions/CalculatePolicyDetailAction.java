@@ -6,9 +6,7 @@ import com.ethanpark.stock.biz.engine.BusinessAction;
 import com.ethanpark.stock.biz.engine.ProcessContext;
 import com.ethanpark.stock.biz.process.entity.StrategyDetailEntity;
 import com.ethanpark.stock.biz.trade.TradePolicy;
-import com.ethanpark.stock.core.model.StockRegressionDetail;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +29,6 @@ public class CalculatePolicyDetailAction implements BusinessAction {
 
         detailDTO.setTotalStockCnt(entity.getStockCnt());
 
-        List<StockRegressionDetail> stockRegressionDetails = entity.getStockRegressionDetails();
-        detailDTO.setVerifyStockCnt(stockRegressionDetails.size());
+        entity.setStrategyDetailDTO(detailDTO);
     }
 }

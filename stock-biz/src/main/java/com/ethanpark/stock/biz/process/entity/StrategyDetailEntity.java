@@ -1,5 +1,6 @@
 package com.ethanpark.stock.biz.process.entity;
 
+import com.ethanpark.stock.biz.dto.StrategyDetailDTO;
 import com.ethanpark.stock.biz.engine.entity.BaseEntity;
 import com.ethanpark.stock.biz.process.entity.aware.StockCntAware;
 import com.ethanpark.stock.biz.process.entity.aware.StockRegressionDetailsAware;
@@ -25,6 +26,8 @@ public class StrategyDetailEntity extends BaseEntity implements StockCntAware, T
     private TradePolicy tradePolicy;
 
     private List<StockRegressionDetail> stockRegressionDetails;
+
+    private StrategyDetailDTO strategyDetailDTO;
 
     @Override
     public String getTradePolicyName() {

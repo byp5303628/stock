@@ -153,3 +153,4 @@ swagger.json
 reports/
 
 stock-frontend/node_modules
+.vscode/

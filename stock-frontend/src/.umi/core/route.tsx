@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/welcome","name":"welcome","icon":"smile","parentId":"ant-design-pro-layout","id":"1"},"2":{"path":"/strategy","name":"策略","icon":"bulb","parentId":"ant-design-pro-layout","id":"2"},"3":{"path":"/strategy","redirect":"/strategy-list","parentId":"2","id":"3"},"4":{"name":"策略列表","path":"/strategy/strategy-list","parentId":"2","id":"4"},"5":{"path":"/strategy/strategy-list/strategy-detail","parentId":"2","id":"5"},"6":{"path":"/operation","name":"运营工具","icon":"tool","parentId":"ant-design-pro-layout","id":"6"},"7":{"path":"/operation","redirect":"/operation/schedule-config-list","parentId":"6","id":"7"},"8":{"path":"/operation/schedule-config-list","name":"调度配置","parentId":"6","id":"8"},"9":{"path":"/","redirect":"/welcome","parentId":"ant-design-pro-layout","id":"9"},"10":{"path":"*","layout":false,"id":"10"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true},"umi/plugin/openapi":{"path":"/umi/plugin/openapi","id":"umi/plugin/openapi"}} as const;
+  const routes = {"1":{"path":"/welcome","name":"welcome","icon":"smile","parentId":"ant-design-pro-layout","id":"1"},"2":{"path":"/strategy","name":"策略","icon":"bulb","parentId":"ant-design-pro-layout","id":"2"},"3":{"path":"/strategy","redirect":"/strategy-list","parentId":"2","id":"3"},"4":{"name":"策略列表","path":"/strategy/strategy-list","parentId":"2","id":"4"},"5":{"path":"/strategy/strategy-list/strategy-detail","parentId":"2","id":"5"},"6":{"path":"/strategy/strategy-list/strategy-detail/stock-strategy-detail","parentId":"2","id":"6"},"7":{"path":"/operation","name":"运营工具","icon":"tool","parentId":"ant-design-pro-layout","id":"7"},"8":{"path":"/operation","redirect":"/operation/schedule-config-list","parentId":"7","id":"8"},"9":{"path":"/operation/schedule-config-list","name":"调度配置","parentId":"7","id":"9"},"10":{"path":"/","redirect":"/welcome","parentId":"ant-design-pro-layout","id":"10"},"11":{"path":"*","layout":false,"id":"11"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true},"umi/plugin/openapi":{"path":"/umi/plugin/openapi","id":"umi/plugin/openapi"}} as const;
   return {
     routes,
     routeComponents: {
@@ -13,11 +13,12 @@ export async function getRoutes() {
 '3': React.lazy(() => import( './EmptyRoute')),
 '4': React.lazy(() => import(/* webpackChunkName: "p__StrategyList__index" */'@/pages/StrategyList/index.jsx')),
 '5': React.lazy(() => import(/* webpackChunkName: "p__StrategyDetail__index" */'@/pages/StrategyDetail/index.jsx')),
-'6': React.lazy(() => import( './EmptyRoute')),
+'6': React.lazy(() => import(/* webpackChunkName: "p__StrategyDetail__StockStrategyDetail__index" */'@/pages/StrategyDetail/StockStrategyDetail/index.jsx')),
 '7': React.lazy(() => import( './EmptyRoute')),
-'8': React.lazy(() => import(/* webpackChunkName: "p__OperationTool__ScheduleConfigList__index" */'@/pages/OperationTool/ScheduleConfigList/index.jsx')),
-'9': React.lazy(() => import( './EmptyRoute')),
-'10': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.jsx')),
+'8': React.lazy(() => import( './EmptyRoute')),
+'9': React.lazy(() => import(/* webpackChunkName: "p__OperationTool__ScheduleConfigList__index" */'@/pages/OperationTool/ScheduleConfigList/index.jsx')),
+'10': React.lazy(() => import( './EmptyRoute')),
+'11': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.jsx')),
 'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/baiyunpeng04/workspace/stock/stock-frontend/src/.umi/plugin-layout/Layout.tsx')),
 'umi/plugin/openapi': React.lazy(() => import(/* webpackChunkName: "umi__plugin-openapi__openapi" */'/Users/baiyunpeng04/workspace/stock/stock-frontend/src/.umi/plugin-openapi/openapi.tsx')),
 },

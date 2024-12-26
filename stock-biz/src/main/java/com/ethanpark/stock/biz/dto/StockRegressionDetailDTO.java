@@ -1,6 +1,5 @@
 package com.ethanpark.stock.biz.dto;
 
-import com.ethanpark.stock.core.model.TradeCycle;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,9 @@ import java.util.List;
 public class StockRegressionDetailDTO {
     private String code;
 
+    private StrategyDetailDTO strategyDetailDTO;
+
     private StockPredictIndicatorDTO stockPredictIndicator;
 
-    private List<TradeCycle> tradeCycles;
+    private List<TradeCycleDTO> tradeCycles;
 }

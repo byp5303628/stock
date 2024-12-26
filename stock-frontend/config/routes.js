@@ -34,6 +34,10 @@ export default [
             {
                 path: '/strategy/strategy-list/strategy-detail',
                 component: './StrategyDetail'
+            },
+            {
+                path: '/strategy/strategy-list/strategy-detail/stock-strategy-detail',
+                component: './StrategyDetail/StockStrategyDetail'
             }
         ]
     },

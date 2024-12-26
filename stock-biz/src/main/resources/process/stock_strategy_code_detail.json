@@ -5,6 +5,7 @@
         "getTradePolicyByNameAction",
         "getStockCntAction",
         "getStockRegressionDetailAction",
+        "calculatePolicyDetailAction",
         "buildStockRegressionDetailRespAction"
       ]
     },
