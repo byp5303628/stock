@@ -1,9 +1,10 @@
 import { PageContainer } from "@ant-design/pro-components";
-import { Card, Col, Descriptions, Row, Table, Tag } from "antd";
+import { Button, Card, Col, Descriptions, Row, Table, Tag } from "antd";
 import { useState, useEffect } from 'react'; // 引入 useState 和 useEffect
 import { useSearchParams } from 'umi'; // 引入 useSearchParams
 import { getStockPredictIndicator } from "@/services/strategy";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts';
+import { history } from '@umijs/max';
 
 
 
@@ -110,9 +111,11 @@ const StockStrategyDetail = () => {
 
     return (
         <PageContainer title={"股票策略-个股详情-" + code}
-            content
+            extra={<Button type={"primary"} onClick={() => {
+                history.push('/strategy/strategy-list/strategy-detail?&name=' + name);
+            }}>回到策略详情</Button>}
         >
-            <Card title="个股详情-基本信息">
+            <Card title="个股详情-策略信息">
                 <Descriptions>
                     <Descriptions.Item label="策略名称">{policyDetail.name}</Descriptions.Item>
                     <Descriptions.Item label="标签">
@@ -125,9 +128,6 @@ const StockStrategyDetail = () => {
                         )}
                     </Descriptions.Item>
                     <Descriptions.Item label="描述">{policyDetail.description}</Descriptions.Item>
-                    <Descriptions.Item label="验证股票数量">{policyDetail.verifyStockCnt}</Descriptions.Item>
-                    <Descriptions.Item label="总股票数量">{policyDetail.totalStockCnt}</Descriptions.Item>
-                    <Descriptions.Item label="验证率">{policyDetail.verifyRate}</Descriptions.Item>
                 </Descriptions>
             </Card>
 

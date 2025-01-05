@@ -1,5 +1,6 @@
 package com.ethanpark.stock.biz.dto;
 
+import com.ethanpark.stock.core.model.indicator.Indicator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,19 +23,7 @@ public class StrategyDetailDTO {
 
     private Integer totalStockCnt = 0;
 
-    private List<HistogramItemDTO> histogramItemDTOS;
+    private List<Indicator> indicators;
 
-    /**
-     * 算术平均
-     */
-    private String avgTradeIncr;
-
-    public String getVerifyRate() {
-        if (totalStockCnt == null
-                || totalStockCnt == 0L) {
-            return "尚未统计";
-        }
-
-        return String.format("%.2f%%", 1D * verifyStockCnt / totalStockCnt * 100);
-    }
+    private List<StockPredictIndicatorDTO> stockPredictIndicators;
 }

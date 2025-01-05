@@ -3,9 +3,6 @@ package com.ethanpark.stock.biz.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author: baiyunpeng04
  * @since: 2024/12/17
@@ -13,6 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 public class StockPredictIndicatorDTO {
+    private String code;
+
+    private String name;
+
     /**
      * 金叉个数
      */
@@ -67,9 +68,4 @@ public class StockPredictIndicatorDTO {
      * 年均增长
      */
     private Double yearIncrease = 0D;
-
-    /**
-     * 盈利分布
-     */
-    private List<HistogramItemDTO> histograms = new ArrayList<>();
 }

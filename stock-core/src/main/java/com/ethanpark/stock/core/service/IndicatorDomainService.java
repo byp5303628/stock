@@ -4,6 +4,7 @@ import com.ethanpark.stock.common.util.DateUtils;
 import com.ethanpark.stock.core.model.TradeCycle;
 import com.ethanpark.stock.core.model.indicator.Histogram;
 import com.ethanpark.stock.core.model.indicator.StockPredictIndicator;
+import com.ethanpark.stock.remote.model.StockBasic;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -24,6 +25,9 @@ public class IndicatorDomainService {
         }
 
         StockPredictIndicator indicator = new StockPredictIndicator();
+        StockBasic stockBasic = tradeCycles.get(0).getPurchaseLog().getStockBasic();
+        indicator.setName(stockBasic.getName());
+        indicator.setCode(stockBasic.getCode());
 
         indicator.setGoldCycleCnt(tradeCycles.size());
         TradeCycle first = tradeCycles.get(0);

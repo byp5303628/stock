@@ -28,7 +28,6 @@ public class StrategyDetailEntity extends BaseEntity implements StockCntAware, T
     private List<StockRegressionDetail> stockRegressionDetails;
 
     private StrategyDetailDTO strategyDetailDTO;
-
     @Override
     public String getTradePolicyName() {
         return name;

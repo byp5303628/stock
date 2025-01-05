@@ -5,7 +5,8 @@
         "getTradePolicyByNameAction",
         "getStockCntAction",
         "getPolicyRegressionDetailAction",
-        "calculatePolicyDetailAction"
+        "calculatePolicyDetailAction",
+        "buildStrategyIndicatorRespAction"
       ]
     },
     "ERROR_PROCESS": {

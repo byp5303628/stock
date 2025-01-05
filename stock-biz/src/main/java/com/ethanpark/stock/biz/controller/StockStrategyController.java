@@ -68,17 +68,7 @@ public class StockStrategyController {
         processExecutor.execute(context);
 
         if (entity.isSuccess()) {
-            StrategyDetailDTO detailDTO = new StrategyDetailDTO();
-
-            TradePolicy tradePolicy = entity.getTradePolicy();
-            detailDTO.setName(tradePolicy.getName());
-            detailDTO.setDescription(tradePolicy.getDescription());
-            detailDTO.setTags(tradePolicy.getStatisticsTypes().stream()
-                    .map(Enum::name).collect(Collectors.toList()));
-
-            detailDTO.setTotalStockCnt(entity.getStockCnt());
-
-            return ResponseDTO.success(detailDTO);
+            return ResponseDTO.success(entity.getStrategyDetailDTO());
         } else {
             return ResponseDTO.error(context.getResultCode(), context.getResultMsg());
         }

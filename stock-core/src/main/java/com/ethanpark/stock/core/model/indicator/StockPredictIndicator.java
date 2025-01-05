@@ -13,6 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 public class StockPredictIndicator {
+    private String code;
+
+    private String name;
+
     /**
      * 金叉个数
      */
