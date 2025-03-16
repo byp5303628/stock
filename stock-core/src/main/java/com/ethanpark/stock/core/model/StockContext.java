@@ -19,4 +19,6 @@ public class StockContext {
     private Map<String, List<StockStatistics>> macdStatsMap;
 
     private List<StockStatistics> monthStats;
+
+    private Map<String, StockStatistics> averageStatsMap;
 }

@@ -7,6 +7,7 @@ import com.ethanpark.stock.remote.model.StockBasic;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,14 +58,14 @@ public class AverageStatStatisticsStrategy implements StatisticsStrategy {
                                                  int num) {
         BigDecimal sum = new BigDecimal(0);
         for (int j = 0; j < num; j++) {
-            sum.add(stockBasicList.get(index - j).getEndPrice());
+            sum = sum.add(stockBasicList.get(index - j).getEndPrice());
         }
 
         if (CollectionUtils.isEmpty(avg.getStatistics())) {
             avg.setStatistics(new HashMap<>());
         }
 
-        avg.getStatistics().put(String.format("dayAvg%d", num), sum.divide(new BigDecimal(num)));
+        avg.getStatistics().put(String.format("dayAvg%d", num), sum.divide(new BigDecimal(num), 4, RoundingMode.HALF_UP));
     }
 
     @Override

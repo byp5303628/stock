@@ -113,8 +113,13 @@ const StrategyDetail = () => {
     const renderIndicators = () => {
         return indicators.map((indicator, index) => {
             let val = indicator.value;
+
+            if (!val) {
+                return null;
+            }
+
             if (indicator.type === "Double") {
-                val = indicator.value.toFixed(2);
+                val = val !== 'Infinity' ? indicator.value.toFixed(2) : 'Infinity';
             } else if (indicator.type === "Percent") {
                 val = (indicator.value * 100).toFixed(2) + "%";
             }

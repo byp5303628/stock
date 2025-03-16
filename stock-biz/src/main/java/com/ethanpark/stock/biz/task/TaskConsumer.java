@@ -40,6 +40,6 @@ public class TaskConsumer {
 
         taskHandler.handle(task);
 
-        log.info("任务处理完成! id={}", taskId);
+        log.info("任务处理完成! id={},", taskId);
     }
 }

@@ -41,6 +41,10 @@ public class BuildStrategyIndicatorRespAction implements BusinessAction {
         for (StockRegressionDetail stockRegressionDetail : stockRegressionDetails) {
             StockPredictIndicatorDTO stockPredictIndicator = new StockPredictIndicatorDTO();
 
+            if (stockRegressionDetail.getStockPredictIndicator() == null) {
+                continue;
+            }
+
             BeanUtils.copyProperties(stockRegressionDetail.getStockPredictIndicator(), stockPredictIndicator);
 
             indicatorDTOS.add(stockPredictIndicator);

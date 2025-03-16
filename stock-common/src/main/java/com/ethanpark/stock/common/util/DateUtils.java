@@ -2,6 +2,7 @@ package com.ethanpark.stock.common.util;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,6 +108,10 @@ public class DateUtils {
      * @return 精确的月份差
      */
     public static double monthDiff(String beginDate, String endDate) {
+        if (StringUtils.isEmpty(beginDate) || StringUtils.isEmpty(endDate)) {
+            return 0D;
+        }
+
         LocalDate localDate1 = LocalDate.parse(beginDate);
         LocalDate localDate2 = LocalDate.parse(endDate);
 
@@ -124,6 +129,10 @@ public class DateUtils {
      * @return 精确的年份差
      */
     public static double yearDiff(String beginDate, String endDate) {
+        if (StringUtils.isEmpty(beginDate) || StringUtils.isEmpty(endDate)) {
+            return 0D;
+        }
+
         LocalDate localDate1 = LocalDate.parse(beginDate);
         LocalDate localDate2 = LocalDate.parse(endDate);
 

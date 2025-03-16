@@ -68,7 +68,6 @@ public class TaskLoader {
                 continue;
             }
 
-            log.info("开始进行任务捞取! taskType={}", scheduleConfig.getTaskType());
             List<Long> taskIds = taskDomainService.selectFireTaskIds(scheduleConfig.getTaskType(),
                     scheduleConfig.getCount());
 

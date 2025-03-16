@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 均线交易策略。
@@ -21,21 +22,40 @@ import java.util.List;
 public class AverageV1TradePolicy extends BaseTradePolicy {
     @Override
     public TradeContext trade0(StockContext context, TradeContext tradeContext) {
-        List<StockStatistics> statistics = context.getMacdStatsMap().get("MACD_12_26");
+
+        Map<String, StockStatistics> averageStatsMap = context.getAverageStatsMap();
+
         List<StockBasic> hfqStocks = context.getHfqStocks();
 
-        for (int i = 0; i < statistics.size(); i++) {
+        for (int i = 1; i < hfqStocks.size(); i++) {
             StockBasic stockBasic = hfqStocks.get(i);
 
-            if (stockBasic.getPartitionDate().compareTo("2014-01-01") < 0) {
+            StockBasic lastStockBasic = hfqStocks.get(i - 1);
+
+            String partitionDate = lastStockBasic.getPartitionDate();
+            if (partitionDate.compareTo("2014-01-01") < 0) {
                 continue;
             }
 
-            StockStatistics statistic = statistics.get(i);
-            BigDecimal macd = statistic.getStatistic("macd");
+            StockStatistics lastStockStatistics = averageStatsMap.get(partitionDate);
+            StockStatistics stockStatistics = averageStatsMap.get(stockBasic.getPartitionDate());
 
+            if (lastStockStatistics == null || stockStatistics == null) {
+                continue;
+            }
 
-            if (macd.compareTo(BigDecimal.ZERO) <= 0) {
+            BigDecimal dayAvg5 = stockStatistics.getStatistic("dayAvg5");
+            BigDecimal dayAvg25 = stockStatistics.getStatistic("dayAvg25");
+            BigDecimal dayAvg150 = stockStatistics.getStatistic("dayAvg150");
+
+            BigDecimal lastDayAvg5 = lastStockStatistics.getStatistic("dayAvg5");
+            BigDecimal lastDayAvg25 = lastStockStatistics.getStatistic("dayAvg25");
+            BigDecimal lastDayAvg150 = lastStockStatistics.getStatistic("dayAvg150");
+
+            if (dayAvg150.compareTo(lastDayAvg150) <= 0
+                    || dayAvg25.compareTo(lastDayAvg150) <= 0
+                    || dayAvg5.compareTo(lastDayAvg5) <= 0
+            ) {
                 tradeContext.sale(stockBasic);
             } else {
                 tradeContext.purchase(stockBasic);
