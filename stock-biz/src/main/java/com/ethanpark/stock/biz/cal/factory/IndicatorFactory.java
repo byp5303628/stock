@@ -1,5 +1,6 @@
 package com.ethanpark.stock.biz.cal.factory;
 
+import com.ethanpark.stock.biz.cal.factory.strategyindicators.StrategyIndicatorCalculator;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

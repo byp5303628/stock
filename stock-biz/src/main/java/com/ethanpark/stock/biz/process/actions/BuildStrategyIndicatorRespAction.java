@@ -1,7 +1,7 @@
 package com.ethanpark.stock.biz.process.actions;
 
 import com.ethanpark.stock.biz.cal.factory.IndicatorFactory;
-import com.ethanpark.stock.biz.cal.factory.StrategyIndicatorCalculator;
+import com.ethanpark.stock.biz.cal.factory.strategyindicators.StrategyIndicatorCalculator;
 import com.ethanpark.stock.biz.dto.StockPredictIndicatorDTO;
 import com.ethanpark.stock.biz.dto.StrategyDetailDTO;
 import com.ethanpark.stock.biz.engine.Action;

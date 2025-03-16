@@ -1,4 +1,4 @@
-package com.ethanpark.stock.biz.cal.factory;
+package com.ethanpark.stock.biz.cal.factory.strategyindicators;
 
 import com.ethanpark.stock.core.model.StockRegressionDetail;
 import com.ethanpark.stock.core.model.indicator.Indicator;

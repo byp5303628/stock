@@ -2,6 +2,7 @@ package com.ethanpark.stock.common.dal.mappers.entity;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -24,9 +25,9 @@ public class TaskDO {
 
     private String resultMsg;
 
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
-    private Date fireTime;
+    private LocalDateTime fireTime;
 }

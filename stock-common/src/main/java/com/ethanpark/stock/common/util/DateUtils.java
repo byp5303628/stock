@@ -6,7 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,17 +54,10 @@ public class DateUtils {
      * @param pattern
      * @return
      */
-    public static Date parseStringToDate(String dateString, String pattern) {
-
-        Date date = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-            date = sdf.parse(dateString); // parse 转成日期的
-            //  sdf.format(new Date());   format转成字符串的
-        } catch (ParseException e) {
-
-        }
-        return date;
+    public static LocalDateTime parseStringToDate(String dateString, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
+        return localDate.atStartOfDay();
     }
 
     public static String plusDay(String partitionDate) {
@@ -99,19 +93,17 @@ public class DateUtils {
     }
 
     public static int getWeekOfYear(String partitionDate) {
-        Date date = parseStringToDate(partitionDate, "yyyy-MM-dd");
-
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDateTime date = parseStringToDate(partitionDate, "yyyy-MM-dd");
 
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
-        return localDate.get(weekFields.weekOfWeekBasedYear());
+        return date.get(weekFields.weekOfWeekBasedYear());
     }
 
     /**
      * 计算两个日期之间的精确月份差（包括小数部分）
      *
      * @param beginDate 第一个日期 (格式: yyyy-MM-dd)
-     * @param endDate 第二个日期 (格式: yyyy-MM-dd)
+     * @param endDate   第二个日期 (格式: yyyy-MM-dd)
      * @return 精确的月份差
      */
     public static double monthDiff(String beginDate, String endDate) {
@@ -128,7 +120,7 @@ public class DateUtils {
      * 计算两个日期之间的精确年份差（包括小数部分）
      *
      * @param beginDate 第一个日期 (格式: yyyy-MM-dd)
-     * @param endDate 第二个日期 (格式: yyyy-MM-dd)
+     * @param endDate   第二个日期 (格式: yyyy-MM-dd)
      * @return 精确的年份差
      */
     public static double yearDiff(String beginDate, String endDate) {
@@ -151,10 +143,8 @@ public class DateUtils {
     }
 
     public static int getMonthOfYear(String partitionDate) {
-        Date date = parseStringToDate(partitionDate, "yyyy-MM-dd");
+        LocalDateTime date = parseStringToDate(partitionDate, "yyyy-MM-dd");
 
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        return localDate.getMonthValue();
+        return date.getMonthValue();
     }
 }

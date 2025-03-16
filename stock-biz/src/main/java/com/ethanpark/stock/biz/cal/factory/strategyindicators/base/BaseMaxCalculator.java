@@ -1,6 +1,6 @@
 package com.ethanpark.stock.biz.cal.factory.strategyindicators.base;
 
-import com.ethanpark.stock.biz.cal.factory.StrategyIndicatorCalculator;
+import com.ethanpark.stock.biz.cal.factory.strategyindicators.StrategyIndicatorCalculator;
 import com.ethanpark.stock.core.model.StockRegressionDetail;
 import com.ethanpark.stock.core.model.indicator.Indicator;
 import com.ethanpark.stock.core.model.indicator.StockPredictIndicator;

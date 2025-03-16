@@ -3,7 +3,7 @@ package com.ethanpark.stock.core.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,9 +28,9 @@ public class Task {
 
     private String resultMsg;
 
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
-    private Date fireTime;
+    private LocalDateTime fireTime;
 }

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: baiyunpeng04
@@ -16,6 +17,8 @@ public class StockPredictIndicator {
     private String code;
 
     private String name;
+
+    private Map<String, Indicator> indicatorMap;
 
     /**
      * 金叉个数

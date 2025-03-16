@@ -5,6 +5,7 @@ import com.ethanpark.stock.common.dal.mappers.entity.*;
 import com.ethanpark.stock.core.model.*;
 import com.ethanpark.stock.remote.model.StockBasic;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,10 +23,10 @@ public class DbConverter {
         dbEntity.setRetryTimes(domain.getRetryTimes());
         dbEntity.setResultMsg(domain.getResultMsg() == null || domain.getResultMsg().length() < 256 ? domain.getResultMsg() : domain.getResultMsg().substring(0, 256));
         dbEntity.setStatus(String.valueOf(domain.getStatus()));
-        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
-        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() :
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? LocalDateTime.now(): domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? LocalDateTime.now() :
                 domain.getGmtModified());
-        dbEntity.setFireTime(domain.getFireTime() == null ? new Date() : domain.getFireTime());
+        dbEntity.setFireTime(domain.getFireTime() == null ? LocalDateTime.now() : domain.getFireTime());
 
         return dbEntity;
     }

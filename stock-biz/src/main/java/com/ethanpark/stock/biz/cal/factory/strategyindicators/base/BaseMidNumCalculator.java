@@ -1,19 +1,21 @@
 package com.ethanpark.stock.biz.cal.factory.strategyindicators.base;
 
 import com.ethanpark.stock.biz.cal.factory.strategyindicators.StrategyIndicatorCalculator;
-import com.ethanpark.stock.biz.cal.factory.strategyindicators.IndicatorType;
 import com.ethanpark.stock.core.model.StockRegressionDetail;
 import com.ethanpark.stock.core.model.indicator.Indicator;
 import com.ethanpark.stock.core.model.indicator.StockPredictIndicator;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * @author: baiyunpeng04
- * @since: 2025/1/4
+ * @since: 2025/1/27
  */
-public abstract class BasePercentCalculator implements StrategyIndicatorCalculator {
+public abstract class BaseMidNumCalculator implements StrategyIndicatorCalculator {
+
     @Override
     public Indicator calculate(List<StockRegressionDetail> details) {
         Indicator indicator = buildNew();
@@ -22,8 +24,7 @@ public abstract class BasePercentCalculator implements StrategyIndicatorCalculat
             return null;
         }
 
-        int matchCnt = 0;
-        int cnt = 0;
+        List<Number> numberList = new ArrayList<>(details.size());
 
         for (StockRegressionDetail detail : details) {
             StockPredictIndicator stockPredictIndicator = detail.getStockPredictIndicator();
@@ -32,26 +33,17 @@ public abstract class BasePercentCalculator implements StrategyIndicatorCalculat
                 continue;
             }
 
-            cnt++;
+            Number increaseTotal = getTargetIndicator(detail);
 
-            if (match(detail)) {
-                matchCnt++;
-            }
+            numberList.add(increaseTotal);
         }
 
-        if (cnt == 0) {
-            return null;
-        }
+        numberList.sort(Comparator.comparingDouble(Number::doubleValue));
 
-        indicator.setValue(matchCnt * 1D / cnt);
+        indicator.setValue(numberList.get(numberList.size() / 2));
 
         return indicator;
     }
 
-    protected abstract boolean match(StockRegressionDetail detail);
-
-    @Override
-    public String getType() {
-        return IndicatorType.PERCENT;
-    }
+    protected abstract Number getTargetIndicator(StockRegressionDetail stockRegressionDetail);
 }

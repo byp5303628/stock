@@ -7,8 +7,10 @@ import com.ethanpark.stock.core.service.StockBasicDomainService;
 import com.ethanpark.stock.remote.HistoryStockClient;
 import com.ethanpark.stock.remote.model.StockBasic;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +47,16 @@ public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
 
         // 创建下一个任务
         String nextStartDate = DateUtils.plusYear(startDate);
+
+        if (!CollectionUtils.isEmpty(stockBasics)) {
+            String lastPartitionDate = stockBasics.get(stockBasics.size() - 1).getPartitionDate();
+
+            if (nextStartDate.compareTo(lastPartitionDate) > 0) {
+                nextStartDate = DateUtils.plusDay(lastPartitionDate, 1);;
+            }
+        }
+
+
         String nextEndDate = DateUtils.plusYear(endDate);
 
         Task nextTask = new Task();
@@ -61,4 +73,13 @@ public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
         return Result.ok();
     }
 
+    public static void main(String[] args) {
+        String a = "2024-05-01";
+        String b = "2024-04-01";
+
+
+        LocalDateTime localDateTime = DateUtils.parseStringToDate(a, "yyyy-MM-dd");
+
+        System.out.println(localDateTime);
+    }
 }

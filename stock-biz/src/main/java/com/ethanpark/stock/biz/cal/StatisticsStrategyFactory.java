@@ -1,5 +1,6 @@
 package com.ethanpark.stock.biz.cal;
 
+import com.ethanpark.stock.biz.cal.impl.AverageStatStatisticsStrategy;
 import com.ethanpark.stock.biz.cal.impl.MacdStatStatisticsStrategy;
 import com.ethanpark.stock.biz.cal.impl.MonthStatStatisticsStrategy;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class StatisticsStrategyFactory {
     public void init() {
         strategies.add(new MonthStatStatisticsStrategy());
         strategies.add(new MacdStatStatisticsStrategy());
+        strategies.add(new AverageStatStatisticsStrategy());
     }
 
 

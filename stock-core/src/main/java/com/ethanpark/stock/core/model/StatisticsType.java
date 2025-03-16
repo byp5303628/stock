@@ -10,6 +10,7 @@ public enum StatisticsType {
 
     MONTH_STAT("月度统计数据"),
     WEEK_STAT("周统计数据"),
+    DAY_STAT("日统计数据"),
     MACD("MACD系列指标"),
     ;
 
