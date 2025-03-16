@@ -47,17 +47,20 @@ public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
 
         // 创建下一个任务
         String nextStartDate = DateUtils.plusYear(startDate);
+        String nextEndDate = DateUtils.plusYear(endDate);
 
         if (!CollectionUtils.isEmpty(stockBasics)) {
             String lastPartitionDate = stockBasics.get(stockBasics.size() - 1).getPartitionDate();
 
             if (nextStartDate.compareTo(lastPartitionDate) > 0) {
-                nextStartDate = DateUtils.plusDay(lastPartitionDate, 1);;
+                nextStartDate = DateUtils.plusDay(lastPartitionDate, 1);
+                nextEndDate = DateUtils.getToday();
             }
+        } else {
+            // 说明这一批里面全在节假日，日期加1即可
+            nextStartDate = DateUtils.plusDay(startDate, 1);
+            nextEndDate = DateUtils.plusDay(endDate, 1);
         }
-
-
-        String nextEndDate = DateUtils.plusYear(endDate);
 
         Task nextTask = new Task();
         nextTask.setTaskType(getTaskType());
@@ -66,7 +69,7 @@ public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
         nextTask.getContext().put("startDate", nextStartDate);
         nextTask.getContext().put("endDate", nextEndDate);
 
-        nextTask.setFireTime(DateUtils.parseStringToDate(nextStartDate, "yyyy-MM-dd"));
+        nextTask.setFireTime(DateUtils.parseStringToDate(nextEndDate, "yyyy-MM-dd"));
 
         taskDomainService.save(nextTask);
 
