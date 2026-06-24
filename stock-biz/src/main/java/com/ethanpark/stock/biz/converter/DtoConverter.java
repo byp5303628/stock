@@ -49,6 +49,10 @@ public class DtoConverter {
     public static TradeCycleDTO toDto(TradeCycle tradeCycle) {
         TradeCycleDTO tradeCycleDTO = new TradeCycleDTO();
 
+        if (tradeCycle.getSaleLog() == null || tradeCycle.getPurchaseLog() == null) {
+            return null;
+        }
+
         tradeCycleDTO.setIncrease(tradeCycle.getIncrease());
         tradeCycleDTO.setPurchaseDate(tradeCycle.getStartDate());
         tradeCycleDTO.setSaleDate(tradeCycle.getEndDate());
@@ -56,7 +60,8 @@ public class DtoConverter {
         tradeCycleDTO.setSalePrice(tradeCycle.getSalePrice());
         tradeCycleDTO.setPurchaseDetail(tradeCycle.getPurchaseLog().getStockBasic());
         tradeCycleDTO.setSaleDetail(tradeCycle.getSaleLog().getStockBasic());
-        tradeCycleDTO.setGoldDays(DateUtils.dayDiff(tradeCycle.getStartDate(), tradeCycle.getEndDate()));
+        tradeCycleDTO.setGoldDays(DateUtils.dayDiff(tradeCycle.getStartDate(),
+                tradeCycle.getEndDate()));
 
         return tradeCycleDTO;
     }

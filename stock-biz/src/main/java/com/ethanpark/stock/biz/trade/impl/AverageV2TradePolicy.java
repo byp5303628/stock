@@ -19,7 +19,7 @@ import java.util.Map;
  * @since: 2025/3/15
  */
 @Service
-public class AverageV1TradePolicy extends BaseTradePolicy {
+public class AverageV2TradePolicy extends BaseTradePolicy {
     @Override
     public TradeContext trade0(StockContext context, TradeContext tradeContext) {
 
@@ -53,6 +53,7 @@ public class AverageV1TradePolicy extends BaseTradePolicy {
             BigDecimal lastDayAvg150 = lastStockStatistics.getStatistic("dayAvg150");
 
             if (dayAvg150.compareTo(lastDayAvg150) <= 0
+                    || dayAvg25.compareTo(lastDayAvg25) <= 0
                     || dayAvg25.compareTo(lastDayAvg150) <= 0
                     || dayAvg5.compareTo(lastDayAvg5) <= 0
             ) {
@@ -67,7 +68,7 @@ public class AverageV1TradePolicy extends BaseTradePolicy {
 
     @Override
     public String getDescription() {
-        return "均线交易策略， 25日均线上窜 150日均线；150均线高于昨天 150日均线;5日均线高于昨日 5 日均线，进行买入，否则卖出";
+        return "均线交易策略， 25日均线上窜 150日均线；25日均线高于昨天 25日均线，150均线高于昨天 150日均线，5日均线高于昨日 5 日均线，进行买入，否则卖出";
     }
 
     @Override

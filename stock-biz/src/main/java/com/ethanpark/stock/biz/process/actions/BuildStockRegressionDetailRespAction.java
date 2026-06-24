@@ -13,6 +13,7 @@ import com.ethanpark.stock.core.model.TradeCycle;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +45,7 @@ public class BuildStockRegressionDetailRespAction implements BusinessAction {
         List<TradeCycle> tradeCycles = stockRegressionDetail.getTradeCycles();
 
 
-        List<TradeCycleDTO> tradeCycleDtos = tradeCycles.stream().map(i -> DtoConverter.toDto(i)).collect(Collectors.toList());
+        List<TradeCycleDTO> tradeCycleDtos = tradeCycles.stream().map(i -> DtoConverter.toDto(i)).filter(Objects::nonNull).collect(Collectors.toList());
 
         resultDTO.setTradeCycles(tradeCycleDtos);
         resultDTO.setStrategyDetailDTO(entity.getStrategyDetailDTO());

@@ -12,7 +12,13 @@ const StrategyDetail = () => {
     const [indicators, setIndicators] = useState([]);
     const [stockPredictIndicators, setStockPredictIndicators] = useState([]);
 
+    const [filter, setFilter] = useState(''); // 添加状态变量
+
     const name = searchParams.get("name");
+
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value); // 更新筛选条件
+    };
 
     useEffect(() => {
         getStockStrategyByName(name).then(r => {
@@ -153,6 +159,14 @@ const StrategyDetail = () => {
             </Card>
             <Card title={"策略分析"} style={{ marginTop: 8 }}>
                 <StrategyAnalysis stockPredictIndicators={stockPredictIndicators} />
+            </Card>
+            <Card >
+            <input 
+                type="text" 
+                placeholder="筛选代码" 
+                value={filter} 
+                onChange={handleFilterChange} // 处理输入变化
+            />
             </Card>
             <Card title={"个股详情"} style={{ marginTop: 8 }}>
                 <Table columns={columns} dataSource={stockPredictIndicators} />
