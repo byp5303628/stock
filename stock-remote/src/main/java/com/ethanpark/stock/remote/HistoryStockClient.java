@@ -93,6 +93,6 @@ public class HistoryStockClient {
         List<StockBasic> stockBasics = client.queryStockHistory("600519", "2024-01-01", "2025-01" +
                 "-01", true);
 
-        System.out.println(JSONArray.toJSONString(stockBasics));
+        log.info(JSONArray.toJSONString(stockBasics));
     }
 }

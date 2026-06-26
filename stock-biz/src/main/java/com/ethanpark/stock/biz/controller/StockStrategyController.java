@@ -8,16 +8,14 @@ import com.ethanpark.stock.biz.dto.StrategyDetailDTO;
 import com.ethanpark.stock.biz.engine.ProcessContext;
 import com.ethanpark.stock.biz.engine.ProcessExecutor;
 import com.ethanpark.stock.biz.engine.config.ProcessConfigCache;
-import com.ethanpark.stock.biz.engine.config.ProcessConfigCacheImpl;
+import com.ethanpark.stock.biz.exception.BusinessException;
 import com.ethanpark.stock.biz.process.entity.StockStrategyDetailEntity;
 import com.ethanpark.stock.biz.process.entity.StrategyDetailEntity;
 import com.ethanpark.stock.biz.process.entity.StrategyDetailRegressionEntity;
 import com.ethanpark.stock.biz.trade.TradePolicy;
 import com.ethanpark.stock.biz.trade.TradePolicyFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,16 +27,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/stock-strategy")
 public class StockStrategyController {
 
-    @Resource
-    private TradePolicyFactory tradePolicyFactory;
+    private final TradePolicyFactory tradePolicyFactory;
 
-    @Resource
-    private ProcessConfigCache processConfigCache;
+    private final ProcessConfigCache processConfigCache;
 
-    @Resource
-    private ProcessExecutor processExecutor;
-    @Autowired
-    private ProcessConfigCacheImpl processConfigCacheImpl;
+    private final ProcessExecutor processExecutor;
+
+    public StockStrategyController(TradePolicyFactory tradePolicyFactory,
+                                   ProcessConfigCache processConfigCache,
+                                   ProcessExecutor processExecutor) {
+        this.tradePolicyFactory = tradePolicyFactory;
+        this.processConfigCache = processConfigCache;
+        this.processExecutor = processExecutor;
+    }
 
     @GetMapping("/list.json")
     public ResponseDTO<List<StrategyDTO>> getStockStrategyList() {
@@ -67,15 +68,15 @@ public class StockStrategyController {
 
         processExecutor.execute(context);
 
-        if (entity.isSuccess()) {
-            return ResponseDTO.success(entity.getStrategyDetailDTO());
-        } else {
-            return ResponseDTO.error(context.getResultCode(), context.getResultMsg());
+        if (!entity.isSuccess()) {
+            throw new BusinessException(context.getResultCode(), context.getResultMsg());
         }
+        return ResponseDTO.success(entity.getStrategyDetailDTO());
     }
 
     @GetMapping("/stock-detail.json")
-    public ResponseDTO<StockRegressionDetailDTO> getStockAndPolicyDetail(@RequestParam("name") String name, @RequestParam("code") String code) {
+    public ResponseDTO<StockRegressionDetailDTO> getStockAndPolicyDetail(
+            @RequestParam("name") String name, @RequestParam("code") String code) {
         ProcessContext context = new ProcessContext();
 
         context.setProductCode("stock_strategy");
@@ -92,13 +93,11 @@ public class StockStrategyController {
 
         processExecutor.execute(context);
 
-        if (entity.isSuccess()) {
-            return ResponseDTO.success(entity.getResultDTO());
-        } else {
-            return ResponseDTO.error(context.getResultCode(), context.getResultMsg());
+        if (!entity.isSuccess()) {
+            throw new BusinessException(context.getResultCode(), context.getResultMsg());
         }
+        return ResponseDTO.success(entity.getResultDTO());
     }
-
 
     @PostMapping("/create-regression.json")
     public ResponseDTO<Void> createRegression(@RequestParam("name") String name) {
@@ -117,12 +116,10 @@ public class StockStrategyController {
 
         processExecutor.execute(context);
 
-        if (entity.isSuccess()) {
-            return ResponseDTO.success();
-        } else {
-            return ResponseDTO.error(context.getResultCode(), context.getResultMsg());
+        if (!entity.isSuccess()) {
+            throw new BusinessException(context.getResultCode(), context.getResultMsg());
         }
-
+        return ResponseDTO.success();
     }
 
 }

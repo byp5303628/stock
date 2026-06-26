@@ -76,13 +76,5 @@ public class HfqHistoryRegressionTaskHandler extends BaseTaskHandler {
         return Result.ok();
     }
 
-    public static void main(String[] args) {
-        String a = "2024-05-01";
-        String b = "2024-04-01";
-
-
-        LocalDateTime localDateTime = DateUtils.parseStringToDate(a, "yyyy-MM-dd");
-
-        System.out.println(localDateTime);
-    }
+    // main method intentionally omitted - use tests for validation
 }

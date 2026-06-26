@@ -40,6 +40,6 @@
         where code = #{code}
           and statistic_type = #{statisticsType}
         order by partition_date
-        limit ${offset}, ${limitNum}
+        limit #{offset}, #{limitNum}
     </select>
 </mapper>

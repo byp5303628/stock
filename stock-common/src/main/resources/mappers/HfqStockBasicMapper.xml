@@ -48,7 +48,7 @@
         select * from hfq_stock_basic
         where code = #{code}
         order by partition_date
-        limit ${offset}, ${limitNum}
+        limit #{offset}, #{limitNum}
     </select>
 
     <select id="selectLatest" resultMap="BaseResultMap">
