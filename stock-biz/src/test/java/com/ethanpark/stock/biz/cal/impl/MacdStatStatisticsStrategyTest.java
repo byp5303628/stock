@@ -1,8 +1,8 @@
 package com.ethanpark.stock.biz.cal.impl;
 
 import com.ethanpark.stock.core.model.MacdStat;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ public class MacdStatStatisticsStrategyTest {
 
         List<MacdStat> ema = new MacdStatStatisticsStrategy(12, 26).calculateMacd(list);
 
-        Assert.assertNotNull(ema);
-        Assert.assertTrue(ema.size() > 0);
+        Assertions.assertNotNull(ema);
+        Assertions.assertTrue(ema.size() > 0);
     }
 
 

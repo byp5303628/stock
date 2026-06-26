@@ -8,6 +8,11 @@
     <packaging>jar</packaging>
     <name>stock-web</name>
 
+    <properties>
+        <jacoco.min.line.cover>0.00</jacoco.min.line.cover>
+        <jacoco.min.branch.cover>0.00</jacoco.min.branch.cover>
+    </properties>
+
     <parent>
         <groupId>com.ethanpark.stock</groupId>
         <artifactId>stock-parent</artifactId>
@@ -35,12 +40,6 @@
             <groupId>com.ethanpark.stock</groupId>
             <artifactId>stock-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

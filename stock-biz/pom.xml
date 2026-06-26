@@ -8,6 +8,11 @@
     <packaging>jar</packaging>
     <name>stock-biz</name>
 
+    <properties>
+        <jacoco.min.line.cover>0.02</jacoco.min.line.cover>
+        <jacoco.min.branch.cover>0.01</jacoco.min.branch.cover>
+    </properties>
+
     <parent>
         <groupId>com.ethanpark.stock</groupId>
         <artifactId>stock-parent</artifactId>
@@ -43,8 +48,8 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

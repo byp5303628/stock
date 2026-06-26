@@ -8,6 +8,11 @@
     <packaging>jar</packaging>
     <name>stock-common</name>
 
+    <properties>
+        <jacoco.min.line.cover>0.08</jacoco.min.line.cover>
+        <jacoco.min.branch.cover>0.00</jacoco.min.branch.cover>
+    </properties>
+
     <parent>
         <groupId>com.ethanpark.stock</groupId>
         <artifactId>stock-parent</artifactId>
@@ -67,8 +72,8 @@
             <artifactId>commons-math3</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

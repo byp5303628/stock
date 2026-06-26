@@ -1,7 +1,7 @@
 package com.ethanpark.stock.common.util;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DateUtilsTest {
 
@@ -11,7 +11,7 @@ public class DateUtilsTest {
 
         String resultDate = DateUtils.plusYear(date);
 
-        Assert.assertEquals(resultDate, "2020-01-01");
+        Assertions.assertEquals(resultDate, "2020-01-01");
     }
 
     @Test
@@ -20,6 +20,6 @@ public class DateUtilsTest {
 
         int weekOfYear = DateUtils.getWeekOfYear(date);
 
-        Assert.assertEquals(weekOfYear, 1);
+        Assertions.assertEquals(weekOfYear, 1);
     }
 }
