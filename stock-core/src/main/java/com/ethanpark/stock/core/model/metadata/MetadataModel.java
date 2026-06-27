@@ -21,6 +21,8 @@ public class MetadataModel {
     private String modelType;
     private String description;
     private String status;
+    private Integer currentVersion;
+    private String snapshotHash;
     private Map<String, Object> extInfo;
     private List<MetadataField> fields;
     private Date gmtCreate;

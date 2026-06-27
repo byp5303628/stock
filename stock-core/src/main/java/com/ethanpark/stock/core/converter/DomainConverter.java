@@ -9,6 +9,7 @@ import com.ethanpark.stock.core.model.metadata.MetadataEnum;
 import com.ethanpark.stock.core.model.metadata.MetadataEnumValue;
 import com.ethanpark.stock.core.model.metadata.MetadataField;
 import com.ethanpark.stock.core.model.metadata.MetadataModel;
+import com.ethanpark.stock.core.model.metadata.MetadataModelVersion;
 import com.ethanpark.stock.remote.model.StockBasic;
 
 import java.util.Map;
@@ -128,6 +129,8 @@ public class DomainConverter {
         domain.setModelType(dbEntity.getModelType());
         domain.setDescription(dbEntity.getDescription());
         domain.setStatus(dbEntity.getStatus());
+        domain.setCurrentVersion(dbEntity.getCurrentVersion());
+        domain.setSnapshotHash(dbEntity.getSnapshotHash());
         domain.setExtInfo(parseExtInfo(dbEntity.getExtInfo()));
         domain.setGmtCreate(dbEntity.getGmtCreate());
         domain.setGmtModified(dbEntity.getGmtModified());
@@ -195,6 +198,30 @@ public class DomainConverter {
         domain.setValueLabel(dbEntity.getValueLabel());
         domain.setSortOrder(dbEntity.getSortOrder());
         domain.setExtInfo(parseExtInfo(dbEntity.getExtInfo()));
+        domain.setGmtCreate(dbEntity.getGmtCreate());
+        domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
+    /**
+     * 将 MetadataModelVersionDO 转换为 MetadataModelVersion 领域对象。
+     */
+    public static MetadataModelVersion toDomain(MetadataModelVersionDO dbEntity) {
+        if (dbEntity == null) {
+            return null;
+        }
+
+        MetadataModelVersion domain = new MetadataModelVersion();
+        domain.setId(dbEntity.getId());
+        domain.setModelCode(dbEntity.getModelCode());
+        domain.setModelId(dbEntity.getModelId());
+        domain.setVersion(dbEntity.getVersion());
+        if (dbEntity.getSchemaContent() != null && !dbEntity.getSchemaContent().isEmpty()) {
+            domain.setSchemaContent(JSON.parseObject(dbEntity.getSchemaContent(),
+                    new TypeReference<Map<String, Object>>() {}));
+        }
+        domain.setVersionDesc(dbEntity.getVersionDesc());
         domain.setGmtCreate(dbEntity.getGmtCreate());
         domain.setGmtModified(dbEntity.getGmtModified());
 

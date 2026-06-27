@@ -15,6 +15,7 @@ public enum ErrorCode {
     METADATA_FIELD_NOT_FOUND(42003, "字段不存在"),
     METADATA_ENUM_HAS_REFS(42004, "枚举被引用，无法删除"),
     METADATA_CODE_DUPLICATE(42005, "编码重复"),
+    METADATA_VERSION_NOT_FOUND(42006, "模型版本不存在"),
     ;
     private int code;
     private String msg;

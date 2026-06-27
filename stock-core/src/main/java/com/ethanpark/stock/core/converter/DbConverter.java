@@ -7,6 +7,7 @@ import com.ethanpark.stock.core.model.metadata.MetadataEnum;
 import com.ethanpark.stock.core.model.metadata.MetadataEnumValue;
 import com.ethanpark.stock.core.model.metadata.MetadataField;
 import com.ethanpark.stock.core.model.metadata.MetadataModel;
+import com.ethanpark.stock.core.model.metadata.MetadataModelVersion;
 import com.ethanpark.stock.remote.model.StockBasic;
 
 import java.time.LocalDateTime;
@@ -121,6 +122,8 @@ public class DbConverter {
         dbEntity.setModelType(domain.getModelType());
         dbEntity.setDescription(domain.getDescription());
         dbEntity.setStatus(domain.getStatus() == null ? "DRAFT" : domain.getStatus());
+        dbEntity.setCurrentVersion(domain.getCurrentVersion() == null ? 0 : domain.getCurrentVersion());
+        dbEntity.setSnapshotHash(domain.getSnapshotHash());
         dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
@@ -188,6 +191,34 @@ public class DbConverter {
         dbEntity.setValueLabel(domain.getValueLabel());
         dbEntity.setSortOrder(domain.getSortOrder() == null ? 0 : domain.getSortOrder());
         dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+
+        return dbEntity;
+    }
+
+    /**
+     * 将 MetadataModelVersion 领域对象转换为 MetadataModelVersionDO 持久化对象。
+     *
+     * <p>NOT NULL 默认值（与 basic_init.sql 对齐）：
+     * <ul>
+     *   <li>versionDesc → ""</li>
+     *   <li>schemaContent → null（允许 null）</li>
+     * </ul>
+     */
+    public static MetadataModelVersionDO toDbEntity(MetadataModelVersion domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        MetadataModelVersionDO dbEntity = new MetadataModelVersionDO();
+        dbEntity.setId(domain.getId());
+        dbEntity.setModelCode(domain.getModelCode());
+        dbEntity.setModelId(domain.getModelId());
+        dbEntity.setVersion(domain.getVersion());
+        dbEntity.setSchemaContent(domain.getSchemaContent() != null
+                ? JSON.toJSONString(domain.getSchemaContent()) : null);
+        dbEntity.setVersionDesc(domain.getVersionDesc() == null ? "" : domain.getVersionDesc());
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
 

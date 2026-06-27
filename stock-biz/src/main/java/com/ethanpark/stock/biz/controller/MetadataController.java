@@ -10,6 +10,7 @@ import com.ethanpark.stock.core.service.MetadataDomainService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,7 +60,9 @@ public class MetadataController {
         List<MetadataField> fields = metadataDomainService.getFieldsByModelId(id);
         model.setFields(fields);
 
-        return ResponseDTO.success(DtoConverter.toDto(model));
+        MetadataModelDTO dto = DtoConverter.toDto(model);
+        dto.setCurrentVersion(model.getCurrentVersion());
+        return ResponseDTO.success(dto);
     }
 
     /**
@@ -87,11 +90,11 @@ public class MetadataController {
     }
 
     /**
-     * 发布模型（将状态改为 PUBLISHED）。
+     * 发布模型（生成版本快照）。
      */
     @PostMapping("/model/publish.json")
-    public ResponseDTO<Void> publishModel(@RequestBody @Valid ValidateRequest request) {
-        metadataDomainService.publishModel(request.getModelId());
+    public ResponseDTO<Void> publishModel(@RequestBody @Valid PublishModelRequest request) {
+        metadataDomainService.publishModel(request.getModelId(), request.getVersionDesc());
         return ResponseDTO.success();
     }
 
@@ -99,10 +102,18 @@ public class MetadataController {
      * 生成模型的 JSON Schema。
      *
      * <p>根据模型字段配置动态生成 JSON Schema (draft-07)，可用于 AI 或系统间数据校验。
+     * 支持指定版本号获取对应版本的 Schema。
      */
     @GetMapping("/model/schema.json")
-    public ResponseDTO<Map<String, Object>> getModelSchema(@RequestParam Long id) {
-        Map<String, Object> schema = metadataDomainService.generateJsonSchema(id);
+    public ResponseDTO<Map<String, Object>> getModelSchema(
+            @RequestParam Long id,
+            @RequestParam(required = false) Integer version) {
+        Map<String, Object> schema;
+        if (version != null) {
+            schema = metadataDomainService.getSchemaByVersion(id, version);
+        } else {
+            schema = metadataDomainService.getModelSchema(id);
+        }
         return ResponseDTO.success(schema);
     }
 
@@ -112,6 +123,44 @@ public class MetadataController {
     @DeleteMapping("/model/delete.json")
     public ResponseDTO<Void> deleteModel(@RequestParam Long id) {
         metadataDomainService.deleteModel(id);
+        return ResponseDTO.success();
+    }
+
+    // ===== 版本管理 =====
+
+    /**
+     * 获取模型版本列表。
+     *
+     * <p>返回模型的所有历史版本，标记当前生效版本。
+     */
+    @GetMapping("/model/versions.json")
+    public ResponseDTO<List<ModelVersionDTO>> listModelVersions(@RequestParam Long id) {
+        MetadataModel model = metadataDomainService.getModelById(id);
+        if (model == null) {
+            throw new BusinessException(ErrorCode.METADATA_MODEL_NOT_FOUND);
+        }
+        List<MetadataModelVersion> versions = metadataDomainService.listModelVersions(id);
+        Integer currentVersion = model.getCurrentVersion() == null ? 0 : model.getCurrentVersion();
+        // list is desc sorted by version
+        int maxVersion = versions.isEmpty() ? 0 : versions.get(0).getVersion();
+        List<ModelVersionDTO> dtos = new ArrayList<>();
+        for (MetadataModelVersion v : versions) {
+            ModelVersionDTO dto = DtoConverter.toDto(v);
+            boolean isCurrent = (currentVersion == 0)
+                    ? v.getVersion().equals(maxVersion)
+                    : v.getVersion().equals(currentVersion);
+            dto.setIsCurrent(isCurrent);
+            dtos.add(dto);
+        }
+        return ResponseDTO.success(dtos);
+    }
+
+    /**
+     * 切换当前生效版本。
+     */
+    @PostMapping("/model/switch-version.json")
+    public ResponseDTO<Void> switchModelVersion(@RequestBody @Valid SwitchVersionRequest request) {
+        metadataDomainService.switchModelVersion(request.getModelId(), request.getVersion());
         return ResponseDTO.success();
     }
 

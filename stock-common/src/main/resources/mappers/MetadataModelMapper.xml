@@ -9,6 +9,8 @@
         <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="ext_info" jdbcType="VARCHAR" property="extInfo"/>
+        <result column="current_version" jdbcType="INTEGER" property="currentVersion"/>
+        <result column="snapshot_hash" jdbcType="VARCHAR" property="snapshotHash"/>
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
@@ -32,18 +34,20 @@
     </select>
 
     <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.MetadataModelDO" useGeneratedKeys="true" keyProperty="id">
-        insert into metadata_model (name, code, model_type, description, status, ext_info, gmt_create, gmt_modified)
-        values (#{name}, #{code}, #{modelType}, #{description}, #{status}, #{extInfo}, now(), now())
+        insert into metadata_model (name, code, model_type, description, status, ext_info, current_version, snapshot_hash, gmt_create, gmt_modified)
+        values (#{name}, #{code}, #{modelType}, #{description}, #{status}, #{extInfo}, #{currentVersion}, #{snapshotHash}, now(), now())
     </insert>
 
     <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.MetadataModelDO">
         update metadata_model
-        set name        = #{name}
-          , code        = #{code}
-          , model_type  = #{modelType}
-          , description = #{description}
-          , status      = #{status}
-          , ext_info    = #{extInfo}
+        set name            = #{name}
+          , code            = #{code}
+          , model_type      = #{modelType}
+          , description     = #{description}
+          , status          = #{status}
+          , ext_info        = #{extInfo}
+          , current_version = #{currentVersion}
+          , snapshot_hash   = #{snapshotHash}
         where id = #{id}
     </update>
 

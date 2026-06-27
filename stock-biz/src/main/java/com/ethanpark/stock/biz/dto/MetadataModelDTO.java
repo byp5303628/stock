@@ -19,6 +19,7 @@ public class MetadataModelDTO {
     private String modelType;
     private String description;
     private String status;
+    private Integer currentVersion;
     private List<MetadataFieldDTO> fields;
     private String gmtCreate;
     private String gmtModified;

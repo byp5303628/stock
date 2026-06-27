@@ -93,15 +93,17 @@ create table if not exists stock_regression_detail
 
 create table if not exists metadata_model
 (
-    id          bigint                 not null primary key auto_increment,
-    name        varchar(128)           not null comment '模型名称',
-    code        varchar(64)            not null comment '模型编码',
-    model_type  varchar(32)            not null comment '模型类型',
-    description varchar(1024)          not null default '' comment '业务说明',
-    status      varchar(16)            not null default 'DRAFT' comment '状态',
-    ext_info    json                            comment '扩展属性',
-    gmt_create  datetime               not null default now(),
-    gmt_modified datetime              not null default now() on update now(),
+    id              bigint                 not null primary key auto_increment,
+    name            varchar(128)           not null comment '模型名称',
+    code            varchar(64)            not null comment '模型编码',
+    model_type      varchar(32)            not null comment '模型类型',
+    description     varchar(1024)          not null default '' comment '业务说明',
+    status          varchar(16)            not null default 'DRAFT' comment '状态',
+    ext_info        json                            comment '扩展属性',
+    current_version int                    not null default 0 comment '当前版本号',
+    snapshot_hash   varchar(64)                     comment '当前快照哈希',
+    gmt_create      datetime               not null default now(),
+    gmt_modified    datetime               not null default now() on update now(),
     unique index uniq_idx_code (code),
     index idx_model_type (model_type),
     index idx_gmt_modified (gmt_modified)
@@ -150,5 +152,20 @@ create table if not exists metadata_enum_value
     gmt_create  datetime               not null default now(),
     gmt_modified datetime              not null default now() on update now(),
     unique index uniq_idx_enum_value (enum_id, value_code),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4;
+
+create table if not exists metadata_model_version
+(
+    id             bigint                 not null primary key auto_increment,
+    model_code     varchar(64)            not null comment '模型编码',
+    model_id       bigint                 not null comment '模型 ID',
+    version        int                    not null comment '版本号',
+    schema_content mediumtext                      comment '模型 schema 快照 (JSON)',
+    version_desc   varchar(512)           not null default '' comment '版本描述',
+    gmt_create     datetime               not null default now(),
+    gmt_modified   datetime               not null default now() on update now(),
+    unique index uniq_idx_model_id_version (model_id, version),
+    index idx_model_code (model_code),
     index idx_gmt_modified (gmt_modified)
 ) engine = InnoDB default charset = utf8mb4;
