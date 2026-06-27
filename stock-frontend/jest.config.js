@@ -14,5 +14,6 @@ export default async () => {
     },
     setupFiles: [...(config.setupFiles || []), './tests/setupTests.jsx'],
     globals: { ...config.globals, localStorage: null },
+    coverageReporters: ['text', 'lcov', 'clover', 'json', 'cobertura'],
   };
 };

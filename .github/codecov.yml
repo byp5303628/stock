@@ -1,0 +1,38 @@
+# Codecov configuration
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  status:
+    project:
+      default:
+        # Allow small coverage drops without failing CI
+        threshold: 2%
+    patch:
+      default:
+        # Patch coverage check
+        threshold: 5%
+
+  # Optional: Round precision
+  precision: 2
+  round: down
+
+comment:
+  # PR comment behavior
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+
+# Ignore paths
+ignore:
+  - "stock-frontend/node_modules/"
+  - "stock-frontend/.umi/"
+  - "stock-frontend/tests/"
+  - "**/target/"
+  - "**/src/test/"
+  - "**/generated/"
+
+flags:
+  backend:
+    carryforward: false
+  frontend:
+    carryforward: false
