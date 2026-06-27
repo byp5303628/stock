@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>stock-integration-test</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>stock-integration-test</name>
+
+    <properties>
+        <!-- 跳过 JaCoCo：本模块无生产代码，覆盖率由各模块单测覆盖 -->
+        <jacoco.skip>true</jacoco.skip>
+    </properties>
+
+    <parent>
+        <groupId>com.ethanpark.stock</groupId>
+        <artifactId>stock-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+        <!-- 依赖 stock-web，传递引入所有其他模块 -->
+        <dependency>
+            <groupId>com.ethanpark.stock</groupId>
+            <artifactId>stock-web</artifactId>
+        </dependency>
+
+        <!-- failsafe 运行在 integration-test 阶段，不能用 test scope -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!-- H2 内存数据库用于集成测试 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <!-- ArchUnit 架构测试 -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+        </dependency>
+
+        <!-- 架构检测需要引用 JPA 注解（Entity/Table），JDK 17 不再内置 javax.persistence -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <!-- 与 surefire 共享 skipTests 属性 -->
+                    <skipITs>${skipTests}</skipITs>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

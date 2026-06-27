@@ -5,10 +5,13 @@ import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.biz.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.stream.Collectors;
 
 /**
  * 全局异常处理器 — 统一捕获异常并转为 ResponseDTO.
@@ -24,6 +27,18 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseDTO<Void> handleBusiness(BusinessException e) {
         return ResponseDTO.error(e.getCode(), e.getMessage());
+    }
+
+    /**
+     * H1: 处理 @Valid 校验失败，收集所有字段错误信息并返回给客户端。
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResponseDTO<Void> handleValidation(MethodArgumentNotValidException e) {
+        String msg = e.getBindingResult().getFieldErrors().stream()
+                .map(err -> err.getField() + ": " + err.getDefaultMessage())
+                .collect(Collectors.joining("; "));
+        return ResponseDTO.error(ErrorCode.ILLEGAL_PARAM.getCode(), msg);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)

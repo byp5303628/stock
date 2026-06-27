@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.MetadataEnumValueMapper">
+    <resultMap id="BaseResultMap" type="com.ethanpark.stock.common.dal.mappers.entity.MetadataEnumValueDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enum_id" jdbcType="BIGINT" property="enumId"/>
+        <result column="value_code" jdbcType="VARCHAR" property="valueCode"/>
+        <result column="value_label" jdbcType="VARCHAR" property="valueLabel"/>
+        <result column="sort_order" jdbcType="INTEGER" property="sortOrder"/>
+        <result column="ext_info" jdbcType="VARCHAR" property="extInfo"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+
+    <select id="selectByEnumId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select *
+        from metadata_enum_value
+        where enum_id = #{enumId}
+        order by sort_order asc
+    </select>
+
+    <!-- C3: 批量查询消除 N+1 -->
+    <select id="selectByEnumIds" resultMap="BaseResultMap">
+        select *
+        from metadata_enum_value
+        where enum_id in
+        <foreach collection="list" item="enumId" open="(" separator="," close=")">
+            #{enumId}
+        </foreach>
+        order by enum_id asc, sort_order asc
+    </select>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.MetadataEnumValueDO" useGeneratedKeys="true" keyProperty="id">
+        insert into metadata_enum_value (enum_id, value_code, value_label, sort_order, ext_info, gmt_create, gmt_modified)
+        values (#{enumId}, #{valueCode}, #{valueLabel}, #{sortOrder}, #{extInfo}, now(), now())
+    </insert>
+
+    <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.MetadataEnumValueDO">
+        update metadata_enum_value
+        set enum_id     = #{enumId}
+          , value_code  = #{valueCode}
+          , value_label = #{valueLabel}
+          , sort_order  = #{sortOrder}
+          , ext_info    = #{extInfo}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from metadata_enum_value
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByEnumId" parameterType="java.lang.Long">
+        delete from metadata_enum_value
+        where enum_id = #{enumId}
+    </delete>
+</mapper>

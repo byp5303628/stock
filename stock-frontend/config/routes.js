@@ -54,6 +54,24 @@ export default [
                 path: '/operation/schedule-config-list',
                 name: '调度配置',
                 component: './OperationTool/ScheduleConfigList'
+            },
+            {
+                path: '/operation/metadata-model-list',
+                name: '元数据模型',
+                component: './Metadata/ModelList'
+            },
+            {
+                path: '/operation/metadata-model-list/model-editor',
+                component: './Metadata/ModelEditor'
+            },
+            {
+                path: '/operation/metadata-model-list/model-detail',
+                component: './Metadata/ModelDetail'
+            },
+            {
+                path: '/operation/metadata-enum-list',
+                name: '枚举管理',
+                component: './Metadata/EnumManager'
             }
         ]
     },

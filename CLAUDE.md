@@ -6,6 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 股票交易策略回测分析系统，支持从公开数据源获取日K线数据，应用多种交易策略进行回测，生成统计指标和可视化报表。
 
+### 详细文档
+
+- **[架构设计](doc/architecture.md)** — 设计哲学、分层架构、核心概念、架构守卫规则
+- **[模块详解](doc/modules.md)** — 各模块的完整包结构和设计决策
+- **[流程引擎](doc/process-engine.md)** — Process Engine 的设计原理和执行机制
+- **[数据流](doc/data-flow.md)** — 数据如何从 API 请求流转到数据库再到响应
+
 - **后端**: JDK 17 + Spring Boot 2.5.6 + Maven 多模块
 - **前端**: React 18 + Ant Design Pro (UmiJS 4)
 - **数据库**: MySQL (MyBatis)

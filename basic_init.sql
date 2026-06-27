@@ -90,3 +90,65 @@ create table if not exists stock_regression_detail
     index idx_gmt_modified (gmt_modified)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
+
+create table if not exists metadata_model
+(
+    id          bigint                 not null primary key auto_increment,
+    name        varchar(128)           not null comment '模型名称',
+    code        varchar(64)            not null comment '模型编码',
+    model_type  varchar(32)            not null comment '模型类型',
+    description varchar(1024)          not null default '' comment '业务说明',
+    status      varchar(16)            not null default 'DRAFT' comment '状态',
+    ext_info    json                            comment '扩展属性',
+    gmt_create  datetime               not null default now(),
+    gmt_modified datetime              not null default now() on update now(),
+    unique index uniq_idx_code (code),
+    index idx_model_type (model_type),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4;
+
+create table if not exists metadata_field
+(
+    id              bigint                 not null primary key auto_increment,
+    model_id        bigint                 not null comment '所属模型',
+    field_name      varchar(64)            not null comment '字段名',
+    field_type      varchar(32)            not null comment '字段类型',
+    business_meaning varchar(1024)         not null default '' comment '业务含义',
+    required        tinyint(1)             not null default 0 comment '是否必填',
+    constraints     json                            comment '约束条件',
+    enum_id         bigint                          comment '绑定的枚举 ID',
+    sort_order      int                    not null default 0 comment '排序',
+    ext_info        json                            comment '扩展属性',
+    gmt_create      datetime               not null default now(),
+    gmt_modified    datetime               not null default now() on update now(),
+    unique index uniq_idx_model_field (model_id, field_name),
+    index idx_enum_id (enum_id),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4;
+
+create table if not exists metadata_enum
+(
+    id          bigint                 not null primary key auto_increment,
+    name        varchar(128)           not null comment '枚举名称',
+    code        varchar(64)            not null comment '枚举编码',
+    description varchar(512)           not null default '' comment '描述',
+    status      varchar(16)            not null default 'ENABLED' comment '状态',
+    gmt_create  datetime               not null default now(),
+    gmt_modified datetime              not null default now() on update now(),
+    unique index uniq_idx_code (code),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4;
+
+create table if not exists metadata_enum_value
+(
+    id          bigint                 not null primary key auto_increment,
+    enum_id     bigint                 not null comment '所属枚举',
+    value_code  varchar(64)            not null comment '取值编码',
+    value_label varchar(128)           not null comment '取值展示名',
+    sort_order  int                    not null default 0 comment '排序',
+    ext_info    json                            comment '扩展属性',
+    gmt_create  datetime               not null default now(),
+    gmt_modified datetime              not null default now() on update now(),
+    unique index uniq_idx_enum_value (enum_id, value_code),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4;

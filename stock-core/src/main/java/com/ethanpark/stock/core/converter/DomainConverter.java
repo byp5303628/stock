@@ -1,10 +1,17 @@
 package com.ethanpark.stock.core.converter;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.ethanpark.stock.common.dal.mappers.entity.*;
 import com.ethanpark.stock.common.util.JsonUtils;
 import com.ethanpark.stock.core.model.*;
+import com.ethanpark.stock.core.model.metadata.MetadataEnum;
+import com.ethanpark.stock.core.model.metadata.MetadataEnumValue;
+import com.ethanpark.stock.core.model.metadata.MetadataField;
+import com.ethanpark.stock.core.model.metadata.MetadataModel;
 import com.ethanpark.stock.remote.model.StockBasic;
+
+import java.util.Map;
 
 /**
  * @author: baiyunpeng04
@@ -104,5 +111,100 @@ public class DomainConverter {
         result.setTradeCycles(JSON.parseArray(dbEntity.getTradeCycles(), TradeCycle.class));
 
         return result;
+    }
+
+    /**
+     * 将 MetadataModelDO 转换为 MetadataModel 领域对象。
+     */
+    public static MetadataModel toDomain(MetadataModelDO dbEntity) {
+        if (dbEntity == null) {
+            return null;
+        }
+
+        MetadataModel domain = new MetadataModel();
+        domain.setId(dbEntity.getId());
+        domain.setName(dbEntity.getName());
+        domain.setCode(dbEntity.getCode());
+        domain.setModelType(dbEntity.getModelType());
+        domain.setDescription(dbEntity.getDescription());
+        domain.setStatus(dbEntity.getStatus());
+        domain.setExtInfo(parseExtInfo(dbEntity.getExtInfo()));
+        domain.setGmtCreate(dbEntity.getGmtCreate());
+        domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
+    /**
+     * 将 MetadataFieldDO 转换为 MetadataField 领域对象。
+     */
+    public static MetadataField toDomain(MetadataFieldDO dbEntity) {
+        if (dbEntity == null) {
+            return null;
+        }
+
+        MetadataField domain = new MetadataField();
+        domain.setId(dbEntity.getId());
+        domain.setModelId(dbEntity.getModelId());
+        domain.setFieldName(dbEntity.getFieldName());
+        domain.setFieldType(dbEntity.getFieldType());
+        domain.setBusinessMeaning(dbEntity.getBusinessMeaning());
+        domain.setRequired(dbEntity.getRequired() != null && dbEntity.getRequired() == 1);
+        domain.setConstraints(parseExtInfo(dbEntity.getConstraints()));
+        domain.setEnumId(dbEntity.getEnumId());
+        domain.setSortOrder(dbEntity.getSortOrder());
+        domain.setExtInfo(parseExtInfo(dbEntity.getExtInfo()));
+        domain.setGmtCreate(dbEntity.getGmtCreate());
+        domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
+    /**
+     * 将 MetadataEnumDO 转换为 MetadataEnum 领域对象。
+     */
+    public static MetadataEnum toDomain(MetadataEnumDO dbEntity) {
+        if (dbEntity == null) {
+            return null;
+        }
+
+        MetadataEnum domain = new MetadataEnum();
+        domain.setId(dbEntity.getId());
+        domain.setName(dbEntity.getName());
+        domain.setCode(dbEntity.getCode());
+        domain.setDescription(dbEntity.getDescription());
+        domain.setStatus(dbEntity.getStatus());
+        domain.setGmtCreate(dbEntity.getGmtCreate());
+        domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
+    /**
+     * 将 MetadataEnumValueDO 转换为 MetadataEnumValue 领域对象。
+     */
+    public static MetadataEnumValue toDomain(MetadataEnumValueDO dbEntity) {
+        if (dbEntity == null) {
+            return null;
+        }
+
+        MetadataEnumValue domain = new MetadataEnumValue();
+        domain.setId(dbEntity.getId());
+        domain.setEnumId(dbEntity.getEnumId());
+        domain.setValueCode(dbEntity.getValueCode());
+        domain.setValueLabel(dbEntity.getValueLabel());
+        domain.setSortOrder(dbEntity.getSortOrder());
+        domain.setExtInfo(parseExtInfo(dbEntity.getExtInfo()));
+        domain.setGmtCreate(dbEntity.getGmtCreate());
+        domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
+    private static Map<String, Object> parseExtInfo(String extInfo) {
+        if (extInfo == null || extInfo.isEmpty()) {
+            return null;
+        }
+        return JSON.parseObject(extInfo, new TypeReference<Map<String, Object>>() {});
     }
 }

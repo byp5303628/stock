@@ -1,0 +1,2 @@
+# 此标记文件存在时，用户级 claude-hook-wrapper.sh 将跳过所有 hook 执行
+# 项目级 .claude/settings.json 中的 hooks 配置独立生效

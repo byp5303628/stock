@@ -47,6 +47,7 @@
         <module>stock-common</module>
         <module>stock-remote</module>
         <module>stock-core</module>
+        <module>stock-integration-test</module>
     </modules>
 
     <dependencyManagement>
@@ -109,6 +110,11 @@
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
+                <groupId>com.ethanpark.stock</groupId>
+                <artifactId>stock-integration-test</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
@@ -161,6 +167,11 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.2.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>

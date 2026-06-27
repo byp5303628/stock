@@ -3,10 +3,15 @@ package com.ethanpark.stock.core.converter;
 import com.alibaba.fastjson.JSON;
 import com.ethanpark.stock.common.dal.mappers.entity.*;
 import com.ethanpark.stock.core.model.*;
+import com.ethanpark.stock.core.model.metadata.MetadataEnum;
+import com.ethanpark.stock.core.model.metadata.MetadataEnumValue;
+import com.ethanpark.stock.core.model.metadata.MetadataField;
+import com.ethanpark.stock.core.model.metadata.MetadataModel;
 import com.ethanpark.stock.remote.model.StockBasic;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author: baiyunpeng04
@@ -99,5 +104,100 @@ public class DbConverter {
         dbEntity.setGmtModified(domain.getGmtModified());
 
         return dbEntity;
+    }
+
+    /**
+     * 将 MetadataModel 领域对象转换为 MetadataModelDO 持久化对象。
+     */
+    public static MetadataModelDO toDbEntity(MetadataModel domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        MetadataModelDO dbEntity = new MetadataModelDO();
+        dbEntity.setId(domain.getId());
+        dbEntity.setName(domain.getName());
+        dbEntity.setCode(domain.getCode());
+        dbEntity.setModelType(domain.getModelType());
+        dbEntity.setDescription(domain.getDescription());
+        dbEntity.setStatus(domain.getStatus());
+        dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+
+        return dbEntity;
+    }
+
+    /**
+     * 将 MetadataField 领域对象转换为 MetadataFieldDO 持久化对象。
+     */
+    public static MetadataFieldDO toDbEntity(MetadataField domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        MetadataFieldDO dbEntity = new MetadataFieldDO();
+        dbEntity.setId(domain.getId());
+        dbEntity.setModelId(domain.getModelId());
+        dbEntity.setFieldName(domain.getFieldName());
+        dbEntity.setFieldType(domain.getFieldType());
+        dbEntity.setBusinessMeaning(domain.getBusinessMeaning());
+        dbEntity.setRequired(domain.getRequired() != null && domain.getRequired() ? 1 : 0);
+        dbEntity.setConstraints(toJsonString(domain.getConstraints()));
+        dbEntity.setEnumId(domain.getEnumId());
+        dbEntity.setSortOrder(domain.getSortOrder());
+        dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+
+        return dbEntity;
+    }
+
+    /**
+     * 将 MetadataEnum 领域对象转换为 MetadataEnumDO 持久化对象。
+     */
+    public static MetadataEnumDO toDbEntity(MetadataEnum domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        MetadataEnumDO dbEntity = new MetadataEnumDO();
+        dbEntity.setId(domain.getId());
+        dbEntity.setName(domain.getName());
+        dbEntity.setCode(domain.getCode());
+        dbEntity.setDescription(domain.getDescription());
+        dbEntity.setStatus(domain.getStatus());
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+
+        return dbEntity;
+    }
+
+    /**
+     * 将 MetadataEnumValue 领域对象转换为 MetadataEnumValueDO 持久化对象。
+     */
+    public static MetadataEnumValueDO toDbEntity(MetadataEnumValue domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        MetadataEnumValueDO dbEntity = new MetadataEnumValueDO();
+        dbEntity.setId(domain.getId());
+        dbEntity.setEnumId(domain.getEnumId());
+        dbEntity.setValueCode(domain.getValueCode());
+        dbEntity.setValueLabel(domain.getValueLabel());
+        dbEntity.setSortOrder(domain.getSortOrder());
+        dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
+        dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
+        dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
+
+        return dbEntity;
+    }
+
+    private static String toJsonString(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) {
+            return null;
+        }
+        return JSON.toJSONString(map);
     }
 }
