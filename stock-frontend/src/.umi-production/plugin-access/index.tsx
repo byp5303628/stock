@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 import React, { PropsWithChildren } from 'react';
 import { AccessContext } from './context';
-import type { IRoute } from 'umi';
+import type { IRoute } from '@umijs/max';
 
 export const useAccess = () => {
   return React.useContext(AccessContext);

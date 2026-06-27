@@ -61,10 +61,6 @@ export default [
                 component: './Metadata/ModelList'
             },
             {
-                path: '/operation/metadata-model-list/model-editor',
-                component: './Metadata/ModelEditor'
-            },
-            {
                 path: '/operation/metadata-model-list/model-detail',
                 component: './Metadata/ModelDetail'
             },

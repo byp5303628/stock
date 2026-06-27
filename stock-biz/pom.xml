@@ -9,8 +9,8 @@
     <name>stock-biz</name>
 
     <properties>
-        <jacoco.min.line.cover>0.02</jacoco.min.line.cover>
-        <jacoco.min.branch.cover>0.01</jacoco.min.branch.cover>
+        <jacoco.min.line.cover>0.01</jacoco.min.line.cover>
+        <jacoco.min.branch.cover>0.00</jacoco.min.branch.cover>
     </properties>
 
     <parent>

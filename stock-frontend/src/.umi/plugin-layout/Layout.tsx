@@ -4,8 +4,10 @@
 /// <reference types="/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@ant-design/pro-components" />
 
 
-import { Link, useLocation, useNavigate, Outlet, useAppData, useRouteData, matchRoutes } from 'umi';
-import type { IRoute } from 'umi';
+import {
+  Link, useLocation, useNavigate, Outlet, useAppData, matchRoutes,
+  type IRoute
+} from '@umijs/max';
 import React, { useMemo } from 'react';
 import {
   ProLayout,
@@ -114,7 +116,7 @@ const { formatMessage } = useIntl();
     <ProLayout
       route={route}
       location={location}
-      title={userConfig.title || 'plugin-layout'}
+      title={userConfig.title || 'ant-design-pro'}
       navTheme="dark"
       siderWidth={256}
       onMenuHeaderClick={(e) => {

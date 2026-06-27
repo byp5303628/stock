@@ -15,10 +15,10 @@ export * from '/Users/baiyunpeng04/workspace/stock/stock-frontend/src/.umi-produ
 export * from '/Users/baiyunpeng04/workspace/stock/stock-frontend/src/.umi-production/plugin-layout/types.d';
 export * from '/Users/baiyunpeng04/workspace/stock/stock-frontend/src/.umi-production/plugin-request/types.d';
 // @umijs/renderer-*
-export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/max/node_modules/@umijs/renderer-react';
-export type { History } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/max/node_modules/@umijs/renderer-react'
+export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/renderer-react';
+export type { History, ClientLoader } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/renderer-react'
 // umi/client/client/plugin
-export { ApplyPluginsType, PluginManager } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/max/node_modules/umi/client/client/plugin.js';
+export { ApplyPluginsType, PluginManager } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/umi/client/client/plugin.js';
 export { history, createHistory } from './core/history';
 export { terminal } from './core/terminal';
 // react ssr

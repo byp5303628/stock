@@ -4,6 +4,7 @@ import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.model.metadata.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 元数据领域服务接口。
@@ -56,6 +57,12 @@ public interface MetadataDomainService {
 
     /** Schema 校验 */
     ValidationResult validateSchema(Long modelId);
+
+    /** 发布模型（将状态改为 PUBLISHED） */
+    void publishModel(Long modelId);
+
+    /** 生成 JSON Schema */
+    Map<String, Object> generateJsonSchema(Long modelId);
 
     /** 枚举使用统计 */
     EnumUsage getEnumUsage(Long enumId);

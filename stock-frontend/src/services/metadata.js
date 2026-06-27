@@ -17,6 +17,18 @@ export async function validateModel(data) {
   return request("/api/metadata/model/validate.json", { method: 'POST', data });
 }
 
+export async function deleteModel(id) {
+  return request(`/api/metadata/model/delete.json?id=${id}`, { method: 'DELETE' });
+}
+
+export async function publishModel(data) {
+  return request("/api/metadata/model/publish.json", { method: 'POST', data });
+}
+
+export async function getModelSchema(id) {
+  return request(`/api/metadata/model/schema.json?id=${id}`);
+}
+
 // ===== 字段管理 =====
 export async function saveField(data) {
   return request("/api/metadata/field/save.json", { method: 'POST', data });

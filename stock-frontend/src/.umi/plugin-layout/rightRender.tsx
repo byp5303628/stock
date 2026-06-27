@@ -20,21 +20,28 @@ export function getRightRenderContent (opts: {
     );
   }
 
-
-  const avatar = (
-    <span className="umi-plugin-layout-action">
-        <Avatar
-          size="small"
-          className="umi-plugin-layout-avatar"
-          src={
-            opts.initialState?.avatar ||
-            'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
-          }
-          alt="avatar"
-        />
-        <span className="umi-plugin-layout-name">{opts.initialState?.name}</span>
+  const showAvatar = opts.initialState?.avatar || opts.initialState?.name || opts.runtimeConfig.logout;
+  const disableAvatarImg = opts.initialState?.avatar === false;
+  const nameClassName = disableAvatarImg ? 'umi-plugin-layout-name umi-plugin-layout-hide-avatar-img' : 'umi-plugin-layout-name';
+  const avatar =
+    showAvatar ? (
+      <span className="umi-plugin-layout-action">
+        {!disableAvatarImg ?
+          (
+            <Avatar
+              size="small"
+              className="umi-plugin-layout-avatar"
+              src={
+                opts.initialState?.avatar ||
+                "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
+              }
+              alt="avatar"
+            />
+          ) : null}
+        <span className={nameClassName}>{opts.initialState?.name}</span>
       </span>
-  );
+    ) : null;
+
 
   if (opts.loading) {
     return (
@@ -43,6 +50,8 @@ export function getRightRenderContent (opts: {
       </div>
     );
   }
+
+  // 如果没有打开Locale，并且头像为空就取消掉这个返回的内容
 
   const langMenu = {
     className: "umi-plugin-layout-menu",
@@ -64,7 +73,7 @@ export function getRightRenderContent (opts: {
   };
   // antd@5 和  4.24 之后推荐使用 menu，性能更好
   let dropdownProps;
-  if (version.startsWith("5.") || version.startsWith("4.24.")) {
+  if (version.startsWith("6.") || version.startsWith("5.") || version.startsWith("4.24.")) {
     dropdownProps = { menu: langMenu };
   } else if (version.startsWith("3.")) {
     dropdownProps = {
@@ -81,6 +90,7 @@ export function getRightRenderContent (opts: {
   } else { // 需要 antd 4.20.0 以上版本
     dropdownProps = { overlay: <Menu {...langMenu} /> };
   }
+
 
 
   return (

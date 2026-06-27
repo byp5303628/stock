@@ -562,7 +562,7 @@ public class MetadataIT {
         assertNotNull(createdModelId, "需要先创建模型");
 
         ResponseEntity<ResponseDTO<Map<String, Object>>> response = restTemplate.exchange(
-                baseUrl() + "/api/metadata/indicator/indicator/meaning?code=TEST_INDICATOR_001",
+                baseUrl() + "/api/metadata/indicator/meaning?code=TEST_INDICATOR_001",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
@@ -586,7 +586,7 @@ public class MetadataIT {
         assertNotNull(createdModelId, "需要先创建模型");
 
         ResponseEntity<ResponseDTO<Map<String, Object>>> response = restTemplate.exchange(
-                baseUrl() + "/api/metadata/indicator/indicator/usage?code=TEST_INDICATOR_001",
+                baseUrl() + "/api/metadata/indicator/usage?code=TEST_INDICATOR_001",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}

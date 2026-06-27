@@ -50,7 +50,7 @@ export function getPlugins() {
 }
 
 export function getValidKeys() {
-  return ['patchRoutes','patchClientRoutes','modifyContextOpts','modifyClientRenderOpts','rootContainer','innerProvider','i18nProvider','accessProvider','dataflowProvider','outerProvider','render','onRouteChange','antd','getInitialState','layout','locale','qiankun','request',];
+  return ['patchRoutes','patchClientRoutes','modifyContextOpts','modifyClientRenderOpts','rootContainer','innerProvider','i18nProvider','accessProvider','dataflowProvider','outerProvider','render','onRouteChange','modifyServerLoaderRequest','antd','getInitialState','layout','locale','qiankun','request',];
 }
 
 let pluginManager = null;

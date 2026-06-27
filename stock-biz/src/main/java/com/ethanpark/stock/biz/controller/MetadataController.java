@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -83,6 +84,35 @@ public class MetadataController {
     public ResponseDTO<ValidationResultDTO> validateModel(@RequestBody @Valid ValidateRequest request) {
         ValidationResult result = metadataDomainService.validateSchema(request.getModelId());
         return ResponseDTO.success(DtoConverter.toDto(result));
+    }
+
+    /**
+     * 发布模型（将状态改为 PUBLISHED）。
+     */
+    @PostMapping("/model/publish.json")
+    public ResponseDTO<Void> publishModel(@RequestBody @Valid ValidateRequest request) {
+        metadataDomainService.publishModel(request.getModelId());
+        return ResponseDTO.success();
+    }
+
+    /**
+     * 生成模型的 JSON Schema。
+     *
+     * <p>根据模型字段配置动态生成 JSON Schema (draft-07)，可用于 AI 或系统间数据校验。
+     */
+    @GetMapping("/model/schema.json")
+    public ResponseDTO<Map<String, Object>> getModelSchema(@RequestParam Long id) {
+        Map<String, Object> schema = metadataDomainService.generateJsonSchema(id);
+        return ResponseDTO.success(schema);
+    }
+
+    /**
+     * 删除元数据模型（物理删除，同时删除关联字段）。
+     */
+    @DeleteMapping("/model/delete.json")
+    public ResponseDTO<Void> deleteModel(@RequestParam Long id) {
+        metadataDomainService.deleteModel(id);
+        return ResponseDTO.success();
     }
 
     // ===== 字段管理 =====

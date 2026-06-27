@@ -120,7 +120,7 @@ public class DbConverter {
         dbEntity.setCode(domain.getCode());
         dbEntity.setModelType(domain.getModelType());
         dbEntity.setDescription(domain.getDescription());
-        dbEntity.setStatus(domain.getStatus());
+        dbEntity.setStatus(domain.getStatus() == null ? "DRAFT" : domain.getStatus());
         dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
@@ -141,11 +141,11 @@ public class DbConverter {
         dbEntity.setModelId(domain.getModelId());
         dbEntity.setFieldName(domain.getFieldName());
         dbEntity.setFieldType(domain.getFieldType());
-        dbEntity.setBusinessMeaning(domain.getBusinessMeaning());
+        dbEntity.setBusinessMeaning(domain.getBusinessMeaning() == null ? "" : domain.getBusinessMeaning());
         dbEntity.setRequired(domain.getRequired() != null && domain.getRequired() ? 1 : 0);
         dbEntity.setConstraints(toJsonString(domain.getConstraints()));
         dbEntity.setEnumId(domain.getEnumId());
-        dbEntity.setSortOrder(domain.getSortOrder());
+        dbEntity.setSortOrder(domain.getSortOrder() == null ? 0 : domain.getSortOrder());
         dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
@@ -166,7 +166,7 @@ public class DbConverter {
         dbEntity.setName(domain.getName());
         dbEntity.setCode(domain.getCode());
         dbEntity.setDescription(domain.getDescription());
-        dbEntity.setStatus(domain.getStatus());
+        dbEntity.setStatus(domain.getStatus() == null ? "ENABLED" : domain.getStatus());
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());
 
@@ -186,7 +186,7 @@ public class DbConverter {
         dbEntity.setEnumId(domain.getEnumId());
         dbEntity.setValueCode(domain.getValueCode());
         dbEntity.setValueLabel(domain.getValueLabel());
-        dbEntity.setSortOrder(domain.getSortOrder());
+        dbEntity.setSortOrder(domain.getSortOrder() == null ? 0 : domain.getSortOrder());
         dbEntity.setExtInfo(toJsonString(domain.getExtInfo()));
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());

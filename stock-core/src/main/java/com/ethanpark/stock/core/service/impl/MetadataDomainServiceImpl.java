@@ -433,6 +433,109 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
         return result;
     }
 
+    // ===== 模型发布 =====
+
+    @Override
+    @CacheEvict(value = CACHE_MODELS, key = CACHE_KEY_ALL)
+    public void publishModel(Long modelId) {
+        MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
+        if (modelDO == null) {
+            return;
+        }
+        modelDO.setStatus(STATUS_PUBLISHED);
+        metadataModelMapper.updateById(modelDO);
+    }
+
+    // ===== JSON Schema 生成 =====
+
+    @Override
+    public Map<String, Object> generateJsonSchema(Long modelId) {
+        Map<String, Object> schema = new LinkedHashMap<>();
+
+        MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
+        if (modelDO == null) {
+            schema.put("error", "模型不存在: id=" + modelId);
+            return schema;
+        }
+
+        List<MetadataFieldDO> fieldDOs = metadataFieldMapper.selectByModelId(modelId);
+
+        schema.put("$schema", "https://json-schema.org/draft-07/schema#");
+        schema.put("type", "object");
+        schema.put("title", modelDO.getCode() + " - " + modelDO.getName());
+        schema.put("description", modelDO.getDescription() != null ? modelDO.getDescription() : "");
+
+        // properties
+        Map<String, Object> properties = new LinkedHashMap<>();
+        List<String> required = new ArrayList<>();
+
+        for (MetadataFieldDO field : fieldDOs) {
+            Map<String, Object> prop = new LinkedHashMap<>();
+            prop.put("type", toJsonSchemaType(field.getFieldType()));
+            if (field.getBusinessMeaning() != null && !field.getBusinessMeaning().isEmpty()) {
+                prop.put("description", field.getBusinessMeaning());
+            }
+
+            // ENUM 类型: 填充 enum 值列表
+            if ("ENUM".equals(field.getFieldType()) && field.getEnumId() != null) {
+                List<MetadataEnumValueDO> values = metadataEnumValueMapper.selectByEnumId(field.getEnumId());
+                if (values != null && !values.isEmpty()) {
+                    List<String> enumValues = values.stream()
+                            .map(MetadataEnumValueDO::getValueCode)
+                            .collect(Collectors.toList());
+                    prop.put("enum", enumValues);
+                }
+            }
+
+            // INTEGER 类型默认值
+            if ("INTEGER".equals(field.getFieldType()) || "NUMBER".equals(field.getFieldType())) {
+                prop.put("default", 0);
+            } else if ("BOOLEAN".equals(field.getFieldType())) {
+                prop.put("default", false);
+            } else if ("STRING".equals(field.getFieldType())) {
+                prop.put("default", "");
+            }
+
+            properties.put(field.getFieldName(), prop);
+
+            if (field.getRequired() != null && field.getRequired() == 1) {
+                required.add(field.getFieldName());
+            }
+        }
+
+        schema.put("properties", properties);
+        if (!required.isEmpty()) {
+            schema.put("required", required);
+        }
+
+        return schema;
+    }
+
+    /**
+     * 将内部字段类型映射为 JSON Schema type。
+     */
+    private String toJsonSchemaType(String fieldType) {
+        if (fieldType == null) {
+            return "string";
+        }
+        switch (fieldType) {
+            case "STRING":
+            case "DATE":
+            case "DATETIME":
+            case "ENUM":
+                return "string";
+            case "INTEGER":
+                return "integer";
+            case "NUMBER":
+            case "DECIMAL":
+                return "number";
+            case "BOOLEAN":
+                return "boolean";
+            default:
+                return "string";
+        }
+    }
+
     // ===== 枚举使用统计 =====
 
     @Override

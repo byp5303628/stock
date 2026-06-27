@@ -7,6 +7,10 @@ export type {
   AxiosResponse,
   AxiosError,
   RequestError,
+  RequestInterceptorAxios,
+  RequestInterceptorUmiRequest,
+  RequestInterceptor,
+  ErrorInterceptor,
   ResponseInterceptor,
   RequestOptions,
   Request } from './request';

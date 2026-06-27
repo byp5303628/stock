@@ -5,7 +5,7 @@ import './core/polyfill';
 import '/Users/baiyunpeng04/workspace/stock/stock-frontend/src/global.less';
 import '/Users/baiyunpeng04/workspace/stock/stock-frontend/src/global.jsx';
 import 'antd/dist/reset.css';
-import { renderClient } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/max/node_modules/@umijs/renderer-react';
+import { renderClient } from '/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/renderer-react';
 import { getRoutes } from './core/route';
 import { createPluginManager } from './core/plugin';
 import { createHistory } from './core/history';
@@ -49,15 +49,18 @@ async function render() {
     type: ApplyPluginsType.compose,
     initialValue() {
       const context = {
+        useStream: true,
         routes,
         routeComponents,
         pluginManager,
+        mountElementId: 'root',
         rootElement: contextOpts.rootElement || document.getElementById('root'),
         publicPath,
         runtimePublicPath,
         history,
         historyType,
         basename,
+        __INTERNAL_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {"pureApp":false,"pureHtml":false},
         callback: contextOpts.callback,
       };
       const modifiedContext = pluginManager.applyPlugins({
@@ -73,6 +76,8 @@ async function render() {
 import './plugin-moment2dayjs/runtime.tsx'
 render();
 
-window.g_umi = {
-  version: '4.0.89',
-};
+    if (typeof window !== 'undefined') {
+      window.g_umi = {
+        version: '4.6.68',
+      };
+    }

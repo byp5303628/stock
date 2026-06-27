@@ -12,6 +12,7 @@ interface IDefaultRuntimeConfig {
   patchClientRoutes?: (props: { routes: any }) => void;
   render?: (oldRender: () => void) => void;
   rootContainer?: (lastRootContainer: JSX.Element, args?: any) => void;
+  modifyServerLoaderRequest?: (memo: { url: string, options: RequestInit }, args: { id: string, basename?: string }) => { url: string, options: RequestInit };
   [key: string]: any;
 }
 export type RuntimeConfig = IDefaultRuntimeConfig & Plugin0 & Plugin1 & Plugin2 & Plugin3 & Plugin4

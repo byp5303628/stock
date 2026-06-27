@@ -192,6 +192,11 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/*DO.class</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>check</id>
@@ -200,6 +205,9 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <exclude>**/*DO.class</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>

@@ -140,8 +140,27 @@ public record ApiResponse<T>(boolean success, T data, String error) {
 }
 ```
 
+## DbConverter — DB 默认值同步（强制）
+
+**每次新增 DO 类或修改 DB 表结构后，必须在 DbConverter 中为所有 NOT NULL + DEFAULT 列提供 null-safe 默认值。**
+
+```java
+// ❌ 错误：NOT NULL 字段直接透传
+dbEntity.setStatus(domain.getStatus());
+
+// ✅ 正确：与 DB DEFAULT 对齐
+dbEntity.setStatus(domain.getStatus() == null ? "DRAFT" : domain.getStatus());
+dbEntity.setSortOrder(domain.getSortOrder() == null ? 0 : domain.getSortOrder());
+```
+
+**为什么 DB 有 DEFAULT 但还会报错？**
+MyBatis INSERT 显式传 `null` 时，MySQL 不会使用 DEFAULT，而是直接报 `Column 'xxx' cannot be null`。
+
+> **详细规则**: [db-converter.md](db-converter.md) — 包含完整对照表、检查清单和反例分析。
+
 ## References
 
 See skill: `springboot-patterns` for Spring Boot architecture patterns.
 See skill: `quarkus-patterns` for Quarkus architecture patterns with REST, Panache, and messaging.
 See skill: `jpa-patterns` for entity design and query optimization.
+See rule: [db-converter.md](db-converter.md) — DB 字段默认值同步规则（新增实体必读）

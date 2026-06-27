@@ -1,7 +1,7 @@
 import { PageContainer } from "@ant-design/pro-components";
-import { Button, Card, Form, Input, message, Modal, Select, Table, Tag, Space } from "antd";
+import { Button, Card, Form, Input, message, Modal, Popconfirm, Select, Table, Tag, Space } from "antd";
 import { useEffect, useState } from "react";
-import { listModels, saveModel } from "@/services/metadata";
+import { listModels, saveModel, deleteModel } from "@/services/metadata";
 import { useForm } from "antd/es/form/Form";
 import { formItemLayout } from "@/pages/common";
 
@@ -38,10 +38,10 @@ const ModelList = () => {
 
   const columns = [
     {
-      title: '模型名称', dataIndex: 'name', key: 'name',
+      title: '模型编码', dataIndex: 'code', key: 'code',
     },
     {
-      title: '模型编码', dataIndex: 'code', key: 'code',
+      title: '模型名称', dataIndex: 'name', key: 'name',
     },
     {
       title: '模型类型', dataIndex: 'modelType', key: 'modelType',
@@ -76,6 +76,13 @@ const ModelList = () => {
             form.setFieldsValue(record);
             setVisible(true);
           }}>编辑</a>
+          <Popconfirm
+            title="确定要删除此模型吗？"
+            description="删除后将同时删除关联的所有字段。"
+            onConfirm={() => handleDelete(id)}
+          >
+            <a style={{ color: 'red' }}>删除</a>
+          </Popconfirm>
         </Space>;
       }
     },
@@ -103,6 +110,17 @@ const ModelList = () => {
     });
   };
 
+  const handleDelete = (id) => {
+    deleteModel(id).then(r => {
+      if (r && r.code === 200) {
+        message.success("模型已删除");
+        refresh();
+      } else {
+        message.error(r?.msg || "删除失败");
+      }
+    }).catch(() => message.error('操作失败，请稍后重试'));
+  };
+
   const openCreateModal = () => {
     setEditingModel(null);
     form.resetFields();
@@ -127,11 +145,11 @@ const ModelList = () => {
       }}
     >
       <Form form={form}>
-        <Form.Item {...formItemLayout} name={"name"} label={"模型名称"} rules={[{ required: true, message: '请输入模型名称' }]}>
-          <Input/>
-        </Form.Item>
         <Form.Item {...formItemLayout} name={"code"} label={"模型编码"} rules={[{ required: true, message: '请输入模型编码' }]}>
           <Input disabled={!!editingModel}/>
+        </Form.Item>
+        <Form.Item {...formItemLayout} name={"name"} label={"模型名称"} rules={[{ required: true, message: '请输入模型名称' }]}>
+          <Input/>
         </Form.Item>
         <Form.Item {...formItemLayout} name={"modelType"} label={"模型类型"} rules={[{ required: true, message: '请选择模型类型' }]}>
           <Select options={MODEL_TYPES}/>

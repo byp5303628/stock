@@ -82,6 +82,7 @@ interface IConfigTypes {
 
 };
     writeToDisk: boolean;
+    transformRuntime: { [x: string]: any };
     theme: { [x: string]: any };
     targets: { [x: string]: any };
     svgr: { [x: string]: any };
@@ -216,7 +217,8 @@ interface IConfigTypes {
     imports?: (Array<string> | undefined);
 };
     routePrefetch: {
-
+    defaultPrefetch?: ("none" | "intent" | "render" | "viewport" | undefined);
+    defaultPrefetchTimeout?: (number | undefined);
 };
     terminal: {
 
@@ -230,8 +232,14 @@ interface IConfigTypes {
 };
     ssr: {
     serverBuildPath?: (string | undefined);
+    serverBuildTarget?: ("express" | "worker" | undefined);
     platform?: (string | undefined);
-    builder?: ("esbuild" | "webpack" | undefined);
+    builder?: ("esbuild" | "webpack" | "mako" | "utoopack" | undefined);
+    __INTERNAL_DO_NOT_USE_OR_YOU_WILL_BE_FIRED?: ({
+    pureApp?: (boolean | undefined);
+    pureHtml?: (boolean | undefined);
+} | undefined);
+    useStream?: (boolean | undefined);
 };
     lowImport: {
     libs?: (Array<any> | undefined);
@@ -268,6 +276,34 @@ interface IConfigTypes {
     ui: {
 
 };
+    mako: {
+    plugins?: (Array<{
+    load?: (((...args: any[]) => unknown) | undefined);
+    generateEnd?: (((...args: any[]) => unknown) | undefined);
+}> | undefined);
+    px2rem?: ({
+    root?: (number | undefined);
+    propBlackList?: (Array<string> | undefined);
+    propWhiteList?: (Array<string> | undefined);
+    selectorBlackList?: (Array<string> | undefined);
+    selectorWhiteList?: (Array<string> | undefined);
+    selectorDoubleList?: (Array<string> | undefined);
+} | undefined);
+    experimental?: ({
+    webpackSyntaxValidate?: (Array<string> | undefined);
+} | undefined);
+    flexBugs?: (boolean | undefined);
+    optimization?: ({
+    skipModules?: (boolean | undefined);
+} | undefined);
+};
+    forget: boolean | {
+    ReactCompilerConfig?: (({ [x: string]: any } | undefined) | undefined);
+};
+    reactCompiler: boolean | { [x: string]: any };
+    utoopack: boolean | {
+    root?: (string | undefined);
+};
     hmrGuardian: boolean;
     verifyCommit: {
     scope?: (Array<string> | undefined);
@@ -283,15 +319,21 @@ interface IConfigTypes {
     ga_v2?: (string | undefined);
 };
     antd: {
-    configProvider?: ({ [x: string]: any } | undefined);
     dark?: (boolean | undefined);
     compact?: (boolean | undefined);
     import?: (boolean | undefined);
     style?: ("less" | "css" | undefined);
-    theme?: ({ [x: string]: any } | undefined);
+    theme?: ({
+    components: { [x: string]: { [x: string]: any } };
+} | { [x: string]: any } | undefined);
     appConfig?: ({ [x: string]: any } | undefined);
     momentPicker?: (boolean | undefined);
     styleProvider?: ({ [x: string]: any } | undefined);
+    configProvider?: ({
+    theme: {
+    components: { [x: string]: { [x: string]: any } };
+} | { [x: string]: any };
+} | { [x: string]: any } | undefined);
 };
     dva: {
     extraModels?: (Array<string> | undefined);
@@ -320,6 +362,9 @@ interface IConfigTypes {
 
 } | undefined);
     keyResolver?: (string | undefined);
+    runtimeEntryPath?: ({
+
+} | undefined);
 }> | undefined);
     shared?: ({ [x: string]: any } | undefined);
     library?: ({ [x: string]: any } | undefined);
@@ -327,6 +372,7 @@ interface IConfigTypes {
 };
     model: {
     extraModels?: (Array<string> | undefined);
+    sort?: ((((...args: any[]) => unknown) | undefined) | undefined);
 };
     moment2dayjs: {
     preset?: ("antd" | "antdv3" | "none" | undefined);
@@ -353,10 +399,16 @@ interface IConfigTypes {
 };
 };
 
+type UtoopackConfigOverride = {
+  utoopack?: boolean | Partial<import('umi').IUtoopackUserConfig>;
+};
+
 type PrettifyWithCloseable<T> = {
   [K in keyof T]: T[K] | false;
 } & {};
 
 export type IConfigFromPlugins = PrettifyWithCloseable<
-  IConfigFromPluginsJoi & Partial<IConfigTypes>
+  IConfigFromPluginsJoi &
+    Omit<Partial<IConfigTypes>, keyof UtoopackConfigOverride> &
+    UtoopackConfigOverride
 >;
