@@ -14,7 +14,8 @@ const MODEL_TYPES = [
 const STATUS_MAP = {
   'DRAFT': { color: 'default', text: '草稿' },
   'PUBLISHED': { color: 'green', text: '已发布' },
-  'DEPRECATED': { color: 'orange', text: '已废弃' },
+  'CHANGING': { color: 'orange', text: '变更中' },
+  'DEPRECATED': { color: 'red', text: '已废弃' },
 };
 
 const ModelList = () => {
@@ -23,6 +24,10 @@ const ModelList = () => {
   const [visible, setVisible] = useState(false);
   const [editingModel, setEditingModel] = useState(null);
   const [form] = useForm();
+
+  // 筛选项
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterType] = useState(undefined);
 
   useEffect(() => {
     refresh();
@@ -35,6 +40,19 @@ const ModelList = () => {
       }
     }).catch(() => message.error('加载模型列表失败，请稍后重试'));
   };
+
+  // 前端模糊匹配筛选
+  const filteredModels = models.filter(m => {
+    if (searchText) {
+      const keyword = searchText.toLowerCase();
+      const nameMatch = m.name && m.name.toLowerCase().includes(keyword);
+      const codeMatch = m.code && m.code.toLowerCase().includes(keyword);
+      const descMatch = m.description && m.description.toLowerCase().includes(keyword);
+      if (!nameMatch && !codeMatch && !descMatch) return false;
+    }
+    if (filterType && m.modelType.toUpperCase() !== filterType.toUpperCase()) return false;
+    return true;
+  });
 
   const columns = [
     {
@@ -127,11 +145,35 @@ const ModelList = () => {
     setVisible(true);
   };
 
-  return <PageContainer title={"元数据模型管理"} content={"管理所有元数据模型的定义"}>
-    <Card extra={
-      <Button type={"primary"} onClick={openCreateModal}>新建模型</Button>
-    }>
-      <Table columns={columns} dataSource={models} rowKey="id"/>
+  return <PageContainer
+    title={"元数据模型管理"}
+    content={"管理所有元数据模型的定义"}
+    extra={<Button type={"primary"} onClick={openCreateModal}>新建模型</Button>}
+  >
+    {/* 筛选卡片 */}
+    <Card size="small" style={{ marginBottom: 16 }}>
+      <Space wrap>
+        <Input.Search
+          placeholder="搜索模型名称、编码或描述"
+          allowClear
+          style={{ width: 280 }}
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+          onSearch={setSearchText}
+        />
+        <Select
+          placeholder="模型类型筛选"
+          allowClear
+          style={{ width: 160 }}
+          value={filterType}
+          onChange={setFilterType}
+          options={MODEL_TYPES}
+        />
+      </Space>
+    </Card>
+
+    <Card>
+      <Table columns={columns} dataSource={filteredModels} rowKey="id"/>
     </Card>
 
     <Modal

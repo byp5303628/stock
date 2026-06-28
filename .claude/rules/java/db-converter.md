@@ -110,7 +110,8 @@ public static XxxDO toDbEntity(Xxx domain) { ... }
 | 表 | 列 | DEFAULT | DbConverter 默认值 |
 |----|-----|---------|-------------------|
 | `metadata_model` | `status` | `'DRAFT'` | `"DRAFT"` |
-| `metadata_model` | `description` | `''` | —（前端 `@NotBlank` 保证非空） |
+| `metadata_model` | `description` | `''` | `""` |
+| `metadata_enum` | `description` | `''` | `""` |
 | `metadata_field` | `business_meaning` | `''` | `""` |
 | `metadata_field` | `sort_order` | `0` | `0` |
 | `metadata_field` | `required` | `0` | `0`（三目运算） |

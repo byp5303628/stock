@@ -266,7 +266,7 @@ const ModelDetail = () => {
           <Button
             type="primary"
             onClick={handlePublish}
-            disabled={model.status === 'PUBLISHED'}
+            disabled={model.status === 'PUBLISHED' || model.status === 'DEPRECATED'}
           >
             发布
           </Button>
@@ -279,6 +279,7 @@ const ModelDetail = () => {
         <Descriptions.Item label="模型名称">{model.name}</Descriptions.Item>
         <Descriptions.Item label="模型类型">{model.modelType}</Descriptions.Item>
         <Descriptions.Item label="描述">{model.description || '-'}</Descriptions.Item>
+        <Descriptions.Item label="当前版本">v{model.currentVersion > 0 ? model.currentVersion : '-'}</Descriptions.Item>
       </Descriptions>
     </Card>}
 

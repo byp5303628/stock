@@ -45,6 +45,7 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
 
     private static final String STATUS_DELETED = "DELETED";
     private static final String STATUS_PUBLISHED = "PUBLISHED";
+    private static final String STATUS_DRAFT = "DRAFT";
     private static final String STATUS_CHANGING = "CHANGING";
 
     // H5: 构造器注入替代 @Resource 字段注入
@@ -766,8 +767,21 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
      */
     private void refreshModelStatus(Long modelId) {
         MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
-        if (modelDO == null || modelDO.getSnapshotHash() == null) {
-            return; // never published, keep DRAFT
+        if (modelDO == null) {
+            return;
+        }
+
+        // 兼容旧模型：已发布但无 snapshotHash（DDL 迁移前的旧数据），强制标记为 CHANGING
+        if (modelDO.getSnapshotHash() == null) {
+            if (!STATUS_DRAFT.equals(modelDO.getStatus()) && !STATUS_CHANGING.equals(modelDO.getStatus())) {
+                modelDO.setStatus(STATUS_CHANGING);
+                metadataModelMapper.updateById(modelDO);
+                Cache cache = cacheManager.getCache(CACHE_MODELS);
+                if (cache != null) {
+                    cache.clear();
+                }
+            }
+            return;
         }
 
         String currentHash = computeModelHash(modelId);

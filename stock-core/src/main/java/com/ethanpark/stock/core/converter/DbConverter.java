@@ -120,7 +120,7 @@ public class DbConverter {
         dbEntity.setName(domain.getName());
         dbEntity.setCode(domain.getCode());
         dbEntity.setModelType(domain.getModelType());
-        dbEntity.setDescription(domain.getDescription());
+        dbEntity.setDescription(domain.getDescription() == null ? "" : domain.getDescription());
         dbEntity.setStatus(domain.getStatus() == null ? "DRAFT" : domain.getStatus());
         dbEntity.setCurrentVersion(domain.getCurrentVersion() == null ? 0 : domain.getCurrentVersion());
         dbEntity.setSnapshotHash(domain.getSnapshotHash());
@@ -168,7 +168,7 @@ public class DbConverter {
         dbEntity.setId(domain.getId());
         dbEntity.setName(domain.getName());
         dbEntity.setCode(domain.getCode());
-        dbEntity.setDescription(domain.getDescription());
+        dbEntity.setDescription(domain.getDescription() == null ? "" : domain.getDescription());
         dbEntity.setStatus(domain.getStatus() == null ? "ENABLED" : domain.getStatus());
         dbEntity.setGmtCreate(domain.getGmtCreate() == null ? new Date() : domain.getGmtCreate());
         dbEntity.setGmtModified(domain.getGmtModified() == null ? new Date() : domain.getGmtModified());

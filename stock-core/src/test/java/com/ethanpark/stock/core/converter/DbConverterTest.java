@@ -76,6 +76,20 @@ public class DbConverterTest {
         assertNotNull(result.getGmtModified(), "gmtModified 应自动填充");
     }
 
+    @Test
+    @DisplayName("toDbEntity MetadataModel: description 为 null 时默认空字符串")
+    public void toDbEntity_model_nullDescription_defaultsToEmpty() {
+        MetadataModel domain = new MetadataModel();
+        domain.setName("描述为空");
+        domain.setCode("NO_DESC_MODEL");
+        domain.setModelType("indicator");
+
+        MetadataModelDO result = DbConverter.toDbEntity(domain);
+
+        assertEquals("", result.getDescription(),
+                "description 为 null 时应默认 ''，与 DB schema DEFAULT '' 对齐");
+    }
+
     // ==================== MetadataEnum ====================
 
     @Test
@@ -108,6 +122,19 @@ public class DbConverterTest {
         MetadataEnumDO result = DbConverter.toDbEntity(domain);
 
         assertEquals("DISABLED", result.getStatus(), "明确传入 status 时应保留原值");
+    }
+
+    @Test
+    @DisplayName("toDbEntity MetadataEnum: description 为 null 时默认空字符串")
+    public void toDbEntity_enum_nullDescription_defaultsToEmpty() {
+        MetadataEnum domain = new MetadataEnum();
+        domain.setName("描述为空");
+        domain.setCode("NO_DESC_ENUM");
+
+        MetadataEnumDO result = DbConverter.toDbEntity(domain);
+
+        assertEquals("", result.getDescription(),
+                "description 为 null 时应默认 ''，与 DB schema DEFAULT '' 对齐");
     }
 
     // ==================== MetadataField ====================
