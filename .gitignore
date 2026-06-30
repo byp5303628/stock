@@ -153,4 +153,8 @@ swagger.json
 reports/
 
 stock-frontend/node_modules
+stock-frontend/dist/
+stock-frontend/src/.umi/
+stock-frontend/src/.umi-production/
+stock-frontend/types/cache/
 .vscode/
