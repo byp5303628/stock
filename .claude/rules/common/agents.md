@@ -26,7 +26,7 @@ Agent 调用：
 
 | 命令 | 调用的 Agent | 说明 |
 |------|-------------|------|
-| `/analyze` | **architect** | 需求分析 → 方案设计 + TODO |
+| `/analyze` | **architect** → **testcase-generator** | 需求分析 → 方案设计 + TODO + 测试用例（三件套） |
 | `/tdd` | **testcase-generator** | 方案设计 → 测试用例 |
 | `/dev [backend\|frontend\|all]` | 主流程直接执行 | 启动本地环境，不依赖 agent |
 | `/verify [backend\|frontend\|full]` | **tester** + **reviewer** | 测试验证 + 代码审查 |

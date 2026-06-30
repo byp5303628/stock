@@ -54,34 +54,28 @@ class MetadataIT {
 
 ### 规则 2：场景之间数据隔离
 
-- 场景之间**不通过 `static` 字段**传递状态
-- 每个 `@Nested` 类使用**实例字段**维护自己的状态
-- 每个场景的测试数据在 `@BeforeEach` 中创建，不依赖外部场景
+- 场景之间**不通过 `static` 字段**传递状态，static 字段仅限 `@Nested` 内部使用
+- 每个 `@Nested` 类使用自己的字段维护状态，不跨场景共享
 
 ```java
 class MetadataIT {
     // ——— 场景一 ———
     @Nested @DisplayName("场景：模型生命周期")
     class ModelLifecycle {
-        private Long modelId;         // 实例字段，不跨场景共享
-        private Long fieldId;
-
-        @BeforeEach
-        void setUp() { /* 创建场景需要的初始数据 */ }
+        private static Long modelId;    // static ✅ 仅在该 @Nested 内部共享
         // ...
     }
 
     // ——— 场景二 ———
     @Nested @DisplayName("场景：Schema 查看")
     class SchemaView {
-        private Long modelId;         // 独立的实例字段
-
-        @BeforeEach
-        void setUp() { /* 创建场景需要的初始数据 */ }
+        private static Long modelId;    // static ✅ 与该 @Nested 外的 modelId 无关
         // ...
     }
 }
 ```
+
+> **注意**：JUnit 5 对每个 `@Test` 方法都会创建新的 `@Nested` 实例，因此实例字段在 `@Order` 顺序测试间**不持久**。`@Nested` 内部的 `static` 字段用于同一个场景内多个顺序测试间的数据共享，这不违反"场景间隔离"原则。
 
 ### 规则 3：场景内顺序 vs 独立
 
@@ -105,7 +99,14 @@ class ModelLifecycle {
 // 查询型 — 独立
 @Nested @DisplayName("场景：Schema 查看")
 class SchemaView {
-    @BeforeEach void setUp() { /* 每个测试前重建数据 */ }
+    private static Long modelId;            // static: 跨 @Test 持久
+
+    @BeforeEach
+    void setUp() {
+        if (modelId != null) return;        // 只初始化一次
+        modelId = createModel();
+    }
+
     @Test @DisplayName("查看 JSON Schema") void viewSchema() { ... }
     @Test @DisplayName("Schema 校验通过") void validatePass() { ... }
 }

@@ -66,8 +66,9 @@ class MetadataIT {
     @DisplayName("场景：模型生命周期 — 创建→字段→发布→变更→再发布")
     class ModelLifecycle {
 
-        private Long modelId;
-        private Long fieldId;
+        /** static: @Nested 实例每 @Test 重建，用 static 在顺序测试间共享状态 */
+        private static Long modelId;
+        private static Long fieldId;
 
         @Test
         @Order(1)
@@ -92,7 +93,7 @@ class MetadataIT {
             assertEquals("TEST_INDICATOR_001", detail.getData().get("code"));
             assertEquals("INDICATOR", detail.getData().get("modelType"));
 
-            // 可以通过列表查询到
+            // 列表接口可用
             ResponseDTO<List<Map<String, Object>>> listResp = get("/api/metadata/model/list.json",
                     new ParameterizedTypeReference<ResponseDTO<List<Map<String, Object>>>>() {});
             assertEquals(200, listResp.getCode());
@@ -182,7 +183,7 @@ class MetadataIT {
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
             assertEquals(200, publishResp.getCode());
 
-            // 版本列表有 version=1，isCurrent=true
+            // 验证版本列表
             ResponseDTO<List<Map<String, Object>>> versions = get(
                     "/api/metadata/model/versions.json?id=" + modelId,
                     new ParameterizedTypeReference<ResponseDTO<List<Map<String, Object>>>>() {});
@@ -248,10 +249,16 @@ class MetadataIT {
     @DisplayName("场景：Schema 查看与校验 — JSON Schema、校验规则")
     class SchemaView {
 
-        private Long modelId;
+        /**
+         * static: @BeforeEach 会为每个 @Test 执行，用 static 确保只初始化一次。
+         * 内部使用 uniqueCode 避免多场景间的 H2 冲突。
+         */
+        private static Long modelId;
 
         @BeforeEach
         void setUp() {
+            if (modelId != null) return;
+
             MetadataModelSaveRequest modelReq = new MetadataModelSaveRequest();
             modelReq.setName("Schema 测试模型");
             modelReq.setCode("SCHEMA_TEST_001");
@@ -260,6 +267,7 @@ class MetadataIT {
 
             ResponseDTO<Map<String, Object>> modelResp = post("/api/metadata/model/save.json", modelReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
+            assertEquals(200, modelResp.getCode(), "SchemaView 场景模型创建失败");
             modelId = ((Number) modelResp.getData().get("id")).longValue();
 
             // 添加带 businessMeaning 的字段
@@ -269,8 +277,14 @@ class MetadataIT {
             fieldReq.setFieldType("DECIMAL");
             fieldReq.setBusinessMeaning("金额");
             fieldReq.setSortOrder(1);
-
             post("/api/metadata/field/save.json", fieldReq,
+                    new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
+
+            // 发布，使 schema 接口可查
+            PublishModelRequest publishReq = new PublishModelRequest();
+            publishReq.setModelId(modelId);
+            publishReq.setVersionDesc("v1");
+            post("/api/metadata/model/publish.json", publishReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
         }
 
@@ -304,7 +318,7 @@ class MetadataIT {
         @Test
         @DisplayName("Schema 校验失败（字段缺少 businessMeaning）")
         void validateFail() {
-            // 创建没有 businessMeaning 的模型
+            // 自包含：创建没有 businessMeaning 的模型和字段
             MetadataModelSaveRequest modelReq = new MetadataModelSaveRequest();
             modelReq.setName("无业务含义模型");
             modelReq.setCode("NO_MEANING_001");
@@ -312,9 +326,9 @@ class MetadataIT {
 
             ResponseDTO<Map<String, Object>> modelResp = post("/api/metadata/model/save.json", modelReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
+            assertNotNull(modelResp.getData());
             Long badModelId = ((Number) modelResp.getData().get("id")).longValue();
 
-            // 添加没有 businessMeaning 的字段
             MetadataFieldSaveRequest fieldReq = new MetadataFieldSaveRequest();
             fieldReq.setModelId(badModelId);
             fieldReq.setFieldName("col1");
@@ -323,7 +337,6 @@ class MetadataIT {
             post("/api/metadata/field/save.json", fieldReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
 
-            // 校验应失败
             ValidateRequest validateReq = new ValidateRequest();
             validateReq.setModelId(badModelId);
 
@@ -345,10 +358,12 @@ class MetadataIT {
     @DisplayName("场景：版本管理 — 版本切换、按版本查询 Schema")
     class VersionManagement {
 
-        private Long modelId;
+        private static Long modelId;
 
         @BeforeEach
         void setUp() {
+            if (modelId != null) return;
+
             // 创建模型 → 添加字段 → 发布 v1 → 修改 → 发布 v2
             MetadataModelSaveRequest modelReq = new MetadataModelSaveRequest();
             modelReq.setName("版本管理测试模型");
@@ -357,8 +372,10 @@ class MetadataIT {
 
             ResponseDTO<Map<String, Object>> modelResp = post("/api/metadata/model/save.json", modelReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
+            assertEquals(200, modelResp.getCode(), "VersionManagement 场景模型创建失败");
             modelId = ((Number) modelResp.getData().get("id")).longValue();
 
+            // 添加字段
             MetadataFieldSaveRequest fieldReq = new MetadataFieldSaveRequest();
             fieldReq.setModelId(modelId);
             fieldReq.setFieldName("version_field");
@@ -432,11 +449,15 @@ class MetadataIT {
     @DisplayName("场景：枚举管理 — CRUD、绑定/解绑")
     class EnumManagement {
 
-        private Long modelId;
-        private Long enumId;
+        private static Long modelId;
+        private static Long enumId;
+        private static boolean initialized;
 
         @BeforeEach
         void setUp() {
+            if (initialized) return;
+            initialized = true;
+
             // 创建模型（后续的绑定测试需要模型和字段）
             MetadataModelSaveRequest modelReq = new MetadataModelSaveRequest();
             modelReq.setName("枚举管理测试模型");
@@ -445,6 +466,7 @@ class MetadataIT {
 
             ResponseDTO<Map<String, Object>> modelResp = post("/api/metadata/model/save.json", modelReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
+            assertEquals(200, modelResp.getCode(), "EnumManagement 场景模型创建失败");
             modelId = ((Number) modelResp.getData().get("id")).longValue();
 
             MetadataFieldSaveRequest fieldReq = new MetadataFieldSaveRequest();
@@ -542,7 +564,6 @@ class MetadataIT {
             EnumBindRequest bindReq = new EnumBindRequest();
             bindReq.setFieldId(fieldId);
             bindReq.setEnumId(enumId);
-
             ResponseDTO<Map<String, Object>> bindResp = post("/api/metadata/enum/bind.json", bindReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
             assertEquals(200, bindResp.getCode());
@@ -550,7 +571,6 @@ class MetadataIT {
             // 解绑枚举
             EnumUnbindRequest unbindReq = new EnumUnbindRequest();
             unbindReq.setFieldId(fieldId);
-
             ResponseDTO<Map<String, Object>> unbindResp = post("/api/metadata/enum/unbind.json", unbindReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
             assertEquals(200, unbindResp.getCode());
@@ -617,10 +637,12 @@ class MetadataIT {
     @DisplayName("场景：集成查询 — 指标含义和用法")
     class IntegrationQuery {
 
-        private Long modelId;
+        private static Long modelId;
 
         @BeforeEach
         void setUp() {
+            if (modelId != null) return;
+
             MetadataModelSaveRequest modelReq = new MetadataModelSaveRequest();
             modelReq.setName("集成查询测试模型");
             modelReq.setCode("INTG_QUERY_001");
@@ -629,6 +651,7 @@ class MetadataIT {
 
             ResponseDTO<Map<String, Object>> modelResp = post("/api/metadata/model/save.json", modelReq,
                     new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {});
+            assertEquals(200, modelResp.getCode(), "IntegrationQuery 场景模型创建失败");
             modelId = ((Number) modelResp.getData().get("id")).longValue();
 
             MetadataFieldSaveRequest fieldReq = new MetadataFieldSaveRequest();
