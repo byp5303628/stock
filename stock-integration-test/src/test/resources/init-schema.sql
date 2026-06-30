@@ -104,6 +104,8 @@ CREATE TABLE IF NOT EXISTS metadata_model (
     description VARCHAR(1024) DEFAULT '',
     status VARCHAR(16) DEFAULT 'DRAFT',
     ext_info VARCHAR(2048),
+    current_version INT DEFAULT 0,
+    snapshot_hash VARCHAR(64) DEFAULT NULL,
     gmt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     gmt_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uk_model_code UNIQUE (code)
@@ -146,4 +148,17 @@ CREATE TABLE IF NOT EXISTS metadata_enum_value (
     gmt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     gmt_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uk_enum_value_code UNIQUE (enum_id, value_code)
+);
+
+-- ========== 元数据模型版本管理 ==========
+CREATE TABLE IF NOT EXISTS metadata_model_version (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    model_code VARCHAR(64) NOT NULL,
+    model_id BIGINT NOT NULL,
+    version INT NOT NULL,
+    schema_content MEDIUMTEXT,
+    version_desc VARCHAR(512) DEFAULT '',
+    gmt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    gmt_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uk_model_id_version UNIQUE (model_id, version)
 );

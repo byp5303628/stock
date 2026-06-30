@@ -25,8 +25,20 @@ export async function publishModel(data) {
   return request("/api/metadata/model/publish.json", { method: 'POST', data });
 }
 
-export async function getModelSchema(id) {
-  return request(`/api/metadata/model/schema.json?id=${id}`);
+export async function getModelSchema(id, version) {
+  let url = `/api/metadata/model/schema.json?id=${id}`;
+  if (version !== undefined && version !== null) {
+    url += `&version=${version}`;
+  }
+  return request(url);
+}
+
+export async function listModelVersions(modelId) {
+  return request(`/api/metadata/model/versions.json?id=${modelId}`);
+}
+
+export async function switchModelVersion(data) {
+  return request('/api/metadata/model/switch-version.json', { method: 'POST', data });
 }
 
 // ===== 字段管理 =====
@@ -68,22 +80,4 @@ export async function unbindEnum(data) {
 
 export async function getEnumUsage(id) {
   return request(`/api/metadata/enum/usage.json?id=${id}`);
-}
-
-// ===== 集成 API =====
-
-/**
- * C2: URL 已修正，去掉重复的 /indicator 前缀。
- * 实际路径: /api/metadata/indicator/meaning
- */
-export async function getIndicatorMeaning(code) {
-  return request(`/api/metadata/indicator/meaning?code=${code}`);
-}
-
-/**
- * C2: URL 已修正，去掉重复的 /indicator 前缀。
- * 实际路径: /api/metadata/indicator/usage
- */
-export async function getIndicatorUsage(code) {
-  return request(`/api/metadata/indicator/usage?code=${code}`);
 }

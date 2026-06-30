@@ -1,18 +1,23 @@
 package com.ethanpark.stock.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.ethanpark.stock.common.dal.mappers.MetadataEnumMapper;
 import com.ethanpark.stock.common.dal.mappers.MetadataEnumValueMapper;
 import com.ethanpark.stock.common.dal.mappers.MetadataFieldMapper;
 import com.ethanpark.stock.common.dal.mappers.MetadataModelMapper;
+import com.ethanpark.stock.common.dal.mappers.MetadataModelVersionMapper;
 import com.ethanpark.stock.common.dal.mappers.entity.MetadataEnumDO;
 import com.ethanpark.stock.common.dal.mappers.entity.MetadataEnumValueDO;
 import com.ethanpark.stock.common.dal.mappers.entity.MetadataFieldDO;
 import com.ethanpark.stock.common.dal.mappers.entity.MetadataModelDO;
+import com.ethanpark.stock.common.dal.mappers.entity.MetadataModelVersionDO;
 import com.ethanpark.stock.core.converter.DbConverter;
 import com.ethanpark.stock.core.converter.DomainConverter;
 import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.model.metadata.*;
 import com.ethanpark.stock.core.service.MetadataDomainService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -40,12 +45,15 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
 
     private static final String STATUS_DELETED = "DELETED";
     private static final String STATUS_PUBLISHED = "PUBLISHED";
+    private static final String STATUS_DRAFT = "DRAFT";
+    private static final String STATUS_CHANGING = "CHANGING";
 
     // H5: 构造器注入替代 @Resource 字段注入
     private final MetadataModelMapper metadataModelMapper;
     private final MetadataFieldMapper metadataFieldMapper;
     private final MetadataEnumMapper metadataEnumMapper;
     private final MetadataEnumValueMapper metadataEnumValueMapper;
+    private final MetadataModelVersionMapper metadataModelVersionMapper;
     private final CacheManager cacheManager;
 
     public MetadataDomainServiceImpl(
@@ -53,11 +61,13 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
             MetadataFieldMapper metadataFieldMapper,
             MetadataEnumMapper metadataEnumMapper,
             MetadataEnumValueMapper metadataEnumValueMapper,
+            MetadataModelVersionMapper metadataModelVersionMapper,
             CacheManager cacheManager) {
         this.metadataModelMapper = metadataModelMapper;
         this.metadataFieldMapper = metadataFieldMapper;
         this.metadataEnumMapper = metadataEnumMapper;
         this.metadataEnumValueMapper = metadataEnumValueMapper;
+        this.metadataModelVersionMapper = metadataModelVersionMapper;
         this.cacheManager = cacheManager;
     }
 
@@ -101,11 +111,23 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
             }
             model.setId(dbEntity.getId());
         } else {
+            // 更新时保留现有模型的 status、snapshotHash、currentVersion
+            MetadataModelDO existingDO = metadataModelMapper.selectById(dbEntity.getId());
+            if (existingDO != null) {
+                dbEntity.setStatus(existingDO.getStatus());
+                dbEntity.setSnapshotHash(existingDO.getSnapshotHash());
+                dbEntity.setCurrentVersion(existingDO.getCurrentVersion());
+            }
             metadataModelMapper.updateById(dbEntity);
         }
 
         MetadataModel saved = DomainConverter.toDomain(metadataModelMapper.selectById(dbEntity.getId()));
-        return Result.ok(saved);
+        Result<MetadataModel> result = Result.ok(saved);
+
+        // 保存成功后进行变更检测
+        refreshModelStatus(saved.getId());
+
+        return result;
     }
 
     @Override
@@ -148,7 +170,12 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
         }
 
         MetadataField saved = DomainConverter.toDomain(metadataFieldMapper.selectById(dbEntity.getId()));
-        return Result.ok(saved);
+        Result<MetadataField> result = Result.ok(saved);
+
+        // 保存成功后进行变更检测
+        refreshModelStatus(field.getModelId());
+
+        return result;
     }
 
     @Override
@@ -424,7 +451,7 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
                 metadataModelMapper.updateById(modelDO);
             }
             // 校验通过后手动清模型缓存
-            org.springframework.cache.Cache cache = cacheManager.getCache(CACHE_MODELS);
+            Cache cache = cacheManager.getCache(CACHE_MODELS);
             if (cache != null) {
                 cache.clear();
             }
@@ -436,13 +463,42 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
     // ===== 模型发布 =====
 
     @Override
+    @Transactional
     @CacheEvict(value = CACHE_MODELS, key = CACHE_KEY_ALL)
-    public void publishModel(Long modelId) {
+    public void publishModel(Long modelId, String versionDesc) {
+        // 1. 查询模型
         MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
         if (modelDO == null) {
             return;
         }
+
+        // 2. 校验 Schema
+        ValidationResult vr = validateSchema(modelId);
+        if (!vr.isValid()) {
+            throw new IllegalArgumentException("Publish failed: " + vr.getErrors());
+        }
+
+        // 3. 计算下一版本号
+        Integer maxVersion = metadataModelVersionMapper.selectMaxVersionByModelId(modelId);
+        int nextVersion = (maxVersion == null ? 0 : maxVersion) + 1;
+
+        // 4. 生成 JSONSchema 并插入版本记录
+        Map<String, Object> schemaMap = generateJsonSchema(modelId);
+        String schemaContent = JSON.toJSONString(schemaMap);
+
+        MetadataModelVersionDO versionDO = new MetadataModelVersionDO();
+        versionDO.setModelCode(modelDO.getCode());
+        versionDO.setModelId(modelId);
+        versionDO.setVersion(nextVersion);
+        versionDO.setSchemaContent(schemaContent);
+        versionDO.setVersionDesc(versionDesc != null ? versionDesc : "");
+        metadataModelVersionMapper.insert(versionDO);
+
+        // 5. 计算当前 hash 并更新模型（注意 validateSchema 已设置 status=PUBLISHED，这里覆盖）
+        String currentHash = computeModelHash(modelId);
         modelDO.setStatus(STATUS_PUBLISHED);
+        modelDO.setSnapshotHash(currentHash);
+        // currentVersion 不改变
         metadataModelMapper.updateById(modelDO);
     }
 
@@ -536,6 +592,77 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
         }
     }
 
+    // ===== 版本管理 =====
+
+    @Override
+    public List<MetadataModelVersion> listModelVersions(Long modelId) {
+        List<MetadataModelVersionDO> versionDOs = metadataModelVersionMapper.selectByModelId(modelId);
+        return versionDOs.stream()
+                .map(DomainConverter::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @CacheEvict(value = CACHE_MODELS, key = CACHE_KEY_ALL)
+    public void switchModelVersion(Long modelId, Integer version) {
+        // 1. 验证版本记录存在
+        MetadataModelVersionDO versionDO = metadataModelVersionMapper.selectByModelIdAndVersion(modelId, version);
+        if (versionDO == null) {
+            throw new IllegalArgumentException("Version not found: modelId=" + modelId + ", version=" + version);
+        }
+
+        // 2. 更新模型 current_version
+        MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
+        if (modelDO == null) {
+            return;
+        }
+        int effectiveVersion = versionDO.getVersion();
+        if (modelDO.getCurrentVersion() != null && modelDO.getCurrentVersion() == effectiveVersion) {
+            return; // already on this version
+        }
+        modelDO.setCurrentVersion(effectiveVersion);
+        metadataModelMapper.updateById(modelDO);
+    }
+
+    @Override
+    public Map<String, Object> getSchemaByVersion(Long modelId, Integer version) {
+        MetadataModelVersionDO versionDO = metadataModelVersionMapper.selectByModelIdAndVersion(modelId, version);
+        if (versionDO == null) {
+            throw new IllegalArgumentException("Version not found: modelId=" + modelId + ", version=" + version);
+        }
+        if (versionDO.getSchemaContent() != null) {
+            return JSON.parseObject(versionDO.getSchemaContent());
+        }
+        return generateJsonSchema(modelId);
+    }
+
+    @Override
+    public Map<String, Object> getModelSchema(Long modelId) {
+        MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
+        if (modelDO == null) {
+            return null;
+        }
+
+        Integer cv = modelDO.getCurrentVersion();
+        int effectiveVersion;
+        if (cv == null || cv == 0) {
+            Integer maxVersion = metadataModelVersionMapper.selectMaxVersionByModelId(modelId);
+            effectiveVersion = (maxVersion != null) ? maxVersion : 0;
+        } else {
+            effectiveVersion = cv;
+        }
+
+        if (effectiveVersion > 0) {
+            MetadataModelVersionDO versionDO = metadataModelVersionMapper.selectByModelIdAndVersion(
+                    modelId, effectiveVersion);
+            if (versionDO != null && versionDO.getSchemaContent() != null) {
+                return JSON.parseObject(versionDO.getSchemaContent());
+            }
+        }
+
+        return generateJsonSchema(modelId);
+    }
+
     // ===== 枚举使用统计 =====
 
     @Override
@@ -593,5 +720,81 @@ public class MetadataDomainServiceImpl implements MetadataDomainService {
         usage.setRefDetails(refDetails);
 
         return usage;
+    }
+
+    // ===== 私有方法 =====
+
+    /**
+     * 计算模型的 hash 值，用于变更检测。
+     *
+     * <p>对模型属性（name/code/modelType/description）和排序后的字段列表做 SHA-256，
+     * 取前 32 个 hex 字符。
+     */
+    private String computeModelHash(Long modelId) {
+        MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
+        if (modelDO == null) {
+            return "";
+        }
+
+        Map<String, Object> hashInput = new LinkedHashMap<>();
+        hashInput.put("modelName", modelDO.getName());
+        hashInput.put("modelType", modelDO.getModelType());
+        hashInput.put("description", modelDO.getDescription());
+
+        List<MetadataFieldDO> fields = metadataFieldMapper.selectByModelId(modelId);
+        List<Map<String, Object>> fieldList = fields.stream().map(f -> {
+            Map<String, Object> fm = new LinkedHashMap<>();
+            fm.put("fieldName", f.getFieldName());
+            fm.put("fieldType", f.getFieldType());
+            fm.put("businessMeaning", f.getBusinessMeaning());
+            fm.put("required", f.getRequired());
+            fm.put("constraints", f.getConstraints());
+            fm.put("enumId", f.getEnumId());
+            fm.put("sortOrder", f.getSortOrder());
+            return fm;
+        }).collect(Collectors.toList());
+        hashInput.put("fields", fieldList);
+
+        String json = JSON.toJSONString(hashInput);
+        return DigestUtils.sha256Hex(json).substring(0, 32);
+    }
+
+    /**
+     * 刷新模型状态，基于当前工作区 hash 与 snapshotHash 的对比。
+     *
+     * <p>若模型从未发布过（snapshotHash==null），保持 DRAFT。
+     * 若 hash 一致则为 PUBLISHED，否则为 CHANGING。
+     */
+    private void refreshModelStatus(Long modelId) {
+        MetadataModelDO modelDO = metadataModelMapper.selectById(modelId);
+        if (modelDO == null) {
+            return;
+        }
+
+        // 兼容旧模型：已发布但无 snapshotHash（DDL 迁移前的旧数据），强制标记为 CHANGING
+        if (modelDO.getSnapshotHash() == null) {
+            if (!STATUS_DRAFT.equals(modelDO.getStatus()) && !STATUS_CHANGING.equals(modelDO.getStatus())) {
+                modelDO.setStatus(STATUS_CHANGING);
+                metadataModelMapper.updateById(modelDO);
+                Cache cache = cacheManager.getCache(CACHE_MODELS);
+                if (cache != null) {
+                    cache.clear();
+                }
+            }
+            return;
+        }
+
+        String currentHash = computeModelHash(modelId);
+        boolean match = currentHash.equals(modelDO.getSnapshotHash());
+        String newStatus = match ? STATUS_PUBLISHED : STATUS_CHANGING;
+
+        if (!newStatus.equals(modelDO.getStatus())) {
+            modelDO.setStatus(newStatus);
+            metadataModelMapper.updateById(modelDO);
+            Cache cache = cacheManager.getCache(CACHE_MODELS);
+            if (cache != null) {
+                cache.clear();
+            }
+        }
     }
 }

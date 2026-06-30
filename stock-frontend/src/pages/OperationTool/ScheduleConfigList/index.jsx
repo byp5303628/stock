@@ -1,7 +1,7 @@
 import { PageContainer } from "@ant-design/pro-components";
 import { Button, Card, Form, Input, message, Modal, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { getAllScheduleConfigs, saveScheduleConfig } from "@/services/schedule-config";
+import { getAllScheduleConfigs, saveScheduleConfig } from "@/services/scheduleConfig";
 import { useForm } from "antd/es/form/Form";
 import { formItemLayout } from "@/pages/common";
 

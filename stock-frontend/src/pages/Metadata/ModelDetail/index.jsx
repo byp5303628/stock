@@ -1,11 +1,12 @@
 import { PageContainer } from "@ant-design/pro-components";
 import {
-  Button, Card, Descriptions, Form, Input, InputNumber, message, Modal, Popconfirm,
+  Button, Card, Descriptions, Drawer, Form, Input, InputNumber, message, Modal, Popconfirm,
   Select, Space, Switch, Table, Tag
 } from "antd";
 import { useEffect, useState } from "react";
 import {
-  getModelDetail, publishModel, getModelSchema, saveField, deleteField, listEnums
+  getModelDetail, publishModel, getModelSchema, saveField, deleteField, listEnums,
+  listModelVersions, switchModelVersion
 } from "@/services/metadata";
 import { useForm } from "antd/es/form/Form";
 import { formItemLayout } from "@/pages/common";
@@ -25,6 +26,7 @@ const STATUS_MAP = {
   'DRAFT': { color: 'default', text: '草稿' },
   'PUBLISHED': { color: 'green', text: '已发布' },
   'DEPRECATED': { color: 'orange', text: '已废弃' },
+  'CHANGING': { color: 'orange', text: '变更中' },
 };
 
 const ModelDetail = () => {
@@ -36,6 +38,8 @@ const ModelDetail = () => {
   const [schemaVisible, setSchemaVisible] = useState(false);
   const [fieldVisible, setFieldVisible] = useState(false);
   const [editingField, setEditingField] = useState(null);
+  const [versions, setVersions] = useState([]);
+  const [versionsVisible, setVersionsVisible] = useState(false);
   const [form] = useForm();
 
   const modelId = new URLSearchParams(window.location.hash.split('?')[1] || '').get('id');
@@ -83,6 +87,35 @@ const ModelDetail = () => {
         message.error(r?.msg || "发布失败");
       }
     }).catch(() => message.error('发布失败，请稍后重试'));
+  };
+
+  const handleLoadVersions = () => {
+    listModelVersions(Number(modelId)).then(r => {
+      if (r && r.code === 200) {
+        setVersions(r.data || []);
+        setVersionsVisible(true);
+      } else {
+        message.error(r?.msg || "获取版本列表失败");
+      }
+    }).catch(() => message.error('获取版本列表失败，请稍后重试'));
+  };
+
+  const handleSwitchVersion = (version) => {
+    Modal.confirm({
+      title: '切换版本',
+      content: `确定要切换到版本 v${version} 吗？`,
+      onOk: () => {
+        switchModelVersion({ modelId: Number(modelId), version }).then(r => {
+          if (r && r.code === 200) {
+            message.success(`已切换到版本 v${version}`);
+            setVersionsVisible(false);
+            refreshModel();
+          } else {
+            message.error(r?.msg || "切换版本失败");
+          }
+        }).catch(() => message.error('切换版本失败，请稍后重试'));
+      }
+    });
   };
 
   // ===== 字段管理 =====
@@ -192,6 +225,25 @@ const ModelDetail = () => {
     },
   ];
 
+  const versionColumns = [
+    { title: '版本号', dataIndex: 'version', key: 'version',
+      render: (v) => `v${v}` },
+    { title: '版本说明', dataIndex: 'versionDesc', key: 'versionDesc',
+      render: (t) => t || '-' },
+    { title: '发布时间', dataIndex: 'gmtCreate', key: 'gmtCreate' },
+    { title: '当前版本', dataIndex: 'isCurrent', key: 'isCurrent',
+      render: (val) => val ? <Tag color="green">当前</Tag> : null },
+    { title: '操作', key: 'action',
+      render: (_, record) => (
+        <Button
+          type="link"
+          disabled={record.isCurrent}
+          onClick={() => handleSwitchVersion(record.version)}
+        >切换到此版本</Button>
+      )
+    },
+  ];
+
   const renderStatus = (status) => {
     const item = STATUS_MAP[status];
     if (item) {
@@ -209,11 +261,12 @@ const ModelDetail = () => {
       extra={
         <Space>
           {renderStatus(model.status)}
+          <Button onClick={handleLoadVersions}>版本历史</Button>
           <Button onClick={handleShowSchema}>查看 JSON Schema</Button>
           <Button
             type="primary"
             onClick={handlePublish}
-            disabled={model.status === 'PUBLISHED'}
+            disabled={model.status === 'PUBLISHED' || model.status === 'DEPRECATED'}
           >
             发布
           </Button>
@@ -226,6 +279,7 @@ const ModelDetail = () => {
         <Descriptions.Item label="模型名称">{model.name}</Descriptions.Item>
         <Descriptions.Item label="模型类型">{model.modelType}</Descriptions.Item>
         <Descriptions.Item label="描述">{model.description || '-'}</Descriptions.Item>
+        <Descriptions.Item label="当前版本">v{model.currentVersion > 0 ? model.currentVersion : '-'}</Descriptions.Item>
       </Descriptions>
     </Card>}
 
@@ -317,6 +371,21 @@ const ModelDetail = () => {
         </Form.Item>
       </Form>
     </Modal>
+
+    {/* 版本历史抽屉 */}
+    <Drawer
+      title="版本历史"
+      open={versionsVisible}
+      onClose={() => setVersionsVisible(false)}
+      width={500}
+    >
+      <Table
+        columns={versionColumns}
+        dataSource={versions}
+        rowKey="id"
+        pagination={false}
+      />
+    </Drawer>
   </PageContainer>;
 };
 

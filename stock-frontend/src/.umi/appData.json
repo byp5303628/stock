@@ -119,7 +119,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "preset",
@@ -132,7 +132,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 9
       },
       "enableBy": "register",
       "type": "preset",
@@ -159,10 +159,10 @@
       "time": {
         "hooks": {
           "onStart": [
-            1
+            0
           ]
         },
-        "register": 1
+        "register": 2
       },
       "enableBy": "register",
       "type": "preset",
@@ -179,7 +179,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 3
       },
       "enableBy": "register",
       "type": "plugin",
@@ -193,10 +193,10 @@
       "time": {
         "hooks": {
           "onStart": [
-            0
+            1
           ]
         },
-        "register": 2
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -210,14 +210,6 @@
       "time": {
         "hooks": {
           "modifyRoutes": [
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -227,7 +219,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -241,23 +233,14 @@
       "time": {
         "hooks": {
           "onDevCompileDone": [
-            8,
+            7,
+            3,
             2,
-            8,
             4,
             2,
+            2,
+            2,
             3,
-            2,
-            2,
-            2,
-            8,
-            3,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
             3
           ]
         },
@@ -275,27 +258,19 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            17
+            23
           ],
           "onGenerateFiles": [
             1,
-            10,
-            4,
-            5,
-            4,
-            4,
-            10,
+            9,
             8,
-            18,
-            7,
             7,
             5,
-            6,
-            6,
-            7
+            9,
+            5
           ]
         },
-        "register": 12
+        "register": 13
       },
       "enableBy": "register",
       "type": "plugin",
@@ -315,18 +290,10 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -340,23 +307,13 @@
       "time": {
         "hooks": {
           "onCheckConfig": [
-            0,
             0
           ],
           "onCheck": [
-            0
+            1
           ],
           "onPrepareBuildSuccess": [
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
             0,
             0,
             0,
@@ -380,16 +337,6 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             1,
             0,
             0,
@@ -447,7 +394,7 @@
             0,
             0,
             0,
-            0,
+            1,
             0,
             0,
             0,
@@ -473,7 +420,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -486,7 +433,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config",
       "type": "plugin",
@@ -500,11 +447,10 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
-            0
+            1
           ]
         },
-        "register": 4
+        "register": 5
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1370,7 +1316,7 @@
       "time": {
         "hooks": {
           "onStart": [
-            1
+            0
           ]
         },
         "register": 1
@@ -1403,7 +1349,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 47
+        "register": 44
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1416,7 +1362,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 20
+        "register": 27
       },
       "enableBy": "config",
       "type": "plugin",
@@ -1429,7 +1375,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 10
+        "register": 11
       },
       "enableBy": "config",
       "type": "plugin",
@@ -1456,13 +1402,15 @@
             0,
             0,
             0,
-            1,
+            0,
+            0,
+            0,
             0,
             0,
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1476,31 +1424,15 @@
       "time": {
         "hooks": {
           "onGenerateFiles": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            0,
-            1,
-            0,
-            0,
             1,
             1,
-            0
+            1,
+            1,
+            0,
+            0,
+            1
           ],
           "addRuntimePlugin": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1510,7 +1442,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1523,7 +1455,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config",
       "type": "plugin",
@@ -1537,13 +1469,13 @@
       "time": {
         "hooks": {
           "onStart": [
-            0
+            1
           ],
           "addBeforeMiddlewares": [
-            15
+            11
           ]
         },
-        "register": 19
+        "register": 17
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/mock/mock.js",
@@ -1555,7 +1487,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config",
       "type": "plugin",
@@ -1587,33 +1519,9 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addEntryImports": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1657,43 +1565,18 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
-            1
+            0
           ],
           "onGenerateFiles": [
-            34,
-            12,
-            7,
-            7,
-            5,
-            5,
+            35,
             9,
-            24,
-            15,
-            9,
-            16,
             8,
             8,
+            6,
             7,
-            8
+            6
           ],
           "addPolyfillImports": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1736,22 +1619,6 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
@@ -1775,18 +1642,10 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1812,7 +1671,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config",
       "type": "plugin",
@@ -1827,14 +1686,6 @@
         "hooks": {
           "onGenerateFiles": [
             0,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1846,7 +1697,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1861,35 +1712,19 @@
         "hooks": {
           "onGenerateFiles": [
             6,
-            3,
-            9,
-            3,
-            6,
-            2,
-            5,
-            3,
             4,
-            2,
-            4,
-            2,
-            7,
-            3,
-            16,
-            6,
             8,
             3,
-            10,
-            4,
-            11,
-            3,
-            6,
-            3,
-            7,
-            3,
-            6,
+            8,
             2,
             7,
-            4
+            3,
+            4,
+            3,
+            7,
+            4,
+            6,
+            3
           ]
         },
         "register": 2
@@ -1930,7 +1765,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config",
       "type": "plugin",
@@ -1944,24 +1779,16 @@
       "time": {
         "hooks": {
           "onGenerateFiles": [
-            195,
-            10,
-            5,
-            6,
-            5,
-            5,
-            8,
-            21,
+            194,
             11,
-            16,
-            9,
+            6,
             7,
             6,
-            5,
-            8
+            7,
+            5
           ]
         },
-        "register": 1
+        "register": 2
       },
       "enableBy": "register",
       "type": "plugin",
@@ -1991,7 +1818,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2017,7 +1844,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/apiRoute/apiRoute.js",
@@ -2029,7 +1856,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 13
+        "register": 12
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2046,21 +1873,13 @@
             1,
             1,
             1,
-            1,
-            0,
-            0,
             0,
             1,
             1,
-            1,
-            1,
-            0,
-            1,
-            1,
-            0
+            1
           ]
         },
-        "register": 0
+        "register": 1
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/test/test.js",
@@ -2072,7 +1891,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2085,7 +1904,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 277
+        "register": 346
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2098,7 +1917,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2111,7 +1930,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/webpack/webpack.js",
@@ -2127,7 +1946,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2140,7 +1959,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/ui/ui.js",
@@ -2190,7 +2009,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/utoopack/utoopack.js",
@@ -2202,7 +2021,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/hmrGuardian/hmrGuardian.js",
@@ -2216,6 +2035,8 @@
         "hooks": {
           "addHTMLHeadScripts": [
             0,
+            2,
+            0,
             0,
             0,
             0,
@@ -2228,7 +2049,7 @@
             0
           ]
         },
-        "register": 14
+        "register": 13
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad.js",
@@ -2270,7 +2091,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 19
+        "register": 18
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2284,10 +2105,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            13
+            14
           ]
         },
-        "register": 15
+        "register": 20
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/preset-umi/dist/commands/dev/dev.js",
@@ -2299,7 +2120,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2338,7 +2159,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2351,7 +2172,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2377,7 +2198,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2442,7 +2263,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2455,7 +2276,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2468,7 +2289,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2507,7 +2328,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2520,7 +2341,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2533,7 +2354,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2546,7 +2367,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2559,7 +2380,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -2579,8 +2400,9 @@
             0,
             0,
             0,
-            0,
-            0,
+            0
+          ],
+          "onGenerateFiles": [
             0,
             0,
             0,
@@ -2588,23 +2410,6 @@
             0,
             0,
             0
-          ],
-          "onGenerateFiles": [
-            1,
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            0,
-            0,
-            0,
-            1
           ],
           "addTmpGenerateWatcherPaths": [
             0
@@ -2638,8 +2443,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            1,
-            0
+            1
           ],
           "modifyAppData": [
             0
@@ -2656,23 +2460,7 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            1,
             0,
             0,
             0,
@@ -2680,14 +2468,6 @@
             0
           ],
           "addRuntimePlugin": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2703,14 +2483,6 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
@@ -2719,16 +2491,8 @@
             1,
             1,
             0,
-            0,
             1,
-            1,
-            0,
-            1,
-            1,
-            1,
-            1,
-            0,
-            0
+            1
           ],
           "addExtraBabelPlugins": [
             0
@@ -2737,7 +2501,7 @@
             0
           ]
         },
-        "register": 3
+        "register": 4
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/plugins/dist/antd.js",
@@ -2749,7 +2513,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 11
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2769,14 +2533,6 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePluginKey": [
@@ -2786,42 +2542,18 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            0,
-            0,
-            0,
-            0,
+            1,
             1,
             0,
             0,
             0,
             0,
-            1,
-            0,
-            0,
-            0,
-            1,
             0
           ],
           "addExtraModels": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
             0,
             0,
             0,
@@ -2847,18 +2579,9 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
             0
           ],
           "addLayouts": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2877,25 +2600,9 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePluginKey": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2906,23 +2613,15 @@
           ],
           "onGenerateFiles": [
             2,
-            3,
-            1,
-            1,
-            0,
-            1,
-            3,
-            3,
-            3,
-            3,
-            3,
+            2,
             2,
             2,
             1,
+            2,
             2
           ]
         },
-        "register": 1
+        "register": 5
       },
       "enableBy": "config",
       "type": "plugin",
@@ -2942,40 +2641,16 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            1,
             0,
             0,
             0,
             1,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePlugin": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2991,38 +2666,22 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            6,
-            5,
-            3,
+            9,
+            4,
+            4,
             4,
             3,
-            2,
             4,
-            7,
-            5,
-            6,
-            5,
-            4,
-            3,
-            3,
-            5
+            3
           ],
           "addTmpGenerateWatcherPaths": [
             2
           ]
         },
-        "register": 1
+        "register": 3
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3035,7 +2694,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3055,38 +2714,22 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            8,
-            8,
+            7,
+            6,
+            6,
+            6,
             5,
-            6,
-            6,
-            6,
-            6,
-            10,
-            8,
-            8,
-            11,
-            6,
-            6,
-            6,
-            7
+            7,
+            6
           ],
           "addTmpGenerateWatcherPaths": [
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3100,7 +2743,6 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
             0
           ],
           "addEntryCodeAhead": [
@@ -3110,35 +2752,19 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             1,
             0,
             0,
             0,
             0,
-            1,
             0,
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3152,14 +2778,6 @@
       "time": {
         "hooks": {
           "addRuntimePluginKey": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -3226,31 +2844,15 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
             1,
             1,
-            1,
-            1,
-            0,
             0,
             1,
-            3,
-            1,
-            3,
             1,
             1,
-            0,
-            0,
             1
           ]
         },
@@ -3267,7 +2869,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3293,7 +2895,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3307,11 +2909,10 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register",
       "type": "plugin",
@@ -3359,7 +2960,6 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
             0
           ]
         },
@@ -3396,14 +2996,6 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onStart": [
@@ -3416,41 +3008,24 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addBeforeMiddlewares": [
             0
           ],
           "onDevCompileDone": [
-            6,
+            5,
             1,
-            17,
-            1,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            9,
-            2,
-            3,
-            1,
-            2,
+            15,
+            14,
             2,
             1,
-            1
+            8,
+            1,
+            2
           ]
         },
-        "register": 94
+        "register": 121
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3463,7 +3038,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 246
+        "register": 224
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3478,7 +3053,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config",
       "type": "plugin",
@@ -3501,31 +3076,22 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
-            0
+            1
           ],
           "modifyAppData": [
             0
           ],
           "onGenerateFiles": [
-            1,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             1,
             1,
             0,
-            1,
-            1,
+            0,
+            0,
             0
           ]
         },
-        "register": 30
+        "register": 28
       },
       "type": "plugin",
       "path": "/Users/baiyunpeng04/workspace/stock/stock-frontend/node_modules/@umijs/request-record/dist/cjs/index.js",
@@ -3607,10 +3173,6 @@
             "path": "/operation/metadata-model-list",
             "name": "元数据模型",
             "component": "./Metadata/ModelList"
-          },
-          {
-            "path": "/operation/metadata-model-list/model-editor",
-            "component": "./Metadata/ModelEditor"
           },
           {
             "path": "/operation/metadata-model-list/model-detail",
@@ -3792,10 +3354,6 @@
             "path": "/operation/metadata-model-list",
             "name": "元数据模型",
             "component": "./Metadata/ModelList"
-          },
-          {
-            "path": "/operation/metadata-model-list/model-editor",
-            "component": "./Metadata/ModelEditor"
           },
           {
             "path": "/operation/metadata-model-list/model-detail",
@@ -4881,7 +4439,7 @@
       "parentId": "7",
       "id": "9",
       "absPath": "/operation/schedule-config-list",
-      "__content": "import { PageContainer } from \"@ant-design/pro-components\";\nimport { Button, Card, Form, Input, message, Modal, Table, Tag } from \"antd\";\nimport { useEffect, useState } from \"react\";\nimport { getAllScheduleConfigs, saveScheduleConfig } from \"@/services/schedule-config\";\nimport { useForm } from \"antd/es/form/Form\";\nimport { formItemLayout } from \"@/pages/common\";\n\nconst ScheduleConfigList = () => {\n\n    const [scheduleConfigs, setScheduleConfigs] = useState([]);\n    const [visible, setVisible] = useState(false);\n    const [form] = useForm();\n\n    useEffect(() => {\n        refresh();\n    }, []);\n\n    const refresh = () => {\n        getAllScheduleConfigs().then(r => {\n            if (r && r.code === 200) {\n                setScheduleConfigs(r.data);\n            }\n        })\n    }\n\n    const columns = [{\n        title: 'ID', dataIndex: 'id', key: 'id',\n    }, {\n        title: '任务类型', dataIndex: 'taskType', key: 'taskType',\n    }, {\n        title: '调度配置', dataIndex: 'cronExpression', key: 'cronExpression',\n    }, {\n        title: '消费数量', dataIndex: 'count', key: 'count',\n    }, {\n        title: '状态', dataIndex: 'status', key: 'status', render: (txt) => {\n            if (txt === \"T\") {\n                return <Tag color={\"green\"}>生效</Tag>\n            } else {\n                return <Tag color={\"red\"}>失效</Tag>\n            }\n        }\n    }, {\n        title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate',\n    }, {\n        title: '更新时间', dataIndex: 'gmtModified', key: 'gmtModified',\n    }, {\n        title: '操作', dataIndex: 'id', key: 'id', render: (id) => {\n            return <div>\n                <a href={\"#\"} onClick={() => {\n                    setVisible(true);\n                }}>修改</a>\n            </div>\n        }\n    }];\n\n    const submit = () => {\n        const payload = form.getFieldsValue();\n\n        saveScheduleConfig(payload).then(r => {\n            if (r && r.code === 200) {\n                message.success(\"保存成功\");\n            }\n        });\n\n        setTimeout(refresh, 1000);\n\n        setVisible(false);\n    }\n\n    return <PageContainer title={\"调度配置管理\"} content={\"用于管理全部调度配置\"}>\n        <Card extra={\n            <Button type={\"primary\"}\n                    onClick={() => setVisible(true)}>\n                新增\n            </Button>}>\n            <Table columns={columns} dataSource={scheduleConfigs}/>\n        </Card>\n\n        <Modal\n            title={\"调整任务配置\"}\n            open={visible}\n            onOk={submit}\n            onCancel={() => {\n                setVisible(false)\n            }}\n        >\n            <Form form={form}>\n                <Form.Item {...formItemLayout} name={\"taskType\"} label={\"任务类型\"}>\n                    <Input/>\n                </Form.Item>\n                <Form.Item {...formItemLayout} name={\"cronExpression\"} label={\"调度配置\"}>\n                    <Input/>\n                </Form.Item>\n                <Form.Item {...formItemLayout} name={\"count\"} label={\"消费数量\"}>\n                    <Input/>\n                </Form.Item>\n                <Form.Item {...formItemLayout} name={\"status\"} label={\"状态\"}>\n                    <Input/>\n                </Form.Item>\n            </Form>\n        </Modal>\n    </PageContainer>\n}\n\nexport default ScheduleConfigList;",
+      "__content": "import { PageContainer } from \"@ant-design/pro-components\";\nimport { Button, Card, Form, Input, message, Modal, Table, Tag } from \"antd\";\nimport { useEffect, useState } from \"react\";\nimport { getAllScheduleConfigs, saveScheduleConfig } from \"@/services/scheduleConfig\";\nimport { useForm } from \"antd/es/form/Form\";\nimport { formItemLayout } from \"@/pages/common\";\n\nconst ScheduleConfigList = () => {\n\n    const [scheduleConfigs, setScheduleConfigs] = useState([]);\n    const [visible, setVisible] = useState(false);\n    const [form] = useForm();\n\n    useEffect(() => {\n        refresh();\n    }, []);\n\n    const refresh = () => {\n        getAllScheduleConfigs().then(r => {\n            if (r && r.code === 200) {\n                setScheduleConfigs(r.data);\n            }\n        })\n    }\n\n    const columns = [{\n        title: 'ID', dataIndex: 'id', key: 'id',\n    }, {\n        title: '任务类型', dataIndex: 'taskType', key: 'taskType',\n    }, {\n        title: '调度配置', dataIndex: 'cronExpression', key: 'cronExpression',\n    }, {\n        title: '消费数量', dataIndex: 'count', key: 'count',\n    }, {\n        title: '状态', dataIndex: 'status', key: 'status', render: (txt) => {\n            if (txt === \"T\") {\n                return <Tag color={\"green\"}>生效</Tag>\n            } else {\n                return <Tag color={\"red\"}>失效</Tag>\n            }\n        }\n    }, {\n        title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate',\n    }, {\n        title: '更新时间', dataIndex: 'gmtModified', key: 'gmtModified',\n    }, {\n        title: '操作', dataIndex: 'id', key: 'id', render: (id) => {\n            return <div>\n                <a href={\"#\"} onClick={() => {\n                    setVisible(true);\n                }}>修改</a>\n            </div>\n        }\n    }];\n\n    const submit = () => {\n        const payload = form.getFieldsValue();\n\n        saveScheduleConfig(payload).then(r => {\n            if (r && r.code === 200) {\n                message.success(\"保存成功\");\n            }\n        });\n\n        setTimeout(refresh, 1000);\n\n        setVisible(false);\n    }\n\n    return <PageContainer title={\"调度配置管理\"} content={\"用于管理全部调度配置\"}>\n        <Card extra={\n            <Button type={\"primary\"}\n                    onClick={() => setVisible(true)}>\n                新增\n            </Button>}>\n            <Table columns={columns} dataSource={scheduleConfigs}/>\n        </Card>\n\n        <Modal\n            title={\"调整任务配置\"}\n            open={visible}\n            onOk={submit}\n            onCancel={() => {\n                setVisible(false)\n            }}\n        >\n            <Form form={form}>\n                <Form.Item {...formItemLayout} name={\"taskType\"} label={\"任务类型\"}>\n                    <Input/>\n                </Form.Item>\n                <Form.Item {...formItemLayout} name={\"cronExpression\"} label={\"调度配置\"}>\n                    <Input/>\n                </Form.Item>\n                <Form.Item {...formItemLayout} name={\"count\"} label={\"消费数量\"}>\n                    <Input/>\n                </Form.Item>\n                <Form.Item {...formItemLayout} name={\"status\"} label={\"状态\"}>\n                    <Input/>\n                </Form.Item>\n            </Form>\n        </Modal>\n    </PageContainer>\n}\n\nexport default ScheduleConfigList;",
       "__isJSFile": true,
       "__absFile": "/Users/baiyunpeng04/workspace/stock/stock-frontend/src/pages/OperationTool/ScheduleConfigList/index.jsx"
     },
@@ -4892,7 +4450,7 @@
       "parentId": "7",
       "id": "10",
       "absPath": "/operation/metadata-model-list",
-      "__content": "import { PageContainer } from \"@ant-design/pro-components\";\nimport { Button, Card, Form, Input, message, Modal, Popconfirm, Select, Table, Tag, Space } from \"antd\";\nimport { useEffect, useState } from \"react\";\nimport { listModels, saveModel, deleteModel } from \"@/services/metadata\";\nimport { useForm } from \"antd/es/form/Form\";\nimport { formItemLayout } from \"@/pages/common\";\n\nconst MODEL_TYPES = [\n  { value: 'TABLE', label: '表模型' },\n  { value: 'INDICATOR', label: '指标模型' },\n  { value: 'DIMENSION', label: '维度模型' },\n];\n\nconst STATUS_MAP = {\n  'DRAFT': { color: 'default', text: '草稿' },\n  'PUBLISHED': { color: 'green', text: '已发布' },\n  'DEPRECATED': { color: 'orange', text: '已废弃' },\n};\n\nconst ModelList = () => {\n\n  const [models, setModels] = useState([]);\n  const [visible, setVisible] = useState(false);\n  const [editingModel, setEditingModel] = useState(null);\n  const [form] = useForm();\n\n  useEffect(() => {\n    refresh();\n  }, []);\n\n  const refresh = () => {\n    listModels().then(r => {\n      if (r && r.code === 200) {\n        setModels(r.data || []);\n      }\n    }).catch(() => message.error('加载模型列表失败，请稍后重试'));\n  };\n\n  const columns = [\n    {\n      title: '模型编码', dataIndex: 'code', key: 'code',\n    },\n    {\n      title: '模型名称', dataIndex: 'name', key: 'name',\n    },\n    {\n      title: '模型类型', dataIndex: 'modelType', key: 'modelType',\n      render: (txt) => {\n        const item = MODEL_TYPES.find(t => t.value === txt);\n        return item ? item.label : txt;\n      }\n    },\n    {\n      title: '状态', dataIndex: 'status', key: 'status',\n      render: (txt) => {\n        const item = STATUS_MAP[txt];\n        if (item) {\n          return <Tag color={item.color}>{item.text}</Tag>;\n        }\n        return txt;\n      }\n    },\n    {\n      title: '描述', dataIndex: 'description', key: 'description',\n    },\n    {\n      title: '更新时间', dataIndex: 'gmtModified', key: 'gmtModified',\n    },\n    {\n      title: '操作', dataIndex: 'id', key: 'id',\n      render: (id, record) => {\n        return <Space>\n          <a href={`#/operation/metadata-model-list/model-detail?id=${id}`}>查看详情</a>\n          <a onClick={() => {\n            setEditingModel(record);\n            form.setFieldsValue(record);\n            setVisible(true);\n          }}>编辑</a>\n          <Popconfirm\n            title=\"确定要删除此模型吗？\"\n            description=\"删除后将同时删除关联的所有字段。\"\n            onConfirm={() => handleDelete(id)}\n          >\n            <a style={{ color: 'red' }}>删除</a>\n          </Popconfirm>\n        </Space>;\n      }\n    },\n  ];\n\n  // H7: 先调用 validateFields 校验再提交\n  const submit = () => {\n    form.validateFields().then(() => {\n      const payload = form.getFieldsValue();\n      if (editingModel && editingModel.id) {\n        payload.id = editingModel.id;\n      }\n\n      saveModel(payload).then(r => {\n        if (r && r.code === 200) {\n          message.success(\"保存成功\");\n          refresh();\n          setVisible(false);\n          setEditingModel(null);\n          form.resetFields();\n        } else {\n          message.error(r?.msg || \"保存失败\");\n        }\n      }).catch(() => message.error('操作失败，请稍后重试'));\n    });\n  };\n\n  const handleDelete = (id) => {\n    deleteModel(id).then(r => {\n      if (r && r.code === 200) {\n        message.success(\"模型已删除\");\n        refresh();\n      } else {\n        message.error(r?.msg || \"删除失败\");\n      }\n    }).catch(() => message.error('操作失败，请稍后重试'));\n  };\n\n  const openCreateModal = () => {\n    setEditingModel(null);\n    form.resetFields();\n    setVisible(true);\n  };\n\n  return <PageContainer title={\"元数据模型管理\"} content={\"管理所有元数据模型的定义\"}>\n    <Card extra={\n      <Button type={\"primary\"} onClick={openCreateModal}>新建模型</Button>\n    }>\n      <Table columns={columns} dataSource={models} rowKey=\"id\"/>\n    </Card>\n\n    <Modal\n      title={editingModel ? \"编辑模型\" : \"新建模型\"}\n      open={visible}\n      onOk={submit}\n      onCancel={() => {\n        setVisible(false);\n        setEditingModel(null);\n        form.resetFields();\n      }}\n    >\n      <Form form={form}>\n        <Form.Item {...formItemLayout} name={\"code\"} label={\"模型编码\"} rules={[{ required: true, message: '请输入模型编码' }]}>\n          <Input disabled={!!editingModel}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"name\"} label={\"模型名称\"} rules={[{ required: true, message: '请输入模型名称' }]}>\n          <Input/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"modelType\"} label={\"模型类型\"} rules={[{ required: true, message: '请选择模型类型' }]}>\n          <Select options={MODEL_TYPES}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"description\"} label={\"描述\"}>\n          <Input.TextArea rows={3}/>\n        </Form.Item>\n      </Form>\n    </Modal>\n  </PageContainer>;\n};\n\nexport default ModelList;\n",
+      "__content": "import { PageContainer } from \"@ant-design/pro-components\";\nimport { Button, Card, Form, Input, message, Modal, Popconfirm, Select, Table, Tag, Space } from \"antd\";\nimport { useEffect, useState } from \"react\";\nimport { listModels, saveModel, deleteModel } from \"@/services/metadata\";\nimport { useForm } from \"antd/es/form/Form\";\nimport { formItemLayout } from \"@/pages/common\";\n\nconst MODEL_TYPES = [\n  { value: 'TABLE', label: '表模型' },\n  { value: 'INDICATOR', label: '指标模型' },\n  { value: 'DIMENSION', label: '维度模型' },\n];\n\nconst STATUS_MAP = {\n  'DRAFT': { color: 'default', text: '草稿' },\n  'PUBLISHED': { color: 'green', text: '已发布' },\n  'CHANGING': { color: 'orange', text: '变更中' },\n  'DEPRECATED': { color: 'red', text: '已废弃' },\n};\n\nconst ModelList = () => {\n\n  const [models, setModels] = useState([]);\n  const [visible, setVisible] = useState(false);\n  const [editingModel, setEditingModel] = useState(null);\n  const [form] = useForm();\n\n  // 筛选项\n  const [searchText, setSearchText] = useState('');\n  const [filterType, setFilterType] = useState(undefined);\n\n  useEffect(() => {\n    refresh();\n  }, []);\n\n  const refresh = () => {\n    listModels().then(r => {\n      if (r && r.code === 200) {\n        setModels(r.data || []);\n      }\n    }).catch(() => message.error('加载模型列表失败，请稍后重试'));\n  };\n\n  // 前端模糊匹配筛选\n  const filteredModels = models.filter(m => {\n    if (searchText) {\n      const keyword = searchText.toLowerCase();\n      const nameMatch = m.name && m.name.toLowerCase().includes(keyword);\n      const codeMatch = m.code && m.code.toLowerCase().includes(keyword);\n      const descMatch = m.description && m.description.toLowerCase().includes(keyword);\n      if (!nameMatch && !codeMatch && !descMatch) return false;\n    }\n    if (filterType && m.modelType !== filterType) return false;\n    return true;\n  });\n\n  const columns = [\n    {\n      title: '模型编码', dataIndex: 'code', key: 'code',\n    },\n    {\n      title: '模型名称', dataIndex: 'name', key: 'name',\n    },\n    {\n      title: '模型类型', dataIndex: 'modelType', key: 'modelType',\n      render: (txt) => {\n        const item = MODEL_TYPES.find(t => t.value === txt);\n        return item ? item.label : txt;\n      }\n    },\n    {\n      title: '状态', dataIndex: 'status', key: 'status',\n      render: (txt) => {\n        const item = STATUS_MAP[txt];\n        if (item) {\n          return <Tag color={item.color}>{item.text}</Tag>;\n        }\n        return txt;\n      }\n    },\n    {\n      title: '描述', dataIndex: 'description', key: 'description',\n    },\n    {\n      title: '更新时间', dataIndex: 'gmtModified', key: 'gmtModified',\n    },\n    {\n      title: '操作', dataIndex: 'id', key: 'id',\n      render: (id, record) => {\n        return <Space>\n          <a href={`#/operation/metadata-model-list/model-detail?id=${id}`}>查看详情</a>\n          <a onClick={() => {\n            setEditingModel(record);\n            form.setFieldsValue(record);\n            setVisible(true);\n          }}>编辑</a>\n          <Popconfirm\n            title=\"确定要删除此模型吗？\"\n            description=\"删除后将同时删除关联的所有字段。\"\n            onConfirm={() => handleDelete(id)}\n          >\n            <a style={{ color: 'red' }}>删除</a>\n          </Popconfirm>\n        </Space>;\n      }\n    },\n  ];\n\n  // H7: 先调用 validateFields 校验再提交\n  const submit = () => {\n    form.validateFields().then(() => {\n      const payload = form.getFieldsValue();\n      if (editingModel && editingModel.id) {\n        payload.id = editingModel.id;\n      }\n\n      saveModel(payload).then(r => {\n        if (r && r.code === 200) {\n          message.success(\"保存成功\");\n          refresh();\n          setVisible(false);\n          setEditingModel(null);\n          form.resetFields();\n        } else {\n          message.error(r?.msg || \"保存失败\");\n        }\n      }).catch(() => message.error('操作失败，请稍后重试'));\n    });\n  };\n\n  const handleDelete = (id) => {\n    deleteModel(id).then(r => {\n      if (r && r.code === 200) {\n        message.success(\"模型已删除\");\n        refresh();\n      } else {\n        message.error(r?.msg || \"删除失败\");\n      }\n    }).catch(() => message.error('操作失败，请稍后重试'));\n  };\n\n  const openCreateModal = () => {\n    setEditingModel(null);\n    form.resetFields();\n    setVisible(true);\n  };\n\n  return <PageContainer\n    title={\"元数据模型管理\"}\n    content={\"管理所有元数据模型的定义\"}\n    extra={<Button type={\"primary\"} onClick={openCreateModal}>新建模型</Button>}\n  >\n    {/* 筛选卡片 */}\n    <Card size=\"small\" style={{ marginBottom: 16 }}>\n      <Space wrap>\n        <Input.Search\n          placeholder=\"搜索模型名称、编码或描述\"\n          allowClear\n          style={{ width: 280 }}\n          value={searchText}\n          onChange={e => setSearchText(e.target.value)}\n          onSearch={setSearchText}\n        />\n        <Select\n          placeholder=\"模型类型筛选\"\n          allowClear\n          style={{ width: 160 }}\n          value={filterType}\n          onChange={setFilterType}\n          options={MODEL_TYPES}\n        />\n      </Space>\n    </Card>\n\n    <Card>\n      <Table columns={columns} dataSource={filteredModels} rowKey=\"id\"/>\n    </Card>\n\n    <Modal\n      title={editingModel ? \"编辑模型\" : \"新建模型\"}\n      open={visible}\n      onOk={submit}\n      onCancel={() => {\n        setVisible(false);\n        setEditingModel(null);\n        form.resetFields();\n      }}\n    >\n      <Form form={form}>\n        <Form.Item {...formItemLayout} name={\"code\"} label={\"模型编码\"} rules={[{ required: true, message: '请输入模型编码' }]}>\n          <Input disabled={!!editingModel}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"name\"} label={\"模型名称\"} rules={[{ required: true, message: '请输入模型名称' }]}>\n          <Input/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"modelType\"} label={\"模型类型\"} rules={[{ required: true, message: '请选择模型类型' }]}>\n          <Select options={MODEL_TYPES}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"description\"} label={\"描述\"}>\n          <Input.TextArea rows={3}/>\n        </Form.Item>\n      </Form>\n    </Modal>\n  </PageContainer>;\n};\n\nexport default ModelList;\n",
       "__isJSFile": true,
       "__absFile": "/Users/baiyunpeng04/workspace/stock/stock-frontend/src/pages/Metadata/ModelList/index.jsx"
     },
@@ -4902,7 +4460,7 @@
       "parentId": "7",
       "id": "11",
       "absPath": "/operation/metadata-model-list/model-detail",
-      "__content": "import { PageContainer } from \"@ant-design/pro-components\";\nimport {\n  Button, Card, Descriptions, Form, Input, InputNumber, message, Modal, Popconfirm,\n  Select, Space, Switch, Table, Tag, Alert\n} from \"antd\";\nimport { useEffect, useState } from \"react\";\nimport {\n  getModelDetail, publishModel, getModelSchema, saveField, deleteField, listEnums\n} from \"@/services/metadata\";\nimport { useForm } from \"antd/es/form/Form\";\nimport { formItemLayout } from \"@/pages/common\";\n\nconst FIELD_TYPES = [\n  { value: 'STRING', label: '字符串' },\n  { value: 'NUMBER', label: '数字' },\n  { value: 'INTEGER', label: '整数' },\n  { value: 'DECIMAL', label: '小数' },\n  { value: 'DATE', label: '日期' },\n  { value: 'DATETIME', label: '日期时间' },\n  { value: 'BOOLEAN', label: '布尔' },\n  { value: 'ENUM', label: '枚举' },\n];\n\nconst STATUS_MAP = {\n  'DRAFT': { color: 'default', text: '草稿' },\n  'PUBLISHED': { color: 'green', text: '已发布' },\n  'DEPRECATED': { color: 'orange', text: '已废弃' },\n};\n\nconst ModelDetail = () => {\n\n  const [model, setModel] = useState(null);\n  const [fields, setFields] = useState([]);\n  const [enums, setEnums] = useState([]);\n  const [schemaJson, setSchemaJson] = useState(null);\n  const [schemaVisible, setSchemaVisible] = useState(false);\n  const [fieldVisible, setFieldVisible] = useState(false);\n  const [editingField, setEditingField] = useState(null);\n  const [form] = useForm();\n\n  const modelId = new URLSearchParams(window.location.hash.split('?')[1] || '').get('id');\n\n  useEffect(() => {\n    if (modelId) {\n      refreshModel();\n    }\n  }, [modelId]);\n\n  const refreshModel = () => {\n    if (!modelId) return;\n\n    getModelDetail(Number(modelId)).then(r => {\n      if (r && r.code === 200) {\n        setModel(r.data);\n        setFields(r.data.fields || []);\n      }\n    }).catch(() => message.error('加载模型详情失败，请稍后重试'));\n\n    listEnums().then(r => {\n      if (r && r.code === 200) {\n        setEnums(r.data || []);\n      }\n    }).catch(() => message.error('加载枚举列表失败，请稍后重试'));\n  };\n\n  const handleShowSchema = () => {\n    getModelSchema(Number(modelId)).then(r => {\n      if (r && r.code === 200) {\n        setSchemaJson(r.data);\n        setSchemaVisible(true);\n      } else {\n        message.error(r?.msg || \"获取 JSON Schema 失败\");\n      }\n    }).catch(() => message.error('获取 JSON Schema 失败，请稍后重试'));\n  };\n\n  const handlePublish = () => {\n    publishModel({ modelId: Number(modelId) }).then(r => {\n      if (r && r.code === 200) {\n        message.success(\"发布成功\");\n        refreshModel();\n      } else {\n        message.error(r?.msg || \"发布失败\");\n      }\n    }).catch(() => message.error('发布失败，请稍后重试'));\n  };\n\n  // ===== 字段管理 =====\n\n  const openFieldModal = () => {\n    setEditingField(null);\n    form.resetFields();\n    form.setFieldsValue({ required: false, modelId: Number(modelId) });\n    setFieldVisible(true);\n  };\n\n  const submitField = () => {\n    form.validateFields().then(() => {\n      const payload = form.getFieldsValue();\n      payload.modelId = Number(modelId);\n\n      if (editingField && editingField.id) {\n        payload.id = editingField.id;\n      }\n\n      saveField(payload).then(r => {\n        if (r && r.code === 200) {\n          message.success(\"字段保存成功\");\n          setFieldVisible(false);\n          setEditingField(null);\n          form.resetFields();\n          refreshModel();\n        } else {\n          message.error(r?.msg || \"字段保存失败\");\n        }\n      }).catch(() => message.error('操作失败，请稍后重试'));\n    });\n  };\n\n  const handleDeleteField = (fieldId) => {\n    deleteField(fieldId).then(r => {\n      if (r && r.code === 200) {\n        message.success(\"字段已删除\");\n        refreshModel();\n      } else {\n        message.error(r?.msg || \"删除失败\");\n      }\n    }).catch(() => message.error('操作失败，请稍后重试'));\n  };\n\n  const getEnumUsageInfo = (enumId) => {\n    if (!enumId) return '';\n    const e = enums.find(item => item.id === enumId);\n    if (!e) return '';\n    const parts = [];\n    if (e.refModelCount > 0) parts.push(`${e.refModelCount} 个模型使用`);\n    if (e.refFieldCount > 0) parts.push(`${e.refFieldCount} 个字段引用`);\n    return parts.length > 0 ? parts.join('，') : '暂无引用';\n  };\n\n  const fieldColumns = [\n    {\n      title: '排序', dataIndex: 'sortOrder', key: 'sortOrder', width: 60,\n    },\n    {\n      title: '字段名称', dataIndex: 'fieldName', key: 'fieldName',\n    },\n    {\n      title: '字段类型', dataIndex: 'fieldType', key: 'fieldType',\n      render: (txt) => {\n        const item = FIELD_TYPES.find(t => t.value === txt);\n        return item ? item.label : txt;\n      }\n    },\n    {\n      title: '业务含义', dataIndex: 'businessMeaning', key: 'businessMeaning',\n      render: (txt) => txt || '-',\n    },\n    {\n      title: '必填', dataIndex: 'required', key: 'required',\n      render: (val) => val ? <Tag color=\"red\">是</Tag> : <Tag>否</Tag>\n    },\n    {\n      title: '约束', dataIndex: 'constraints', key: 'constraints',\n      render: (txt) => txt || '-',\n    },\n    {\n      title: '绑定枚举', dataIndex: 'enumId', key: 'enumId',\n      render: (enumId) => {\n        if (!enumId) return '-';\n        const e = enums.find(item => item.id === enumId);\n        return e ? e.name : `#${enumId}`;\n      }\n    },\n    {\n      title: '操作', dataIndex: 'id', key: 'id',\n      render: (id, record) => {\n        return <Space>\n          <a onClick={() => {\n            setEditingField(record);\n            form.setFieldsValue({\n              ...record,\n              required: record.required || false,\n            });\n            setFieldVisible(true);\n          }}>编辑</a>\n          <Popconfirm title=\"确定要删除此字段吗？\" onConfirm={() => handleDeleteField(id)}>\n            <a style={{ color: 'red' }}>删除</a>\n          </Popconfirm>\n        </Space>;\n      }\n    },\n  ];\n\n  const renderStatus = (status) => {\n    const item = STATUS_MAP[status];\n    if (item) {\n      return <Tag color={item.color}>{item.text}</Tag>;\n    }\n    return status;\n  };\n\n  return <PageContainer\n    title={\"模型详情\"}\n    onBack={() => window.history.back()}\n  >\n    {model && <Card\n      title=\"模型基本信息\"\n      extra={\n        <Space>\n          {renderStatus(model.status)}\n          <Button onClick={handleShowSchema}>查看 JSON Schema</Button>\n          <Button\n            type=\"primary\"\n            onClick={handlePublish}\n            disabled={model.status === 'PUBLISHED'}\n          >\n            发布\n          </Button>\n        </Space>\n      }\n      style={{ marginBottom: 24 }}\n    >\n      <Descriptions column={2}>\n        <Descriptions.Item label=\"模型编码\">{model.code}</Descriptions.Item>\n        <Descriptions.Item label=\"模型名称\">{model.name}</Descriptions.Item>\n        <Descriptions.Item label=\"模型类型\">{model.modelType}</Descriptions.Item>\n        <Descriptions.Item label=\"描述\">{model.description || '-'}</Descriptions.Item>\n      </Descriptions>\n    </Card>}\n\n    <Card\n      title=\"属性列表\"\n      extra={<Button type={\"primary\"} onClick={openFieldModal}>添加属性</Button>}\n    >\n      <Table columns={fieldColumns} dataSource={fields} rowKey=\"id\"/>\n    </Card>\n\n    {/* JSON Schema 展示弹窗 */}\n    <Modal\n      title=\"JSON Schema\"\n      open={schemaVisible}\n      onCancel={() => setSchemaVisible(false)}\n      footer={\n        <Space>\n          <Button onClick={() => {\n            navigator.clipboard.writeText(JSON.stringify(schemaJson, null, 2));\n            message.success(\"已复制到剪贴板\");\n          }}>复制</Button>\n          <Button onClick={() => setSchemaVisible(false)}>关闭</Button>\n        </Space>\n      }\n      width={700}\n    >\n      {schemaJson && (\n        <pre style={{\n          background: '#1e1e1e',\n          color: '#d4d4d4',\n          padding: 16,\n          borderRadius: 6,\n          maxHeight: 500,\n          overflow: 'auto',\n          fontSize: 12,\n          lineHeight: 1.6,\n          whiteSpace: 'pre-wrap',\n          wordBreak: 'break-all',\n        }}>\n          {JSON.stringify(schemaJson, null, 2)}\n        </pre>\n      )}\n    </Modal>\n\n    {/* 属性编辑弹窗 */}\n    <Modal\n      title={editingField ? \"编辑属性\" : \"添加属性\"}\n      open={fieldVisible}\n      onOk={submitField}\n      onCancel={() => {\n        setFieldVisible(false);\n        setEditingField(null);\n        form.resetFields();\n      }}\n      width={600}\n    >\n      <Form form={form}>\n        <Form.Item {...formItemLayout} name={\"fieldName\"} label={\"字段名称\"} rules={[{ required: true, message: '请输入字段名称' }]}>\n          <Input/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"fieldType\"} label={\"字段类型\"} rules={[{ required: true, message: '请选择字段类型' }]}>\n          <Select options={FIELD_TYPES}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"businessMeaning\"} label={\"业务含义\"}>\n          <Input.TextArea rows={2}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"required\"} label={\"是否必填\"} valuePropName=\"checked\">\n          <Switch/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"sortOrder\"} label={\"排序序号\"}>\n          <InputNumber min={0} style={{ width: '100%' }}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"enumId\"} label={\"绑定枚举\"}>\n          <Select\n            allowClear\n            placeholder=\"选择枚举（可选）\"\n            options={enums.map(e => ({\n              value: e.id,\n              label: `${e.name} (${e.code})`,\n              extra: getEnumUsageInfo(e.id),\n            }))}\n            optionRender={(option) => (\n              <div>\n                <div>{option.label}</div>\n                {option.data.extra && <div style={{ fontSize: 12, color: '#999' }}>{option.data.extra}</div>}\n              </div>\n            )}\n          />\n        </Form.Item>\n      </Form>\n    </Modal>\n  </PageContainer>;\n};\n\nexport default ModelDetail;\n",
+      "__content": "import { PageContainer } from \"@ant-design/pro-components\";\nimport {\n  Button, Card, Descriptions, Drawer, Form, Input, InputNumber, message, Modal, Popconfirm,\n  Select, Space, Switch, Table, Tag\n} from \"antd\";\nimport { useEffect, useState } from \"react\";\nimport {\n  getModelDetail, publishModel, getModelSchema, saveField, deleteField, listEnums,\n  listModelVersions, switchModelVersion\n} from \"@/services/metadata\";\nimport { useForm } from \"antd/es/form/Form\";\nimport { formItemLayout } from \"@/pages/common\";\n\nconst FIELD_TYPES = [\n  { value: 'STRING', label: '字符串' },\n  { value: 'NUMBER', label: '数字' },\n  { value: 'INTEGER', label: '整数' },\n  { value: 'DECIMAL', label: '小数' },\n  { value: 'DATE', label: '日期' },\n  { value: 'DATETIME', label: '日期时间' },\n  { value: 'BOOLEAN', label: '布尔' },\n  { value: 'ENUM', label: '枚举' },\n];\n\nconst STATUS_MAP = {\n  'DRAFT': { color: 'default', text: '草稿' },\n  'PUBLISHED': { color: 'green', text: '已发布' },\n  'DEPRECATED': { color: 'orange', text: '已废弃' },\n  'CHANGING': { color: 'orange', text: '变更中' },\n};\n\nconst ModelDetail = () => {\n\n  const [model, setModel] = useState(null);\n  const [fields, setFields] = useState([]);\n  const [enums, setEnums] = useState([]);\n  const [schemaJson, setSchemaJson] = useState(null);\n  const [schemaVisible, setSchemaVisible] = useState(false);\n  const [fieldVisible, setFieldVisible] = useState(false);\n  const [editingField, setEditingField] = useState(null);\n  const [versions, setVersions] = useState([]);\n  const [versionsVisible, setVersionsVisible] = useState(false);\n  const [form] = useForm();\n\n  const modelId = new URLSearchParams(window.location.hash.split('?')[1] || '').get('id');\n\n  useEffect(() => {\n    if (modelId) {\n      refreshModel();\n    }\n  }, [modelId]);\n\n  const refreshModel = () => {\n    if (!modelId) return;\n\n    getModelDetail(Number(modelId)).then(r => {\n      if (r && r.code === 200) {\n        setModel(r.data);\n        setFields(r.data.fields || []);\n      }\n    }).catch(() => message.error('加载模型详情失败，请稍后重试'));\n\n    listEnums().then(r => {\n      if (r && r.code === 200) {\n        setEnums(r.data || []);\n      }\n    }).catch(() => message.error('加载枚举列表失败，请稍后重试'));\n  };\n\n  const handleShowSchema = () => {\n    getModelSchema(Number(modelId)).then(r => {\n      if (r && r.code === 200) {\n        setSchemaJson(r.data);\n        setSchemaVisible(true);\n      } else {\n        message.error(r?.msg || \"获取 JSON Schema 失败\");\n      }\n    }).catch(() => message.error('获取 JSON Schema 失败，请稍后重试'));\n  };\n\n  const handlePublish = () => {\n    publishModel({ modelId: Number(modelId) }).then(r => {\n      if (r && r.code === 200) {\n        message.success(\"发布成功\");\n        refreshModel();\n      } else {\n        message.error(r?.msg || \"发布失败\");\n      }\n    }).catch(() => message.error('发布失败，请稍后重试'));\n  };\n\n  const handleLoadVersions = () => {\n    listModelVersions(Number(modelId)).then(r => {\n      if (r && r.code === 200) {\n        setVersions(r.data || []);\n        setVersionsVisible(true);\n      } else {\n        message.error(r?.msg || \"获取版本列表失败\");\n      }\n    }).catch(() => message.error('获取版本列表失败，请稍后重试'));\n  };\n\n  const handleSwitchVersion = (version) => {\n    Modal.confirm({\n      title: '切换版本',\n      content: `确定要切换到版本 v${version} 吗？`,\n      onOk: () => {\n        switchModelVersion({ modelId: Number(modelId), version }).then(r => {\n          if (r && r.code === 200) {\n            message.success(`已切换到版本 v${version}`);\n            setVersionsVisible(false);\n            refreshModel();\n          } else {\n            message.error(r?.msg || \"切换版本失败\");\n          }\n        }).catch(() => message.error('切换版本失败，请稍后重试'));\n      }\n    });\n  };\n\n  // ===== 字段管理 =====\n\n  const openFieldModal = () => {\n    setEditingField(null);\n    form.resetFields();\n    form.setFieldsValue({ required: false, modelId: Number(modelId) });\n    setFieldVisible(true);\n  };\n\n  const submitField = () => {\n    form.validateFields().then(() => {\n      const payload = form.getFieldsValue();\n      payload.modelId = Number(modelId);\n\n      if (editingField && editingField.id) {\n        payload.id = editingField.id;\n      }\n\n      saveField(payload).then(r => {\n        if (r && r.code === 200) {\n          message.success(\"字段保存成功\");\n          setFieldVisible(false);\n          setEditingField(null);\n          form.resetFields();\n          refreshModel();\n        } else {\n          message.error(r?.msg || \"字段保存失败\");\n        }\n      }).catch(() => message.error('操作失败，请稍后重试'));\n    });\n  };\n\n  const handleDeleteField = (fieldId) => {\n    deleteField(fieldId).then(r => {\n      if (r && r.code === 200) {\n        message.success(\"字段已删除\");\n        refreshModel();\n      } else {\n        message.error(r?.msg || \"删除失败\");\n      }\n    }).catch(() => message.error('操作失败，请稍后重试'));\n  };\n\n  const getEnumUsageInfo = (enumId) => {\n    if (!enumId) return '';\n    const e = enums.find(item => item.id === enumId);\n    if (!e) return '';\n    const parts = [];\n    if (e.refModelCount > 0) parts.push(`${e.refModelCount} 个模型使用`);\n    if (e.refFieldCount > 0) parts.push(`${e.refFieldCount} 个字段引用`);\n    return parts.length > 0 ? parts.join('，') : '暂无引用';\n  };\n\n  const fieldColumns = [\n    {\n      title: '排序', dataIndex: 'sortOrder', key: 'sortOrder', width: 60,\n    },\n    {\n      title: '字段名称', dataIndex: 'fieldName', key: 'fieldName',\n    },\n    {\n      title: '字段类型', dataIndex: 'fieldType', key: 'fieldType',\n      render: (txt) => {\n        const item = FIELD_TYPES.find(t => t.value === txt);\n        return item ? item.label : txt;\n      }\n    },\n    {\n      title: '业务含义', dataIndex: 'businessMeaning', key: 'businessMeaning',\n      render: (txt) => txt || '-',\n    },\n    {\n      title: '必填', dataIndex: 'required', key: 'required',\n      render: (val) => val ? <Tag color=\"red\">是</Tag> : <Tag>否</Tag>\n    },\n    {\n      title: '约束', dataIndex: 'constraints', key: 'constraints',\n      render: (txt) => txt || '-',\n    },\n    {\n      title: '绑定枚举', dataIndex: 'enumId', key: 'enumId',\n      render: (enumId) => {\n        if (!enumId) return '-';\n        const e = enums.find(item => item.id === enumId);\n        return e ? e.name : `#${enumId}`;\n      }\n    },\n    {\n      title: '操作', dataIndex: 'id', key: 'id',\n      render: (id, record) => {\n        return <Space>\n          <a onClick={() => {\n            setEditingField(record);\n            form.setFieldsValue({\n              ...record,\n              required: record.required || false,\n            });\n            setFieldVisible(true);\n          }}>编辑</a>\n          <Popconfirm title=\"确定要删除此字段吗？\" onConfirm={() => handleDeleteField(id)}>\n            <a style={{ color: 'red' }}>删除</a>\n          </Popconfirm>\n        </Space>;\n      }\n    },\n  ];\n\n  const versionColumns = [\n    { title: '版本号', dataIndex: 'version', key: 'version',\n      render: (v) => `v${v}` },\n    { title: '版本说明', dataIndex: 'versionDesc', key: 'versionDesc',\n      render: (t) => t || '-' },\n    { title: '发布时间', dataIndex: 'gmtCreate', key: 'gmtCreate' },\n    { title: '当前版本', dataIndex: 'isCurrent', key: 'isCurrent',\n      render: (val) => val ? <Tag color=\"green\">当前</Tag> : null },\n    { title: '操作', key: 'action',\n      render: (_, record) => (\n        <Button\n          type=\"link\"\n          disabled={record.isCurrent}\n          onClick={() => handleSwitchVersion(record.version)}\n        >切换到此版本</Button>\n      )\n    },\n  ];\n\n  const renderStatus = (status) => {\n    const item = STATUS_MAP[status];\n    if (item) {\n      return <Tag color={item.color}>{item.text}</Tag>;\n    }\n    return status;\n  };\n\n  return <PageContainer\n    title={\"模型详情\"}\n    onBack={() => window.history.back()}\n  >\n    {model && <Card\n      title=\"模型基本信息\"\n      extra={\n        <Space>\n          {renderStatus(model.status)}\n          <Button onClick={handleLoadVersions}>版本历史</Button>\n          <Button onClick={handleShowSchema}>查看 JSON Schema</Button>\n          <Button\n            type=\"primary\"\n            onClick={handlePublish}\n            disabled={model.status === 'PUBLISHED' || model.status === 'DEPRECATED'}\n          >\n            发布\n          </Button>\n        </Space>\n      }\n      style={{ marginBottom: 24 }}\n    >\n      <Descriptions column={2}>\n        <Descriptions.Item label=\"模型编码\">{model.code}</Descriptions.Item>\n        <Descriptions.Item label=\"模型名称\">{model.name}</Descriptions.Item>\n        <Descriptions.Item label=\"模型类型\">{model.modelType}</Descriptions.Item>\n        <Descriptions.Item label=\"描述\">{model.description || '-'}</Descriptions.Item>\n        <Descriptions.Item label=\"当前版本\">v{model.currentVersion > 0 ? model.currentVersion : '-'}</Descriptions.Item>\n      </Descriptions>\n    </Card>}\n\n    <Card\n      title=\"属性列表\"\n      extra={<Button type={\"primary\"} onClick={openFieldModal}>添加属性</Button>}\n    >\n      <Table columns={fieldColumns} dataSource={fields} rowKey=\"id\"/>\n    </Card>\n\n    {/* JSON Schema 展示弹窗 */}\n    <Modal\n      title=\"JSON Schema\"\n      open={schemaVisible}\n      onCancel={() => setSchemaVisible(false)}\n      footer={\n        <Space>\n          <Button onClick={() => {\n            navigator.clipboard.writeText(JSON.stringify(schemaJson, null, 2));\n            message.success(\"已复制到剪贴板\");\n          }}>复制</Button>\n          <Button onClick={() => setSchemaVisible(false)}>关闭</Button>\n        </Space>\n      }\n      width={700}\n    >\n      {schemaJson && (\n        <pre style={{\n          background: '#1e1e1e',\n          color: '#d4d4d4',\n          padding: 16,\n          borderRadius: 6,\n          maxHeight: 500,\n          overflow: 'auto',\n          fontSize: 12,\n          lineHeight: 1.6,\n          whiteSpace: 'pre-wrap',\n          wordBreak: 'break-all',\n        }}>\n          {JSON.stringify(schemaJson, null, 2)}\n        </pre>\n      )}\n    </Modal>\n\n    {/* 属性编辑弹窗 */}\n    <Modal\n      title={editingField ? \"编辑属性\" : \"添加属性\"}\n      open={fieldVisible}\n      onOk={submitField}\n      onCancel={() => {\n        setFieldVisible(false);\n        setEditingField(null);\n        form.resetFields();\n      }}\n      width={600}\n    >\n      <Form form={form}>\n        <Form.Item {...formItemLayout} name={\"fieldName\"} label={\"字段名称\"} rules={[{ required: true, message: '请输入字段名称' }]}>\n          <Input/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"fieldType\"} label={\"字段类型\"} rules={[{ required: true, message: '请选择字段类型' }]}>\n          <Select options={FIELD_TYPES}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"businessMeaning\"} label={\"业务含义\"}>\n          <Input.TextArea rows={2}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"required\"} label={\"是否必填\"} valuePropName=\"checked\">\n          <Switch/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"sortOrder\"} label={\"排序序号\"}>\n          <InputNumber min={0} style={{ width: '100%' }}/>\n        </Form.Item>\n        <Form.Item {...formItemLayout} name={\"enumId\"} label={\"绑定枚举\"}>\n          <Select\n            allowClear\n            placeholder=\"选择枚举（可选）\"\n            options={enums.map(e => ({\n              value: e.id,\n              label: `${e.name} (${e.code})`,\n              extra: getEnumUsageInfo(e.id),\n            }))}\n            optionRender={(option) => (\n              <div>\n                <div>{option.label}</div>\n                {option.data.extra && <div style={{ fontSize: 12, color: '#999' }}>{option.data.extra}</div>}\n              </div>\n            )}\n          />\n        </Form.Item>\n      </Form>\n    </Modal>\n\n    {/* 版本历史抽屉 */}\n    <Drawer\n      title=\"版本历史\"\n      open={versionsVisible}\n      onClose={() => setVersionsVisible(false)}\n      width={500}\n    >\n      <Table\n        columns={versionColumns}\n        dataSource={versions}\n        rowKey=\"id\"\n        pagination={false}\n      />\n    </Drawer>\n  </PageContainer>;\n};\n\nexport default ModelDetail;\n",
       "__isJSFile": true,
       "__absFile": "/Users/baiyunpeng04/workspace/stock/stock-frontend/src/pages/Metadata/ModelDetail/index.jsx"
     },
@@ -4969,9 +4527,7 @@
     ]
   },
   "mfsuBundleStatus": {
-    "done": true,
-    "percent": 1,
-    "status": ""
+    "done": true
   },
   "react": {
     "version": "18.3.1",
@@ -7003,7 +6559,7 @@
             ],
             "format": "esm"
           },
-          "src/services/schedule-config.js": {
+          "src/services/scheduleConfig.js": {
             "bytes": 317,
             "imports": [
               {
@@ -7036,7 +6592,7 @@
             "format": "esm"
           },
           "src/pages/OperationTool/ScheduleConfigList/index.jsx": {
-            "bytes": 3369,
+            "bytes": 3368,
             "imports": [
               {
                 "path": "@ant-design/pro-components",
@@ -7054,9 +6610,9 @@
                 "external": true
               },
               {
-                "path": "src/services/schedule-config.js",
+                "path": "src/services/scheduleConfig.js",
                 "kind": "import-statement",
-                "original": "@/services/schedule-config"
+                "original": "@/services/scheduleConfig"
               },
               {
                 "path": "antd/es/form/Form",
@@ -7072,7 +6628,7 @@
             "format": "esm"
           },
           "src/services/metadata.js": {
-            "bytes": 2531,
+            "bytes": 2415,
             "imports": [
               {
                 "path": "src/.umi/exports.ts",
@@ -7083,7 +6639,7 @@
             "format": "esm"
           },
           "src/pages/Metadata/ModelList/index.jsx": {
-            "bytes": 5116,
+            "bytes": 6486,
             "imports": [
               {
                 "path": "@ant-design/pro-components",
@@ -7119,7 +6675,7 @@
             "format": "esm"
           },
           "src/pages/Metadata/ModelDetail/index.jsx": {
-            "bytes": 10161,
+            "bytes": 12606,
             "imports": [
               {
                 "path": "@ant-design/pro-components",
@@ -9610,23 +9166,23 @@
               "src/pages/StrategyDetail/StockStrategyDetail/index.jsx": {
                 "bytesInOutput": 8522
               },
-              "src/services/schedule-config.js": {
-                "bytesInOutput": 359
+              "src/services/scheduleConfig.js": {
+                "bytesInOutput": 357
               },
               "src/pages/common.js": {
                 "bytesInOutput": 415
               },
               "src/pages/OperationTool/ScheduleConfigList/index.jsx": {
-                "bytesInOutput": 4348
+                "bytesInOutput": 4347
               },
               "src/services/metadata.js": {
-                "bytesInOutput": 1467
+                "bytesInOutput": 1831
               },
               "src/pages/Metadata/ModelList/index.jsx": {
-                "bytesInOutput": 7067
+                "bytesInOutput": 8817
               },
               "src/pages/Metadata/ModelDetail/index.jsx": {
-                "bytesInOutput": 13457
+                "bytesInOutput": 16823
               },
               "src/pages/Metadata/EnumManager/index.jsx": {
                 "bytesInOutput": 11959
@@ -9671,7 +9227,7 @@
                 "bytesInOutput": 1834
               }
             },
-            "bytes": 187225
+            "bytes": 192701
           }
         }
       }

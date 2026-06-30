@@ -82,6 +82,7 @@ public class DtoConverter {
         dto.setModelType(model.getModelType());
         dto.setDescription(model.getDescription());
         dto.setStatus(model.getStatus());
+        dto.setCurrentVersion(model.getCurrentVersion());
         dto.setGmtCreate(DateUtils.formatDate(model.getGmtCreate()));
         dto.setGmtModified(DateUtils.formatDate(model.getGmtModified()));
 
@@ -269,6 +270,20 @@ public class DtoConverter {
             dto.setRefDetails(refDetailDTOs);
         }
 
+        return dto;
+    }
+
+    /** MetadataModelVersion -> ModelVersionDTO */
+    public static ModelVersionDTO toDto(MetadataModelVersion version) {
+        if (version == null) {
+            return null;
+        }
+        ModelVersionDTO dto = new ModelVersionDTO();
+        dto.setId(version.getId());
+        dto.setVersion(version.getVersion());
+        dto.setVersionDesc(version.getVersionDesc());
+        dto.setGmtCreate(DateUtils.formatDate(version.getGmtCreate()));
+        // isCurrent set by Controller
         return dto;
     }
 }

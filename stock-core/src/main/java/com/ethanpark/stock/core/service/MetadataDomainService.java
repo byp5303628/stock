@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 元数据领域服务接口。
  *
- * <p>提供元数据模型、字段、枚举的完整 CRUD 操作及 Schema 校验和枚举使用统计能力。
+ * <p>提供元数据模型、字段、枚举的完整 CRUD 操作及 Schema 校验、版本管理和枚举使用统计能力。
  *
  * @author baiyunpeng04
  */
@@ -58,12 +58,54 @@ public interface MetadataDomainService {
     /** Schema 校验 */
     ValidationResult validateSchema(Long modelId);
 
-    /** 发布模型（将状态改为 PUBLISHED） */
-    void publishModel(Long modelId);
+    /**
+     * 发布模型，生成版本快照。
+     *
+     * @param modelId    模型 ID
+     * @param versionDesc 版本说明（可选）
+     */
+    void publishModel(Long modelId, String versionDesc);
 
     /** 生成 JSON Schema */
     Map<String, Object> generateJsonSchema(Long modelId);
 
     /** 枚举使用统计 */
     EnumUsage getEnumUsage(Long enumId);
+
+    /** ===== 版本管理 ===== */
+
+    /**
+     * 查询模型版本列表。
+     *
+     * @param modelId 模型 ID
+     * @return 版本列表，按版本号降序排列
+     */
+    List<MetadataModelVersion> listModelVersions(Long modelId);
+
+    /**
+     * 切换当前生效版本。
+     *
+     * @param modelId 模型 ID
+     * @param version 目标版本号
+     */
+    void switchModelVersion(Long modelId, Integer version);
+
+    /**
+     * 查询指定版本的 JSONSchema。
+     *
+     * @param modelId 模型 ID
+     * @param version 版本号
+     * @return JSONSchema 内容
+     */
+    Map<String, Object> getSchemaByVersion(Long modelId, Integer version);
+
+    /**
+     * 获取模型当前生效的 JSONSchema。
+     *
+     * <p>优先读 DB 缓存，无缓存时 fallback 实时计算。
+     *
+     * @param modelId 模型 ID
+     * @return JSONSchema 内容
+     */
+    Map<String, Object> getModelSchema(Long modelId);
 }

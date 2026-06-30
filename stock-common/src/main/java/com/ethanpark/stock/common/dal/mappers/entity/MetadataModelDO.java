@@ -20,6 +20,8 @@ public class MetadataModelDO {
     private String description;
     private String status;
     private String extInfo;
+    private Integer currentVersion;
+    private String snapshotHash;
     private Date gmtCreate;
     private Date gmtModified;
 }

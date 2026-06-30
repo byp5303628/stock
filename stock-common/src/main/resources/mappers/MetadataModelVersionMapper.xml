@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.MetadataModelVersionMapper">
+    <resultMap id="BaseResultMap" type="com.ethanpark.stock.common.dal.mappers.entity.MetadataModelVersionDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="model_code" jdbcType="VARCHAR" property="modelCode"/>
+        <result column="model_id" jdbcType="BIGINT" property="modelId"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="schema_content" jdbcType="VARCHAR" property="schemaContent"/>
+        <result column="version_desc" jdbcType="VARCHAR" property="versionDesc"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.MetadataModelVersionDO" useGeneratedKeys="true" keyProperty="id">
+        insert into metadata_model_version (model_code, model_id, version, schema_content, version_desc, gmt_create, gmt_modified)
+        values (#{modelCode}, #{modelId}, #{version}, #{schemaContent}, #{versionDesc}, now(), now())
+    </insert>
+
+    <select id="selectByModelId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select *
+        from metadata_model_version
+        where model_id = #{modelId}
+        order by version desc
+    </select>
+
+    <select id="selectByModelIdAndVersion" resultMap="BaseResultMap">
+        select *
+        from metadata_model_version
+        where model_id = #{modelId}
+          and version = #{version}
+    </select>
+
+    <select id="selectMaxVersionByModelId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select coalesce(max(version), 0)
+        from metadata_model_version
+        where model_id = #{modelId}
+    </select>
+</mapper>

@@ -601,4 +601,170 @@ public class MetadataIT {
         List<?> fields = (List<?>) data.get("fields");
         assertNotNull(fields);
     }
+
+    // ===== 版本管理测试 =====
+
+    @Test
+    @Order(17)
+    @DisplayName("testFirstPublish_createsVersion — 首次发布生成版本")
+    public void testFirstPublish_createsVersion() {
+        // Given: 已有模型
+        assertNotNull(createdModelId, "需要先创建模型");
+        // The model already has fields from previous tests
+
+        // When: 发布模型
+        PublishModelRequest publishReq = new PublishModelRequest();
+        publishReq.setModelId(createdModelId);
+        publishReq.setVersionDesc("首次发布");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<PublishModelRequest> entity = new HttpEntity<>(publishReq, headers);
+
+        ResponseEntity<ResponseDTO<Map<String, Object>>> publishResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/publish.json",
+                HttpMethod.POST,
+                entity,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals(200, publishResponse.getBody().getCode());
+
+        // Then: versions列表有 version=1
+        ResponseEntity<ResponseDTO<List<Map<String, Object>>>> versionsResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/versions.json?id=" + createdModelId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseDTO<List<Map<String, Object>>>>() {}
+        );
+        assertEquals(200, versionsResponse.getBody().getCode());
+        List<Map<String, Object>> versions = versionsResponse.getBody().getData();
+        assertNotNull(versions);
+        assertTrue(versions.size() >= 1);
+        assertEquals(1, ((Number) versions.get(0).get("version")).intValue());
+        assertTrue((Boolean) versions.get(0).get("isCurrent"));
+    }
+
+    @Test
+    @Order(18)
+    @DisplayName("testModelChange_triggersChanging — 改属性后状态变 CHANGING")
+    public void testModelChange_triggersChanging() {
+        // When: 修改模型名称
+        MetadataModelSaveRequest changeReq = new MetadataModelSaveRequest();
+        changeReq.setId(createdModelId);
+        changeReq.setName("变更后的模型名称");
+        changeReq.setCode("TEST_INDICATOR_001");
+        changeReq.setModelType("INDICATOR");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MetadataModelSaveRequest> entity = new HttpEntity<>(changeReq, headers);
+
+        restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/save.json",
+                HttpMethod.POST,
+                entity,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+
+        // Then: 状态变为 CHANGING
+        ResponseEntity<ResponseDTO<Map<String, Object>>> detailResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/detail.json?id=" + createdModelId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals(200, detailResponse.getBody().getCode());
+        assertEquals("CHANGING", detailResponse.getBody().getData().get("status"));
+    }
+
+    @Test
+    @Order(19)
+    @DisplayName("testSecondPublish_versionIncrements — 再次发布版本递增")
+    public void testSecondPublish_versionIncrements() {
+        // When: 再次发布
+        PublishModelRequest publishReq = new PublishModelRequest();
+        publishReq.setModelId(createdModelId);
+        publishReq.setVersionDesc("第二次发布");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<PublishModelRequest> entity = new HttpEntity<>(publishReq, headers);
+
+        ResponseEntity<ResponseDTO<Map<String, Object>>> publishResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/publish.json",
+                HttpMethod.POST,
+                entity,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals(200, publishResponse.getBody().getCode());
+
+        // Then: versions有2个版本，状态重置为 PUBLISHED
+        ResponseEntity<ResponseDTO<List<Map<String, Object>>>> versionsResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/versions.json?id=" + createdModelId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseDTO<List<Map<String, Object>>>>() {}
+        );
+        assertEquals(200, versionsResponse.getBody().getCode());
+        List<Map<String, Object>> versions = versionsResponse.getBody().getData();
+        assertTrue(versions.size() >= 2);
+
+        // 状态 PUBLISHED
+        ResponseEntity<ResponseDTO<Map<String, Object>>> detailResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/detail.json?id=" + createdModelId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals("PUBLISHED", detailResponse.getBody().getData().get("status"));
+    }
+
+    @Test
+    @Order(20)
+    @DisplayName("testSwitchVersion — 版本切换")
+    public void testSwitchVersion() {
+        // Given: switch to version 1
+        SwitchVersionRequest switchReq = new SwitchVersionRequest();
+        switchReq.setModelId(createdModelId);
+        switchReq.setVersion(1);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<SwitchVersionRequest> entity = new HttpEntity<>(switchReq, headers);
+
+        ResponseEntity<ResponseDTO<Map<String, Object>>> switchResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/switch-version.json",
+                HttpMethod.POST,
+                entity,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals(200, switchResponse.getBody().getCode());
+
+        // Then: currentVersion = 1
+        ResponseEntity<ResponseDTO<Map<String, Object>>> detailResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/detail.json?id=" + createdModelId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals(1, ((Number) detailResponse.getBody().getData().get("currentVersion")).intValue());
+    }
+
+    @Test
+    @Order(21)
+    @DisplayName("testSchemaByVersion — 按版本查 JSONSchema 缓存")
+    public void testSchemaByVersion() {
+        ResponseEntity<ResponseDTO<Map<String, Object>>> schemaResponse = restTemplate.exchange(
+                baseUrl() + "/api/metadata/model/schema.json?id=" + createdModelId + "&version=2",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseDTO<Map<String, Object>>>() {}
+        );
+        assertEquals(200, schemaResponse.getBody().getCode());
+        Map<String, Object> schema = schemaResponse.getBody().getData();
+        assertNotNull(schema);
+        assertNotNull(schema.get("title"));
+        assertNotNull(schema.get("properties"));
+        assertNotNull(schema.get("type"));
+    }
 }
