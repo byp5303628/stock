@@ -228,6 +228,36 @@ public class DomainConverter {
         return domain;
     }
 
+    /**
+     * 将 FinancialReportDO 转换为 FinancialReport 领域对象。
+     */
+    public static FinancialReport toDomain(FinancialReportDO dbEntity) {
+        if (dbEntity == null) {
+            return null;
+        }
+
+        FinancialReport domain = new FinancialReport();
+        domain.setId(dbEntity.getId());
+        domain.setCode(dbEntity.getCode());
+        domain.setReportType(dbEntity.getReportType());
+        domain.setReportDate(dbEntity.getReportDate());
+        domain.setReportPeriod(dbEntity.getReportPeriod());
+
+        if (dbEntity.getReportData() != null && !dbEntity.getReportData().isEmpty()) {
+            domain.setReportData(JSON.parseObject(dbEntity.getReportData(),
+                    new TypeReference<Map<String, Object>>() {}));
+        }
+
+        domain.setFiscalYear(dbEntity.getFiscalYear());
+        domain.setCurrency(dbEntity.getCurrency());
+        domain.setUnit(dbEntity.getUnit());
+        domain.setSource(dbEntity.getSource());
+        domain.setGmtCreate(dbEntity.getGmtCreate());
+        domain.setGmtModified(dbEntity.getGmtModified());
+
+        return domain;
+    }
+
     private static Map<String, Object> parseExtInfo(String extInfo) {
         if (extInfo == null || extInfo.isEmpty()) {
             return null;

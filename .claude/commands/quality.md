@@ -1,10 +1,10 @@
 ---
-description: 代码质量检查：静态分析、代码规范、安全扫描、优化建议。用法：/quality [check|fix|report]
+description: 代码质量检查（含集成测试）：静态分析、代码规范、安全扫描、优化建议。用法：/quality [check|fix|report]
 ---
 
-# Quality — 代码质量
+# Quality — 代码质量（含集成测试）
 
-通过 **reviewer agent** 对项目代码进行全面质量分析。
+通过 **reviewer agent** 对项目代码进行全面质量分析，**集成测试代码（\*IT.java）纳入扫描和修复范围**。
 
 ## 参数
 
@@ -26,6 +26,7 @@ description: 代码质量检查：静态分析、代码规范、安全扫描、�
   └─ → reviewer agent ← 核心工作
        │
        ├─ 静态代码分析（代码规范、空指针、异常处理）
+       │   └─ 覆盖范围: main 源码 + 单元测试 + **集成测试（*IT.java）**
        ├─ 安全扫描（SQL 注入、硬编码密钥、XSS）
        ├─ 架构合规检查
        ├─ [fix 模式] 修复可自动修复的问题
@@ -43,7 +44,10 @@ Agent 调用：
   subagent_type: "reviewer"
   prompt: "
     模式: {check|fix|report}
-    请对项目全量代码进行质量审查
+    请对项目全量代码进行质量审查，覆盖范围包括：
+    - main 源码（stock-common, stock-core, stock-biz, stock-web, stock-remote）
+    - 单元测试（各模块 src/test）
+    - 集成测试（stock-integration-test/src/test 下的 *IT.java）⚠️ 新增
   "
 ```
 

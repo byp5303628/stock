@@ -169,3 +169,24 @@ create table if not exists metadata_model_version
     index idx_model_code (model_code),
     index idx_gmt_modified (gmt_modified)
 ) engine = InnoDB default charset = utf8mb4;
+create table if not exists financial_report
+(
+    id            bigint                 not null primary key auto_increment,
+    code          varchar(16)            not null comment 'stock code',
+    report_type   varchar(16)            not null comment 'report type: CASH_FLOW / BALANCE / INCOME',
+    report_date   varchar(32)            not null comment 'report end date, e.g. 2024-12-31',
+    report_period varchar(16)            not null default '' comment 'period: Q1/Q2/Q3/Q4/YEARLY',
+    report_data   json                   comment 'indicator data JSON, key = metadata field name',
+    fiscal_year   int                    comment 'fiscal year, e.g. 2024',
+    currency      varchar(8)             not null default 'CNY' comment 'currency',
+    unit          varchar(8)             not null default '元' comment 'unit: 元/万元/亿元',
+    source        varchar(32)            not null default '' comment 'data source',
+    gmt_create    datetime               not null default now(),
+    gmt_modified  datetime               not null default now() on update now(),
+    unique index uniq_idx_code_type_date (code, report_type, report_date),
+    index idx_code (code),
+    index idx_report_type (report_type),
+    index idx_report_date (report_date),
+    index idx_fiscal_year (fiscal_year),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4 comment 'financial report data table';

@@ -16,11 +16,17 @@ max_rounds = 3
 while round < max_rounds:
     round += 1
     1. 运行 quality check（静态分析 + 安全扫描）
+       └─ 覆盖范围: main 源码 + 单元测试 + **集成测试（*IT.java）**
     2. 收集 HIGH + MEDIUM 问题
     3. 如果没有问题 → 退出循环
     4. 自动修复所有 HIGH + MEDIUM 问题
-    5. mvn compile 验证编译通过
-    6. 进入下一轮
+       └─ 修复范围: 包括集成测试代码（*IT.java）
+    5. 验证修复是否通过
+       ├─ mvn compile -DskipTests        ← 所有模块编译通过
+       ├─ mvn test -pl stock-integration-test  ← 集成测试可编译（不运行）
+       └─ [可选] mvn verify -pl stock-integration-test -am ← 运行集成测试
+    6. 如果验证失败 → 回退本轮修复，跳过该问题
+    7. 进入下一轮
 ```
 
 ## 问题自动修复规则

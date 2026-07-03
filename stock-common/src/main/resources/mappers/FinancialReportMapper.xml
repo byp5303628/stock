@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethanpark.stock.common.dal.mappers.FinancialReportMapper">
+    <resultMap id="BaseResultMap" type="com.ethanpark.stock.common.dal.mappers.entity.FinancialReportDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+        <result column="report_date" jdbcType="VARCHAR" property="reportDate"/>
+        <result column="report_period" jdbcType="VARCHAR" property="reportPeriod"/>
+        <result column="report_data" jdbcType="VARCHAR" property="reportData"/>
+        <result column="fiscal_year" jdbcType="INTEGER" property="fiscalYear"/>
+        <result column="currency" jdbcType="VARCHAR" property="currency"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="source" jdbcType="VARCHAR" property="source"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, code, report_type, report_date, report_period, report_data,
+        fiscal_year, currency, unit, source, gmt_create, gmt_modified
+    </sql>
+
+    <sql id="InsertColumns">
+        code, report_type, report_date, report_period, report_data,
+        fiscal_year, currency, unit, source
+    </sql>
+
+    <insert id="insert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.FinancialReportDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into financial_report (<include refid="InsertColumns"/>)
+        values (#{code}, #{reportType}, #{reportDate}, #{reportPeriod}, #{reportData},
+                #{fiscalYear}, #{currency}, #{unit}, #{source})
+    </insert>
+
+    <insert id="upsert" parameterType="com.ethanpark.stock.common.dal.mappers.entity.FinancialReportDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into financial_report (<include refid="InsertColumns"/>)
+        values (#{code}, #{reportType}, #{reportDate}, #{reportPeriod}, #{reportData},
+                #{fiscalYear}, #{currency}, #{unit}, #{source})
+        on duplicate key update
+            report_period = values(report_period),
+            report_data   = values(report_data),
+            fiscal_year   = values(fiscal_year),
+            currency      = values(currency),
+            unit          = values(unit),
+            source        = values(source)
+    </insert>
+
+    <update id="updateById" parameterType="com.ethanpark.stock.common.dal.mappers.entity.FinancialReportDO">
+        update financial_report
+        set code          = #{code},
+            report_type   = #{reportType},
+            report_date   = #{reportDate},
+            report_period = #{reportPeriod},
+            report_data   = #{reportData},
+            fiscal_year   = #{fiscalYear},
+            currency      = #{currency},
+            unit          = #{unit},
+            source        = #{source}
+        where id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select <include refid="BaseColumns"/>
+        from financial_report
+        where id = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select <include refid="BaseColumns"/>
+        from financial_report
+        <where>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="reportType != null and reportType != ''">
+                and report_type = #{reportType}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and report_date >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and report_date &lt;= #{endDate}
+            </if>
+            <if test="fiscalYear != null">
+                and fiscal_year = #{fiscalYear}
+            </if>
+        </where>
+        order by report_date desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        select count(*)
+        from financial_report
+        <where>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="reportType != null and reportType != ''">
+                and report_type = #{reportType}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and report_date >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and report_date &lt;= #{endDate}
+            </if>
+            <if test="fiscalYear != null">
+                and fiscal_year = #{fiscalYear}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectLatestByCode" resultMap="BaseResultMap">
+        select fr.*
+        from financial_report fr
+        inner join (
+            select report_type, max(report_date) as max_date
+            from financial_report
+            where code = #{code}
+            group by report_type
+        ) latest on fr.report_type = latest.report_type
+                and fr.report_date = latest.max_date
+        where fr.code = #{code}
+    </select>
+
+    <select id="selectByCodeAndType" resultMap="BaseResultMap">
+        select <include refid="BaseColumns"/>
+        from financial_report
+        where code = #{code}
+          and report_type = #{reportType}
+        order by report_date desc
+    </select>
+
+    <delete id="deleteById">
+        delete from financial_report
+        where id = #{id}
+    </delete>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into financial_report (<include refid="InsertColumns"/>)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.code}, #{item.reportType}, #{item.reportDate}, #{item.reportPeriod}, #{item.reportData},
+             #{item.fiscalYear}, #{item.currency}, #{item.unit}, #{item.source})
+        </foreach>
+    </insert>
+</mapper>

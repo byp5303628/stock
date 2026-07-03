@@ -54,7 +54,6 @@
     "@codemirror/language": "^6.10.1",
     "@codemirror/legacy-modes": "^6.4.0",
     "@lezer/highlight": "^1.2.0",
-    "@mtfe/sso-web": "^2.1.2",
     "@uiw/codemirror-theme-dracula": "^4.22.0",
     "@uiw/codemirror-theme-github": "^4.22.0",
     "@uiw/codemirror-themes": "^4.21.25",
