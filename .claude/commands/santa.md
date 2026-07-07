@@ -87,4 +87,4 @@ Agent 调用：
 > - 修正方式（correction）
 > - 问题组件（component）
 >
-> 记录方式：写入 `~/.claude/evolve/pending/` 目录下的时间戳文件。`
+> 记录方式：写入 `~/.claude/evolve/pending/` 目录下的时间戳文件。
