@@ -65,3 +65,14 @@ agent 按以下级别输出问题：
 ### Step 3: 输出质量报告
 
 按模式输出结果：`check` 输出问题清单；`fix` 执行修复；`report` 保存到 `quality-report.md`。
+
+---
+
+## 经验采集
+
+<!-- 命令执行结束时，如有错误请记录以下信息： -->
+> - 错误描述（error）
+> - 修正方式（correction）
+> - 问题组件（component）
+>
+> 记录方式：写入 `~/.claude/evolve/pending/` 目录下的时间戳文件。

@@ -94,3 +94,14 @@ git push
 
 ✅ commit 62475be → main, pushed
 ```
+
+---
+
+## 经验采集
+
+<!-- 命令执行结束时，如有错误请记录以下信息： -->
+> - 错误描述（error）
+> - 修正方式（correction）
+> - 问题组件（component）
+>
+> 记录方式：写入 `~/.claude/evolve/pending/` 目录下的时间戳文件。

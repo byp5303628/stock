@@ -188,6 +188,7 @@ processExecutor.execute(context);
 | **testcase-generator** | 🟣 测试设计 | 生成接口测试和端到端测试用例 |
 | **tester** | 🟠 测试验证 | 运行测试、分析结果、验证验收条件 |
 | **reviewer** | 🔴 审查员 | 代码审查、安全审查、质量分析 |
+| **evolve** | 🟣 演化工程师 | 分析经验日志，自动优化 agents/commands/skills/rules |
 
 ## 自定义命令
 
@@ -203,6 +204,8 @@ processExecutor.execute(context);
 | `/quality [check\|fix\|report]` | → **reviewer** | 代码质量分析 + 3 轮自愈修复 |
 | `/commit ["自定义消息"]` | 主流程直接执行 | 分析 diff 生成 message，commit + push |
 | `/santa [max-rounds]` | → **reviewer** → **developer** → **tester** 循环 | 迭代质量门禁 |
+| `/evolve` | → **evolve** agent | 自动迭代优化系统配置 |
+| `/learn` | 主流程直接执行 | 手动标记执行经验 |
 
 Agent 协作详情见 `rules/common/agents.md`。
 

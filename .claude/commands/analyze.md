@@ -123,3 +123,14 @@ Agent 调用：
 - 运行 `/tdd spec/feature-{序号}/方案设计-{需求名称}.md` 重新生成测试用例
 - 运行 `/dev backend` 启动后端开始开发
 ```
+
+---
+
+## 经验采集
+
+<!-- 命令执行结束时，如有错误请记录以下信息： -->
+> - 错误描述（error）
+> - 修正方式（correction）
+> - 问题组件（component）
+>
+> 记录方式：写入 `~/.claude/evolve/pending/` 目录下的时间戳文件。
