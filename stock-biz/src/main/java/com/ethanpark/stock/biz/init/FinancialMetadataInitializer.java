@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 /**
@@ -142,6 +144,7 @@ public class FinancialMetadataInitializer {
         model.setName(name);
         model.setModelType(MODEL_TYPE);
         model.setDescription(description);
+        model.setExtInfo(Map.of("dataType", "report"));
 
         var result = metadataDomainService.saveModel(model);
         if (!result.isSuccess()) {

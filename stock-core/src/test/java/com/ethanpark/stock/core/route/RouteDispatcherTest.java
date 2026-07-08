@@ -1,6 +1,7 @@
-package com.ethanpark.stock.core.service;
+package com.ethanpark.stock.core.route;
 
 import com.ethanpark.stock.core.model.metadata.MetadataModel;
+import com.ethanpark.stock.core.service.MetadataDomainService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -189,4 +189,22 @@ create table if not exists financial_report
     index idx_report_date (report_date),
     index idx_fiscal_year (fiscal_year),
     index idx_gmt_modified (gmt_modified)
-) engine = InnoDB default charset = utf8mb4 comment 'financial report data table';
+) engine = InnoDB default charset = utf8mb4 comment 'financial report data table (deprecated, use fin_report)';
+
+-- ===== New unified financial data table =====
+create table if not exists fin_report
+(
+    id             bigint auto_increment primary key,
+    market         varchar(8)   not null default 'SH' comment '市场',
+    code           varchar(32)  not null comment '股票代码',
+    model_code     varchar(64)  not null comment '所属 metadata model code',
+    partition_date varchar(16)  not null comment '分区日期',
+    data_content   json         not null comment '业务数据 JSON',
+    extra_info     json         comment '扩展信息',
+    gmt_create     datetime     not null default now(),
+    gmt_modified   datetime     not null default now() on update now(),
+    unique index uniq_idx_mkt_model_code_date (market, code, model_code, partition_date),
+    index idx_market_code (market, code),
+    index idx_partition_date (partition_date),
+    index idx_gmt_modified (gmt_modified)
+) engine = InnoDB default charset = utf8mb4;

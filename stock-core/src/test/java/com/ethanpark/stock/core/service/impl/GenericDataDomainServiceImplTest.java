@@ -4,8 +4,8 @@ import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.PageResult;
 import com.ethanpark.stock.core.model.metadata.MetadataModel;
-import com.ethanpark.stock.core.service.GenericDataService;
-import com.ethanpark.stock.core.service.RouteDispatcher;
+import com.ethanpark.stock.core.service.GenericDataDomainService;
+import com.ethanpark.stock.core.route.RouteDispatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class GenericDataServiceImplTest {
+class GenericDataDomainServiceImplTest {
 
     @Mock
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -32,11 +32,11 @@ class GenericDataServiceImplTest {
     @Mock
     private RouteDispatcher routeDispatcher;
 
-    private GenericDataService genericDataService;
+    private GenericDataDomainService genericDataService;
 
     @BeforeEach
     void setUp() {
-        GenericDataServiceImpl impl = new GenericDataServiceImpl();
+        GenericDataDomainServiceImpl impl = new GenericDataDomainServiceImpl();
         impl.setJdbcTemplate(jdbcTemplate);
         impl.setRouteDispatcher(routeDispatcher);
         genericDataService = impl;

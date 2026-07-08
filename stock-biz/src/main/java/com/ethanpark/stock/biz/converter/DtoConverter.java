@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.ethanpark.stock.biz.dto.*;
 import com.ethanpark.stock.biz.trade.TradePolicy;
 import com.ethanpark.stock.common.util.DateUtils;
-import com.ethanpark.stock.core.model.FinancialReport;
 import com.ethanpark.stock.core.model.ScheduleConfig;
 import com.ethanpark.stock.core.model.TradeCycle;
 import com.ethanpark.stock.core.model.metadata.*;
@@ -67,46 +66,6 @@ public class DtoConverter {
                 tradeCycle.getEndDate()));
 
         return tradeCycleDTO;
-    }
-
-    // ===== 财务报告转换 =====
-
-    /** FinancialReport -> FinancialReportDTO */
-    public static FinancialReportDTO toDto(FinancialReport report) {
-        if (report == null) {
-            return null;
-        }
-        FinancialReportDTO dto = new FinancialReportDTO();
-        dto.setId(report.getId());
-        dto.setCode(report.getCode());
-        dto.setReportType(report.getReportType());
-        dto.setReportDate(report.getReportDate());
-        dto.setReportPeriod(report.getReportPeriod());
-        dto.setReportData(report.getReportData());
-        dto.setFiscalYear(report.getFiscalYear());
-        dto.setCurrency(report.getCurrency());
-        dto.setUnit(report.getUnit());
-        dto.setSource(report.getSource());
-        dto.setGmtCreate(report.getGmtCreate());
-        dto.setGmtModified(report.getGmtModified());
-        return dto;
-    }
-
-    /** FinancialReportSaveRequest -> FinancialReport */
-    public static FinancialReport toDomain(FinancialReportSaveRequest request) {
-        if (request == null) {
-            return null;
-        }
-        FinancialReport report = new FinancialReport();
-        report.setCode(request.getCode());
-        report.setReportType(request.getReportType());
-        report.setReportDate(request.getReportDate());
-        report.setReportPeriod(request.getReportPeriod());
-        report.setReportData(request.getReportData());
-        report.setCurrency(request.getCurrency());
-        report.setUnit(request.getUnit());
-        report.setSource(request.getSource());
-        return report;
     }
 
     // ===== 元数据转换 =====

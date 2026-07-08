@@ -6,7 +6,7 @@ import com.ethanpark.stock.core.model.PageResult;
 
 import java.util.List;
 
-public interface GenericDataService {
+public interface GenericDataDomainService {
 
     GenericDataRecord get(String dataType, String market, String code,
                           String modelCode, String partitionDate);

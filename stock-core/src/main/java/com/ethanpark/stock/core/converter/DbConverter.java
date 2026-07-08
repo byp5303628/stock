@@ -225,48 +225,6 @@ public class DbConverter {
         return dbEntity;
     }
 
-    /**
-     * 将 FinancialReport 领域对象转换为 FinancialReportDO 持久化对象。
-     *
-     * <p>NOT NULL 默认值（与 basic_init.sql 对齐）：
-     * <ul>
-     *   <li>reportPeriod → ""</li>
-     *   <li>currency → "CNY"</li>
-     *   <li>unit → "元"</li>
-     *   <li>source → ""</li>
-     * </ul>
-     */
-    public static FinancialReportDO toDbEntity(FinancialReport report) {
-        if (report == null) {
-            return null;
-        }
-
-        FinancialReportDO dbEntity = new FinancialReportDO();
-        dbEntity.setId(report.getId());
-        dbEntity.setCode(report.getCode());
-        dbEntity.setReportType(report.getReportType());
-        dbEntity.setReportDate(report.getReportDate());
-        dbEntity.setReportPeriod(report.getReportPeriod() == null ? "" : report.getReportPeriod());
-        dbEntity.setReportData(report.getReportData() != null
-                ? JSON.toJSONString(report.getReportData()) : null);
-
-        // 从 reportDate 提取 fiscalYear（yyyy-MM-dd 格式）
-        if (report.getFiscalYear() != null) {
-            dbEntity.setFiscalYear(report.getFiscalYear());
-        } else if (report.getReportDate() != null && report.getReportDate().length() >= 4) {
-            dbEntity.setFiscalYear(Integer.parseInt(report.getReportDate().substring(0, 4)));
-        }
-
-        dbEntity.setCurrency(report.getCurrency() == null ? "CNY" : report.getCurrency());
-        dbEntity.setUnit(report.getUnit() == null ? "元" : report.getUnit());
-        dbEntity.setSource(report.getSource() == null ? "" : report.getSource());
-        dbEntity.setGmtCreate(report.getGmtCreate() == null ? new Date() : report.getGmtCreate());
-        dbEntity.setGmtModified(report.getGmtModified() == null ? new Date() :
-                report.getGmtModified());
-
-        return dbEntity;
-    }
-
     private static String toJsonString(Map<String, Object> map) {
         if (map == null || map.isEmpty()) {
             return null;

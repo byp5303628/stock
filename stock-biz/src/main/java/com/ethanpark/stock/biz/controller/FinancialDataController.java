@@ -7,7 +7,7 @@ import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.PageResult;
-import com.ethanpark.stock.core.service.GenericDataService;
+import com.ethanpark.stock.core.service.GenericDataDomainService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class FinancialDataController {
 
     @Resource
-    private GenericDataService genericDataService;
+    private GenericDataDomainService genericDataService;
 
     @GetMapping
     public ResponseDTO<?> query(
@@ -151,7 +151,7 @@ public class FinancialDataController {
     }
 
     // for testing
-    void setGenericDataService(GenericDataService genericDataService) {
+    void setGenericDataService(GenericDataDomainService genericDataService) {
         this.genericDataService = genericDataService;
     }
 }

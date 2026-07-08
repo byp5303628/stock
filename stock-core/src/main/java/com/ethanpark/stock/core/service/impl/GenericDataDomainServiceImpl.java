@@ -5,8 +5,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.PageResult;
-import com.ethanpark.stock.core.service.GenericDataService;
-import com.ethanpark.stock.core.service.RouteDispatcher;
+import com.ethanpark.stock.core.service.GenericDataDomainService;
+import com.ethanpark.stock.core.route.RouteDispatcher;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class GenericDataServiceImpl implements GenericDataService {
+public class GenericDataDomainServiceImpl implements GenericDataDomainService {
 
     @Resource
     private NamedParameterJdbcTemplate jdbcTemplate;

@@ -3,7 +3,7 @@ package com.ethanpark.stock.biz.controller;
 import com.ethanpark.stock.biz.dto.GenericUpsertRequest;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.PageResult;
-import com.ethanpark.stock.core.service.GenericDataService;
+import com.ethanpark.stock.core.service.GenericDataDomainService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FinancialDataControllerTest {
 
     @Mock
-    private GenericDataService genericDataService;
+    private GenericDataDomainService genericDataService;
 
     private MockMvc mockMvc;
 
