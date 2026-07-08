@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 财报领域服务接口。
  *
- * <p>提供财务报表（资产负债表、利润表、现金流量表）的完整 CRUD 操作，
- * 支持按股票代码、报表类型、会计年度等维度查询。
+ * <p>提供财务报表（资产负债表、利润表、现金流量表）的 CRUD 操作，
+ * 支持按股票代码、报表类型、报告期、会计年度等维度查询。
  *
  * @author baiyunpeng04
  * @since 2025/07/02
@@ -27,36 +27,33 @@ public interface FinancialReportDomainService {
     FinancialReport save(FinancialReport report);
 
     /**
-     * 批量保存多份财报。
-     *
-     * @param reports 财报列表
-     * @return 保存后的完整财报列表
-     */
-    List<FinancialReport> batchSave(List<FinancialReport> reports);
-
-    /**
      * 分页查询财报。
      *
-     * @param code       股票代码（可选）
-     * @param reportType 报表类型（可选，CASH_FLOW/BALANCE/INCOME）
-     * @param startDate  起始报告日期（可选，yyyy-MM-dd）
-     * @param endDate    截止报告日期（可选，yyyy-MM-dd）
-     * @param fiscalYear 会计年度（可选）
-     * @param page       页码，从 1 开始
-     * @param size       每页大小
+     * @param code        股票代码（可选）
+     * @param reportType  报表类型（可选，CASH_FLOW/BALANCE/INCOME）
+     * @param reportPeriod 报告期（可选，Q1/Q2/Q3/Q4/YEARLY）
+     * @param startDate   起始报告日期（可选，yyyy-MM-dd）
+     * @param endDate     截止报告日期（可选，yyyy-MM-dd）
+     * @param fiscalYear  会计年度（可选）
+     * @param page        页码，从 1 开始
+     * @param size        每页大小
      * @return 分页结果
      */
-    PageResult<FinancialReport> query(String code, String reportType,
+    PageResult<FinancialReport> query(String code, String reportType, String reportPeriod,
                                       String startDate, String endDate,
                                       Integer fiscalYear, int page, int size);
 
     /**
-     * 根据 ID 查询财报。
+     * 按业务键精确查询财报。
      *
-     * @param id 财报 ID
+     * <p>code + reportType + reportDate 为唯一键。
+     *
+     * @param code       股票代码
+     * @param reportType 报表类型
+     * @param reportDate 报告截止日期（yyyy-MM-dd）
      * @return 财报领域对象，不存在返回 null
      */
-    FinancialReport getById(Long id);
+    FinancialReport getByUniqueKey(String code, String reportType, String reportDate);
 
     /**
      * 查询指定股票的最新各类型财报。
@@ -67,17 +64,6 @@ public interface FinancialReportDomainService {
      * @return 最新财报列表
      */
     List<FinancialReport> getLatestByCode(String code);
-
-    /**
-     * 根据股票代码和报表类型查询。
-     *
-     * <p>按报告日期降序排列。
-     *
-     * @param code       股票代码
-     * @param reportType 报表类型
-     * @return 财报列表
-     */
-    List<FinancialReport> getByCodeAndType(String code, String reportType);
 
     /**
      * 删除指定 ID 的财报。

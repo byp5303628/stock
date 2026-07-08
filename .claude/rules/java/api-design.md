@@ -333,12 +333,8 @@ throw new BusinessException(context.getResultCode(), context.getResultMsg());
 @RequestMapping("/api/stock-strategies")
 public class StockStrategyController {
 
-    private final StockStrategyService stockStrategyService;
-
-    // 构造器注入（必须）
-    public StockStrategyController(StockStrategyService stockStrategyService) {
-        this.stockStrategyService = stockStrategyService;
-    }
+    @Resource
+    private StockStrategyService stockStrategyService;
 
     @GetMapping
     public ResponseDTO<List<StrategyDTO>> list(
@@ -364,7 +360,7 @@ public class StockStrategyController {
 
 | 要求 | 说明 |
 |------|------|
-| 构造器注入 | 禁止 `@Resource` / `@Autowired` 字段注入 |
+| 字段注入 `@Resource` | 禁止构造器注入和 `@Autowired`，统一使用 `@Resource` 按名称注入 |
 | Controller 不做业务 | 只做参数校验 + 调用 Service + 包装 ResponseDTO |
 | 方法命名 | 反映 HTTP 方法：`list()`、`detail()`、`create()`、`delete()` |
 | 冗余注入 | 只注入实际使用的依赖，删除未使用的注入字段 |
@@ -449,7 +445,7 @@ curl -X POST 'http://localhost:8080/api/schedule-configs' \
 | 问题 | 位置 | 建议 |
 |------|------|------|
 | `.json` 后缀 | 所有接口 | 新接口不加，旧接口逐步迁移 |
-| 字段注入 `@Resource` | 所有 Controller | 改为构造器注入 |
+| 构造器注入 | 所有 Controller 和 Service | 统一改为 `@Resource` 字段注入 |
 | 无全局异常处理 | — | 新增 `@ControllerAdvice` |
 | 冗余注入（同时注入接口和实现类） | `StockStrategyController` | 只注入需要的依赖 |
 | 空 Controller 暴露路由 | `StockBasicListController` | 移除未使用的类 |

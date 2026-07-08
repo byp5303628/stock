@@ -9,7 +9,8 @@ import com.ethanpark.stock.core.model.PageResult;
 import com.ethanpark.stock.core.service.FinancialReportDomainService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -28,11 +29,8 @@ public class FinancialReportDomainServiceImpl implements FinancialReportDomainSe
 
     private static final int DEFAULT_PAGE_SIZE = 20;
 
-    private final FinancialReportMapper financialReportMapper;
-
-    public FinancialReportDomainServiceImpl(FinancialReportMapper financialReportMapper) {
-        this.financialReportMapper = financialReportMapper;
-    }
+    @Resource
+    private FinancialReportMapper financialReportMapper;
 
     @Override
     public FinancialReport save(FinancialReport report) {
@@ -53,20 +51,7 @@ public class FinancialReportDomainServiceImpl implements FinancialReportDomainSe
     }
 
     @Override
-    public List<FinancialReport> batchSave(List<FinancialReport> reports) {
-        if (reports == null || reports.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<FinancialReport> saved = new ArrayList<>(reports.size());
-        for (FinancialReport report : reports) {
-            saved.add(save(report));
-        }
-        return saved;
-    }
-
-    @Override
-    public PageResult<FinancialReport> query(String code, String reportType,
+    public PageResult<FinancialReport> query(String code, String reportType, String reportPeriod,
                                              String startDate, String endDate,
                                              Integer fiscalYear, int page, int size) {
         if (page < 1) {
@@ -77,11 +62,11 @@ public class FinancialReportDomainServiceImpl implements FinancialReportDomainSe
         }
 
         int offset = (page - 1) * size;
-        long total = financialReportMapper.count(code, reportType, startDate, endDate, fiscalYear);
+        long total = financialReportMapper.count(code, reportType, reportPeriod, startDate, endDate, fiscalYear);
 
         List<FinancialReportDO> dos;
         if (total > 0) {
-            dos = financialReportMapper.selectPage(code, reportType, startDate, endDate,
+            dos = financialReportMapper.selectPage(code, reportType, reportPeriod, startDate, endDate,
                     fiscalYear, offset, size);
         } else {
             dos = Collections.emptyList();
@@ -102,11 +87,11 @@ public class FinancialReportDomainServiceImpl implements FinancialReportDomainSe
     }
 
     @Override
-    public FinancialReport getById(Long id) {
-        if (id == null) {
+    public FinancialReport getByUniqueKey(String code, String reportType, String reportDate) {
+        if (code == null || reportType == null || reportDate == null) {
             return null;
         }
-        FinancialReportDO dbEntity = financialReportMapper.selectById(id);
+        FinancialReportDO dbEntity = financialReportMapper.selectByUniqueKey(code, reportType, reportDate);
         return DomainConverter.toDomain(dbEntity);
     }
 
@@ -116,17 +101,6 @@ public class FinancialReportDomainServiceImpl implements FinancialReportDomainSe
             return Collections.emptyList();
         }
         List<FinancialReportDO> dos = financialReportMapper.selectLatestByCode(code);
-        return dos.stream()
-                .map(DomainConverter::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<FinancialReport> getByCodeAndType(String code, String reportType) {
-        if (code == null || code.trim().isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<FinancialReportDO> dos = financialReportMapper.selectByCodeAndType(code, reportType);
         return dos.stream()
                 .map(DomainConverter::toDomain)
                 .collect(Collectors.toList());

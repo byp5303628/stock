@@ -24,6 +24,7 @@ public interface FinancialReportMapper {
     List<FinancialReportDO> selectPage(
             @Param("code") String code,
             @Param("reportType") String reportType,
+            @Param("reportPeriod") String reportPeriod,
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("fiscalYear") Integer fiscalYear,
@@ -33,17 +34,17 @@ public interface FinancialReportMapper {
     Long count(
             @Param("code") String code,
             @Param("reportType") String reportType,
+            @Param("reportPeriod") String reportPeriod,
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("fiscalYear") Integer fiscalYear);
 
-    List<FinancialReportDO> selectLatestByCode(@Param("code") String code);
-
-    List<FinancialReportDO> selectByCodeAndType(
+    FinancialReportDO selectByUniqueKey(
             @Param("code") String code,
-            @Param("reportType") String reportType);
+            @Param("reportType") String reportType,
+            @Param("reportDate") String reportDate);
 
-    int batchInsert(List<FinancialReportDO> list);
+    List<FinancialReportDO> selectLatestByCode(@Param("code") String code);
 
     int deleteById(@Param("id") Long id);
 }

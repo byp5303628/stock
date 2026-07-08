@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +24,8 @@ import java.util.stream.Collectors;
 /**
  * 财务报表 Controller。
  *
- * <p>提供财务报表（资产负债表、利润表、现金流量表）的 REST API，
- * 支持分页查询、详情查询、按股票代码查询、新增/批量新增等操作。
+ * <p>财报数据由爬虫入库，本模块提供查询能力。
+ * CLI 友好的精确查询通过业务键（股票代码 + 报表类型 + 报告日期）定位。
  *
  * @author baiyunpeng04
  * @since 2025/07/02
@@ -33,35 +34,47 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/financial-reports")
 public class FinancialReportController {
 
-    private final FinancialReportDomainService financialReportDomainService;
-
-    public FinancialReportController(FinancialReportDomainService financialReportDomainService) {
-        this.financialReportDomainService = financialReportDomainService;
-    }
+    @Resource
+    private FinancialReportDomainService financialReportDomainService;
 
     /**
-     * 分页查询财务报表。
+     * 查询财报列表。
      *
-     * @param code       股票代码（可选）
-     * @param reportType 报表类型（可选，CASH_FLOW/BALANCE/INCOME）
-     * @param startDate  起始报告日期（可选，yyyy-MM-dd）
-     * @param endDate    截止报告日期（可选，yyyy-MM-dd）
-     * @param fiscalYear 会计年度（可选）
-     * @param page       页码，从 1 开始
-     * @param size       每页大小
-     * @return 分页结果
+     * <p>当提供 code + reportType + reportDate 时，返回精确匹配的单条结果。
+     * 否则按条件分页查询。
+     *
+     * @param code        股票代码
+     * @param reportType  报表类型（CASH_FLOW/BALANCE/INCOME）
+     * @param reportPeriod 报告期（Q1/Q2/Q3/Q4/YEARLY）
+     * @param reportDate  报告截止日期（yyyy-MM-dd）
+     * @param fiscalYear  会计年度
+     * @param page        页码
+     * @param size        每页大小
+     * @return 财报列表或分页结果
      */
     @GetMapping
-    public ResponseDTO<PageResult<FinancialReportDTO>> query(
+    public ResponseDTO<?> query(
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String reportType,
-            @RequestParam(required = false) String startDate,
-            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String reportPeriod,
+            @RequestParam(required = false) String reportDate,
             @RequestParam(required = false) Integer fiscalYear,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "20") int size) {
+
+        // 精确查询：code + reportType + reportDate
+        if (code != null && reportType != null && reportDate != null) {
+            FinancialReport report = financialReportDomainService.getByUniqueKey(code, reportType, reportDate);
+            if (report == null) {
+                throw new BusinessException(ErrorCode.ILLEGAL_PARAM.getCode(),
+                        "财报不存在: code=" + code + ", type=" + reportType + ", date=" + reportDate);
+            }
+            return ResponseDTO.success(DtoConverter.toDto(report));
+        }
+
+        // 分页查询
         PageResult<FinancialReport> pageResult = financialReportDomainService.query(
-                code, reportType, startDate, endDate, fiscalYear, page, size);
+                code, reportType, reportPeriod, null, null, fiscalYear, page, size);
 
         PageResult<FinancialReportDTO> dtoResult = new PageResult<>();
         dtoResult.setTotal(pageResult.getTotal());
@@ -73,21 +86,6 @@ public class FinancialReportController {
                 .collect(Collectors.toList()));
 
         return ResponseDTO.success(dtoResult);
-    }
-
-    /**
-     * 根据 ID 获取财报详情。
-     *
-     * @param id 财报 ID
-     * @return 财报详情
-     */
-    @GetMapping("/detail")
-    public ResponseDTO<FinancialReportDTO> detail(@RequestParam Long id) {
-        FinancialReport report = financialReportDomainService.getById(id);
-        if (report == null) {
-            throw new BusinessException(ErrorCode.ILLEGAL_PARAM.getCode(), "财报不存在: id=" + id);
-        }
-        return ResponseDTO.success(DtoConverter.toDto(report));
     }
 
     /**
@@ -108,29 +106,10 @@ public class FinancialReportController {
     }
 
     /**
-     * 根据股票代码和报表类型查询财报列表。
-     *
-     * <p>按报告日期降序排列。
-     *
-     * @param code       股票代码
-     * @param reportType 报表类型（可选）
-     * @return 财报列表
-     */
-    @GetMapping("/list-by-code")
-    public ResponseDTO<List<FinancialReportDTO>> listByCode(
-            @RequestParam String code,
-            @RequestParam(required = false) String reportType) {
-        List<FinancialReport> reports = financialReportDomainService.getByCodeAndType(code, reportType);
-        List<FinancialReportDTO> dtos = reports.stream()
-                .map(DtoConverter::toDto)
-                .collect(Collectors.toList());
-        return ResponseDTO.success(dtos);
-    }
-
-    /**
      * 创建或更新财务报表。
      *
      * <p>使用 upsert 语义：存在相同唯一键的记录则更新，否则插入。
+     * 本接口主要供爬虫调用来入库数据。
      *
      * @param request 财报保存请求
      * @return 保存后的完整财报
@@ -140,20 +119,5 @@ public class FinancialReportController {
         FinancialReport report = DtoConverter.toDomain(request);
         FinancialReport saved = financialReportDomainService.save(report);
         return ResponseDTO.success(DtoConverter.toDto(saved));
-    }
-
-    /**
-     * 批量创建财务报表。
-     *
-     * @param requests 财报保存请求列表
-     * @return 成功保存的数量
-     */
-    @PostMapping("/batch")
-    public ResponseDTO<Integer> batchSave(@RequestBody @Valid List<@Valid FinancialReportSaveRequest> requests) {
-        List<FinancialReport> reports = requests.stream()
-                .map(DtoConverter::toDomain)
-                .collect(Collectors.toList());
-        List<FinancialReport> saved = financialReportDomainService.batchSave(reports);
-        return ResponseDTO.success(saved.size());
     }
 }

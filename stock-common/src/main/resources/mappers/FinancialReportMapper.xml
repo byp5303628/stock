@@ -77,6 +77,9 @@
             <if test="reportType != null and reportType != ''">
                 and report_type = #{reportType}
             </if>
+            <if test="reportPeriod != null and reportPeriod != ''">
+                and report_period = #{reportPeriod}
+            </if>
             <if test="startDate != null and startDate != ''">
                 and report_date >= #{startDate}
             </if>
@@ -100,6 +103,9 @@
             </if>
             <if test="reportType != null and reportType != ''">
                 and report_type = #{reportType}
+            </if>
+            <if test="reportPeriod != null and reportPeriod != ''">
+                and report_period = #{reportPeriod}
             </if>
             <if test="startDate != null and startDate != ''">
                 and report_date >= #{startDate}
@@ -126,25 +132,16 @@
         where fr.code = #{code}
     </select>
 
-    <select id="selectByCodeAndType" resultMap="BaseResultMap">
+    <select id="selectByUniqueKey" resultMap="BaseResultMap">
         select <include refid="BaseColumns"/>
         from financial_report
         where code = #{code}
           and report_type = #{reportType}
-        order by report_date desc
+          and report_date = #{reportDate}
     </select>
 
     <delete id="deleteById">
         delete from financial_report
         where id = #{id}
     </delete>
-
-    <insert id="batchInsert" parameterType="java.util.List">
-        insert into financial_report (<include refid="InsertColumns"/>)
-        values
-        <foreach collection="list" item="item" separator=",">
-            (#{item.code}, #{item.reportType}, #{item.reportDate}, #{item.reportPeriod}, #{item.reportData},
-             #{item.fiscalYear}, #{item.currency}, #{item.unit}, #{item.source})
-        </foreach>
-    </insert>
 </mapper>

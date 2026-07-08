@@ -44,12 +44,21 @@ public class OrderService {
 }
 ```
 
-## Constructor Injection
+## Field Injection with @Resource
 
-Always use constructor injection — never field injection:
+使用 `@Resource` 注解进行字段注入，不要使用构造器注入或 `@Autowired`：
 
 ```java
-// GOOD — constructor injection (testable, immutable)
+// GOOD — field injection with @Resource
+public class NotificationService {
+    @Resource
+    private EmailSender emailSender;
+
+    @Resource
+    private TemplateEngine templateEngine;
+}
+
+// BAD — constructor injection (verbose, unnecessary boilerplate)
 public class NotificationService {
     private final EmailSender emailSender;
 
@@ -58,12 +67,17 @@ public class NotificationService {
     }
 }
 
-// BAD — field injection (untestable without reflection, requires framework magic)
+// BAD — field injection with @Autowired (by-type injection, less specific)
 public class NotificationService {
-    @Inject // or @Autowired
+    @Autowired
     private EmailSender emailSender;
 }
 ```
+
+**为什么用 `@Resource` 而非 `@Autowired`？**
+- `@Resource` 按 bean **名称**注入，`@Autowired` 按**类型**注入，名称匹配更精确
+- `@Resource` 是 Jakarta/JSR-250 标准注解，与 Spring 解耦
+- 同一类型存在多个 bean 时，`@Resource(name = "...")` 显式指定目标，无需 `@Qualifier`
 
 ## DTO Mapping
 

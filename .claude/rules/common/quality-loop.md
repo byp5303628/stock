@@ -35,20 +35,14 @@ while round < max_rounds:
 |----------|----------|----------|
 | `System.out.println` | 替换为 `log.info()` / `log.warn()` | ✅ 安全 |
 | MyBatis `${}` 用于 int 参数 | 改为 `#{}` | ✅ 安全 |
-| `Resource` 字段注入 | 改为构造器注入 + `private final` | ⚠️ 需谨慎 |
-| `Autowired` 字段注入 | 改为构造器注入 + `private final` | ⚠️ 需谨慎 |
+| `Resource` / `Autowired` 字段注入 | 改为 `@Resource` 字段注入（统一注解） | ⚠️ 需谨慎 |
+| 构造器注入（Controller/Service 类） | 改为 `@Resource` 字段注入 | ⚠️ 需谨慎 |
 | `java.util.Date` | 替换为 `java.time.LocalDateTime` | ❌ 手动修复（影响面广） |
 
-### 字段注入 → 构造器注入 自动转换规则
+### 构造器注入 → 字段注入 `@Resource` 自动转换规则
 
 ```java
-// 原代码
-@Resource
-private SomeService someService;
-@Resource
-private OtherService otherService;
-
-// 自动转换后
+// 原代码（构造器注入）
 private final SomeService someService;
 private final OtherService otherService;
 
@@ -56,11 +50,17 @@ public XxxController(SomeService someService, OtherService otherService) {
     this.someService = someService;
     this.otherService = otherService;
 }
+
+// 自动转换后
+@Resource
+private SomeService someService;
+@Resource
+private OtherService otherService;
 ```
 
 **限制条件：**
-- 只修复 Controller 类（避免影响 Action/TaskHandler 等框架类）
-- 单文件内所有 `@Resource`/`@Autowired` 一起转换
+- 只修复 Controller / Service 类（避免影响 Action/TaskHandler 等框架类）
+- 单文件内所有依赖一起转换
 - 不修复存在循环依赖的文件
 
 ## 三轮退出条件
