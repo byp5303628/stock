@@ -215,8 +215,9 @@ Agent 协作详情见 `rules/common/agents.md`。
 
 ### Java 规则
 
-- `rules/java/api-design.md` — REST API 设计规范（curl/AI 友好）
-- `rules/java/dto-design.md` — DTO 命名、Bean Validation 枚举输出规范
+- `rules/java/api-design.md` — REST API 设计规范（POST + Request DTO）
+- `rules/java/controller-coding.md` — Controller 注释规范、Object 入参、POST 协议
+- `rules/java/dto-design.md` — DTO 命名、Bean Validation、枚举输出规范
 - `rules/java/generic-data-service.md` — 泛化数据层（RouteDispatcher + GenericDataDomainService）规范
 - `rules/java/security.md` — 安全规范
 - `rules/java/coding-style.md` — 编码风格

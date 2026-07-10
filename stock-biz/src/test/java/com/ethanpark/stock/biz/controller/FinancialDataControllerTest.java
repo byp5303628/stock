@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,7 +34,7 @@ class FinancialDataControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/financial-data 精确查询返回单条")
+    @DisplayName("POST /api/financial-data/query 精确查询返回单条")
     void query_exactMatch_returnsRecord() throws Exception {
         GenericDataRecord record = new GenericDataRecord();
         record.setMarket("SH");
@@ -44,29 +43,25 @@ class FinancialDataControllerTest {
         when(genericDataService.get(eq("report"), eq("SH"), eq("000001"),
                 eq("cash_flow_statement"), eq("2024-12-31"))).thenReturn(record);
 
-        mockMvc.perform(get("/api/financial-data")
-                .param("dataType", "report")
-                .param("market", "SH")
-                .param("code", "000001")
-                .param("modelCode", "cash_flow_statement")
-                .param("partitionDate", "2024-12-31"))
+        mockMvc.perform(post("/api/financial-data/query")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"dataType\":\"report\",\"market\":\"SH\",\"code\":\"000001\"," +
+                        "\"modelCode\":\"cash_flow_statement\",\"partitionDate\":\"2024-12-31\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.data.code").value("000001"));
     }
 
     @Test
-    @DisplayName("GET /api/financial-data 不存在返回 null data")
-    void query_notFound_returnsError() throws Exception {
+    @DisplayName("POST /api/financial-data/query 不存在返回 null data")
+    void query_notFound_returnsNullData() throws Exception {
         when(genericDataService.get(anyString(), anyString(), anyString(),
                 anyString(), anyString())).thenReturn(null);
 
-        mockMvc.perform(get("/api/financial-data")
-                .param("dataType", "report")
-                .param("market", "SH")
-                .param("code", "999999")
-                .param("modelCode", "cash_flow_statement")
-                .param("partitionDate", "2024-12-31"))
+        mockMvc.perform(post("/api/financial-data/query")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"dataType\":\"report\",\"market\":\"SH\",\"code\":\"999999\"," +
+                        "\"modelCode\":\"cash_flow_statement\",\"partitionDate\":\"2024-12-31\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.data").doesNotExist());
@@ -80,6 +75,17 @@ class FinancialDataControllerTest {
                 .content("{\"dataType\":\"report\",\"market\":\"SH\",\"code\":\"000001\"," +
                         "\"modelCode\":\"cash_flow_statement\",\"partitionDate\":\"2024-12-31\"," +
                         "\"dataContent\":{\"totalRevenue\":1000}}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200));
+    }
+
+    @Test
+    @DisplayName("POST /api/financial-data/delete 返回成功")
+    void delete_returnsSuccess() throws Exception {
+        mockMvc.perform(post("/api/financial-data/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"dataType\":\"report\",\"market\":\"SH\",\"code\":\"000001\"," +
+                        "\"modelCode\":\"cash_flow_statement\",\"partitionDate\":\"2024-12-31\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200));
     }
