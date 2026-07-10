@@ -104,7 +104,10 @@ public class FinancialDataController {
     }
 
     @PostMapping("/replace-range")
-    public ResponseDTO<Void> replaceRange(@RequestBody @Valid GenericBatchUpsertRequest request) {
+    public ResponseDTO<Void> replaceRange(
+            @RequestBody @Valid GenericBatchUpsertRequest request,
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
         if (request.getRecords().isEmpty()) return ResponseDTO.success();
         GenericBatchUpsertRequest.RecordItem first = request.getRecords().get(0);
         List<GenericDataRecord> records = request.getRecords().stream().map(item -> {
@@ -119,8 +122,7 @@ public class FinancialDataController {
         }).collect(Collectors.toList());
 
         genericDataService.replaceRange(request.getDataType(), first.getMarket(),
-                first.getCode(), first.getModelCode(), first.getPartitionDate(),
-                first.getPartitionDate(), records);
+                first.getCode(), first.getModelCode(), startDate, endDate, records);
         return ResponseDTO.success();
     }
 

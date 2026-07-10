@@ -1,8 +1,6 @@
 package com.ethanpark.stock.biz.controller;
 
-import com.ethanpark.stock.biz.dto.GenericUpsertRequest;
 import com.ethanpark.stock.core.model.GenericDataRecord;
-import com.ethanpark.stock.core.model.PageResult;
 import com.ethanpark.stock.core.service.GenericDataDomainService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -60,7 +56,7 @@ class FinancialDataControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/financial-data 不存在返回非 200")
+    @DisplayName("GET /api/financial-data 不存在返回 null data")
     void query_notFound_returnsError() throws Exception {
         when(genericDataService.get(anyString(), anyString(), anyString(),
                 anyString(), anyString())).thenReturn(null);

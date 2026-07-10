@@ -3,7 +3,6 @@ package com.ethanpark.stock.core.service.impl;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.PageResult;
-import com.ethanpark.stock.core.model.metadata.MetadataModel;
 import com.ethanpark.stock.core.service.GenericDataDomainService;
 import com.ethanpark.stock.core.route.RouteDispatcher;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import java.util.*;
 

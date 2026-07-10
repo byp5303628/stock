@@ -53,6 +53,8 @@ public class RouteDispatcher {
      * @return MetadataModel 对象
      * @throws IllegalArgumentException 校验不通过时抛出
      */
+    @SuppressWarnings("unused")
+    // 保留供后续校验 modelCode 是否属于指定 dataType 时启用
     public MetadataModel resolveModel(String dataType, String modelCode) {
         MetadataModel model = metadataDomainService.getModelByCode(modelCode);
         if (model == null) {
@@ -67,10 +69,15 @@ public class RouteDispatcher {
     }
 
     /**
-     * 校验 dataType 是否存在（不走缓存穿透，仅查缓存）。
+     * 校验 dataType 是否存在（优先查缓存，缓存未命中时回查数据库）。
      */
     public boolean exists(String dataType) {
-        return routeCache.getIfPresent(dataType) != null;
+        try {
+            resolveTable(dataType);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     // for testing — setter injection

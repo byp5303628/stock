@@ -22,13 +22,13 @@ public class GenericBatchUpsertRequest {
     @Getter
     @Setter
     public static class RecordItem {
-        @NotBlank
+        @NotBlank(message = "市场不能为空")
         private String market;
-        @NotBlank
+        @NotBlank(message = "股票代码不能为空")
         private String code;
-        @NotBlank
+        @NotBlank(message = "模型编码不能为空")
         private String modelCode;
-        @NotBlank
+        @NotBlank(message = "分区日期不能为空")
         private String partitionDate;
         private Map<String, Object> dataContent;
         private Map<String, Object> extraInfo;

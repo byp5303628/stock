@@ -10,6 +10,7 @@ import com.ethanpark.stock.core.route.RouteDispatcher;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -190,6 +191,7 @@ public class GenericDataDomainServiceImpl implements GenericDataDomainService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void replaceRange(String dataType, String market, String code, String modelCode,
                              String startDate, String endDate, List<GenericDataRecord> records) {
         deleteByRange(dataType, market, code, modelCode, startDate, endDate);
