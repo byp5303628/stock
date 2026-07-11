@@ -39,11 +39,12 @@ paths:
 
 ### 1.3 方法语义
 
+**所有接口统一使用 POST 方法**，不再使用 GET。请求参数通过 Request DTO + JSON Body 传递。
+
 | 操作 | HTTP 方法 | URL 示例 | curl 示例 |
 |------|-----------|----------|-----------|
-| 列表查询 | `GET` | `/api/stock-strategies` | `curl '/api/stock-strategies?page=1&size=20'` |
-| 详情查询 | `GET` | `/api/stock-strategies/detail` | `curl '/api/stock-strategies/detail?name=xxx'` |
-| 创建资源 | `POST` | `/api/stock-strategies` | `curl -X POST -H 'Content-Type: application/json' -d '{"name":"..."}'` |
+| 查询 | `POST` | `/api/financial-data/query` | `curl -X POST -H 'Content-Type: application/json' -d '{...}'` |
+| 创建/更新 | `POST` | `/api/stock-strategies` | `curl -X POST -H 'Content-Type: application/json' -d '{"name":"..."}'` |
 | 触发操作 | `POST` | `/api/stock-strategies/regression` | `curl -X POST -d '{"name":"..."}'` |
 | 保存配置 | `POST` | `/api/schedule-configs` | `curl -X POST -d '{...}'` |
 
@@ -76,20 +77,20 @@ curl '/api/stock-strategies/detail?name=macd_daily_v1'
 
 ## 2. 请求参数规范
 
-### 2.1 GET 请求 — 查询参数
+### 2.1 请求参数 — POST + JSON Body
 
 ```java
-@GetMapping
-public ResponseDTO<List<StrategyDTO>> list(
-        @RequestParam(required = false, defaultValue = "1") Integer page,
-        @RequestParam(required = false, defaultValue = "20") Integer size) {
+@PostMapping("/query")
+public ResponseDTO<List<StrategyDTO>> query(@RequestBody @Valid StrategyQueryRequest request) {
     // ...
 }
 ```
 
 对应 curl：
 ```bash
-curl 'http://localhost:8080/api/stock-strategies?page=1&size=20'
+curl -X POST 'http://localhost:8080/api/stock-strategies/query' \
+  -H 'Content-Type: application/json' \
+  -d '{"page": 1, "size": 20}'
 ```
 
 **要点：**
@@ -329,32 +330,36 @@ throw new BusinessException(context.getResultCode(), context.getResultMsg());
 ### 5.1 标准模板
 
 ```java
+/**
+ * 统一金融数据查询写入 Controller。
+ *
+ * <p>本模块是外部金融数据和内部计算结果的统一读写入口。
+ * 所有数据通过泛化 Service 层路由到对应的物理表。
+ */
 @RestController
-@RequestMapping("/api/stock-strategies")
-public class StockStrategyController {
+@RequestMapping("/api/financial-data")
+public class FinancialDataController {
 
-    private final StockStrategyService stockStrategyService;
+    @Resource
+    private GenericDataDomainService genericDataService;
 
-    // 构造器注入（必须）
-    public StockStrategyController(StockStrategyService stockStrategyService) {
-        this.stockStrategyService = stockStrategyService;
+    /**
+     * 查询金融数据。
+     *
+     * <p>支持精确查询（当 modelCode + partitionDate 有值时）和分页查询。
+     * 分页结果包含 total/page/size/pages 信息。
+     *
+     * @param request 查询请求体
+     * @return 单条记录或分页结果
+     */
+    @PostMapping("/query")
+    public ResponseDTO<?> query(@RequestBody @Valid FinancialDataQueryRequest request) {
+        // ...
     }
 
-    @GetMapping
-    public ResponseDTO<List<StrategyDTO>> list(
-            @RequestParam(required = false, defaultValue = "1") Integer page,
-            @RequestParam(required = false, defaultValue = "20") Integer size) {
-        return ResponseDTO.success(stockStrategyService.list(page, size));
-    }
-
-    @GetMapping("/detail")
-    public ResponseDTO<StrategyDetailDTO> detail(@RequestParam String name) {
-        return ResponseDTO.success(stockStrategyService.detail(name));
-    }
-
-    @PostMapping
-    public ResponseDTO<Void> create(@RequestBody @Valid StrategyCreateRequest request) {
-        stockStrategyService.create(request);
+    @PostMapping("/upsert")
+    public ResponseDTO<Void> upsert(@RequestBody @Valid GenericUpsertRequest request) {
+        genericDataService.upsert(request.getDataType(), ...);
         return ResponseDTO.success();
     }
 }
@@ -364,7 +369,7 @@ public class StockStrategyController {
 
 | 要求 | 说明 |
 |------|------|
-| 构造器注入 | 禁止 `@Resource` / `@Autowired` 字段注入 |
+| 字段注入 `@Resource` | 禁止构造器注入和 `@Autowired`，统一使用 `@Resource` 按名称注入 |
 | Controller 不做业务 | 只做参数校验 + 调用 Service + 包装 ResponseDTO |
 | 方法命名 | 反映 HTTP 方法：`list()`、`detail()`、`create()`、`delete()` |
 | 冗余注入 | 只注入实际使用的依赖，删除未使用的注入字段 |
@@ -396,8 +401,7 @@ curl -H 'Authorization: Bearer xxx' 'http://localhost:8080/api/stock-strategies'
 
 每个接口发布前对照检查：
 
-- [ ] GET 请求能否用一条 `curl '<url>?param=value'` 直接调用？
-- [ ] POST 请求能否用 `curl -X POST -H 'Content-Type: application/json' -d '{...}'` 清晰表达？
+- [ ] 接口能否用一条 `curl -X POST -H 'Content-Type: application/json' -d '{"...":"..."}'` 清晰表达？
 - [ ] URL 是否控制在 `/api/{资源}/{动作}` 以内？
 - [ ] 是否不需要 Cookie / Session？
 - [ ] 错误信息是否在响应体 JSON 中直接返回，而非依赖 HTTP 状态码之外的机制（如重定向、Header）？
@@ -407,21 +411,22 @@ curl -H 'Authorization: Bearer xxx' 'http://localhost:8080/api/stock-strategies'
 ### Curl 调用示例
 
 ```bash
-# 1. 列表查询
-curl 'http://localhost:8080/api/stock-strategies?page=1&size=20'
+# 1. 查询（POST + JSON Body）
+curl -X POST 'http://localhost:8080/api/financial-data/query' \
+  -H 'Content-Type: application/json' \
+  -d '{"dataType":"report","market":"SH","code":"000001","page":1,"size":20}'
 
-# 2. 详情查询
-curl 'http://localhost:8080/api/stock-strategies/detail?name=macd_daily_v1'
+# 2. 写入（POST + JSON Body）
+curl -X POST 'http://localhost:8080/api/financial-data/upsert' \
+  -H 'Content-Type: application/json' \
+  -d '{"dataType":"report","market":"SH","code":"000001","modelCode":"cash_flow_statement","partitionDate":"2024-12-31","dataContent":{"totalRevenue":10000000}}'
 
-# 3. 单股明细
-curl 'http://localhost:8080/api/stock-strategies/stock-detail?name=macd_daily_v1&code=000001'
-
-# 4. 创建回归任务（POST + JSON Body）
+# 3. 创建回归任务（POST + JSON Body）
 curl -X POST 'http://localhost:8080/api/stock-strategies/regression' \
   -H 'Content-Type: application/json' \
   -d '{"name": "macd_daily_v1"}'
 
-# 5. 保存配置（POST + JSON Body）
+# 4. 保存配置（POST + JSON Body）
 curl -X POST 'http://localhost:8080/api/schedule-configs' \
   -H 'Content-Type: application/json' \
   -d '{"name": "daily_task", "cron": "0 0 9 * * ?"}'
@@ -438,7 +443,7 @@ curl -X POST 'http://localhost:8080/api/schedule-configs' \
 - [ ] 日期时间是否全部使用 ISO 8601 格式？
 - [ ] 分页参数是否统一使用 `page` / `size`？（AI 不需要为每个接口适配不同分页参数名）
 - [ ] 响应结构是否统一？（所有接口返回 `ResponseDTO<T>`，AI 用同一套逻辑反序列化）
-- [ ] HTTP 方法语义是否准确？（GET 不修改数据，POST 不用于纯查询）
+- [ ] HTTP 方法是否统一使用 POST？（不混用 GET/POST）
 
 ---
 
@@ -449,7 +454,7 @@ curl -X POST 'http://localhost:8080/api/schedule-configs' \
 | 问题 | 位置 | 建议 |
 |------|------|------|
 | `.json` 后缀 | 所有接口 | 新接口不加，旧接口逐步迁移 |
-| 字段注入 `@Resource` | 所有 Controller | 改为构造器注入 |
+| 构造器注入 | 所有 Controller 和 Service | 统一改为 `@Resource` 字段注入 |
 | 无全局异常处理 | — | 新增 `@ControllerAdvice` |
 | 冗余注入（同时注入接口和实现类） | `StockStrategyController` | 只注入需要的依赖 |
 | 空 Controller 暴露路由 | `StockBasicListController` | 移除未使用的类 |

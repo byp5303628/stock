@@ -1,5 +1,6 @@
-package com.ethanpark.stock.biz.dto;
+package com.ethanpark.stock.biz.dto.request;
 
+import com.ethanpark.stock.biz.dto.MetadataEnumValueDTO;
 import lombok.Getter;
 import lombok.Setter;
 

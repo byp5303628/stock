@@ -188,6 +188,7 @@ processExecutor.execute(context);
 | **testcase-generator** | 🟣 测试设计 | 生成接口测试和端到端测试用例 |
 | **tester** | 🟠 测试验证 | 运行测试、分析结果、验证验收条件 |
 | **reviewer** | 🔴 审查员 | 代码审查、安全审查、质量分析 |
+| **evolve** | 🟣 演化工程师 | 分析经验日志，自动优化 agents/commands/skills/rules |
 
 ## 自定义命令
 
@@ -203,12 +204,26 @@ processExecutor.execute(context);
 | `/quality [check\|fix\|report]` | → **reviewer** | 代码质量分析 + 3 轮自愈修复 |
 | `/commit ["自定义消息"]` | 主流程直接执行 | 分析 diff 生成 message，commit + push |
 | `/santa [max-rounds]` | → **reviewer** → **developer** → **tester** 循环 | 迭代质量门禁 |
+| `/evolve` | → **evolve** agent | 自动迭代优化系统配置 |
+| `/learn` | 主流程直接执行 | 手动标记执行经验 |
 
 Agent 协作详情见 `rules/common/agents.md`。
 
 ## 项目规则
 
+- `rules/common/design-principles.md` — 顶层设计哲学，新增功能前先读
 - `rules/common/feishu-doc.md` — 读取飞书文档时必须同时读取评论（适用所有命令）
+
+### Java 规则
+
+- `rules/java/api-design.md` — REST API 设计规范（POST + Request DTO）
+- `rules/java/controller-coding.md` — Controller 注释规范、Object 入参、POST 协议
+- `rules/java/dto-design.md` — DTO 命名、Bean Validation、枚举输出规范
+- `rules/java/generic-data-service.md` — 泛化数据层（RouteDispatcher + GenericDataDomainService）规范
+- `rules/java/domain-service-result.md` — Domain Service 返回值 `Result<T>` 包裹规范
+- `rules/java/logging.md` — 日志规范（`@Slf4j`、占位符、级别、禁止行为）
+- `rules/java/security.md` — 安全规范
+- `rules/java/coding-style.md` — 编码风格
 
 ## 架构守卫
 
@@ -222,7 +237,9 @@ Agent 协作详情见 `rules/common/agents.md`。
 | **P1** | Action 必须实现 BusinessAction | `@Action` 标注的类必须实现对应接口 |
 | **P1** | Controller 命名 | 必须以 `Controller` 结尾，方法返回 `ResponseDTO` |
 | **P1** | DomainService 命名 | Core 层 Service 接口必须以 `DomainService` 结尾 |
-| **P2** | 代码规范 | 禁止 `System.out.println`，使用 Slf4j |
+| **P1** | DTO 设计 | `Request` 放 `dto/request/` 包、响应 `DTO` 放 `dto/` 包、以 `DTO`/`Request` 结尾、嵌套 DTO 也须带后缀、`@NotBlank` 须带中文 `message` |
+| **P1** | 泛化数据层 | 使用泛化 CRUD 而非独立 Service，upsert 语义，`@Transactional` 批量替换 |
+| **P2** | 日志规范 | 使用 `@Slf4j` + `{}` 占位符，禁止 `System.out.println`、`e.printStackTrace()` |
 
 ```bash
 # 单独运行架构测试

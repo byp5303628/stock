@@ -5,6 +5,7 @@ import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.biz.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -45,6 +46,15 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseDTO<Void> handleMissingParam(MissingServletRequestParameterException e) {
         return ResponseDTO.error(ErrorCode.ILLEGAL_PARAM.getCode(), "缺少必填参数: " + e.getParameterName());
+    }
+
+    /**
+     * H2: 处理 JSON 解析失败（如类型不匹配、格式错误）。
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseBody
+    public ResponseDTO<Void> handleMessageNotReadable(HttpMessageNotReadableException e) {
+        return ResponseDTO.error(ErrorCode.ILLEGAL_PARAM.getCode(), "请求体格式错误，请检查 JSON");
     }
 
     @ExceptionHandler(Exception.class)
