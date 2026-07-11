@@ -211,6 +211,7 @@ Agent 协作详情见 `rules/common/agents.md`。
 
 ## 项目规则
 
+- `rules/common/design-principles.md` — 顶层设计哲学，新增功能前先读
 - `rules/common/feishu-doc.md` — 读取飞书文档时必须同时读取评论（适用所有命令）
 
 ### Java 规则
