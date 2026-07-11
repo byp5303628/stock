@@ -3,6 +3,7 @@ package com.ethanpark.stock.biz.controller;
 import com.ethanpark.stock.biz.handler.GlobalExceptionHandler;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.PageResult;
+import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.service.GenericDataDomainService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +57,7 @@ class FinancialDataControllerTest {
             record.setCode("000001");
             record.setPartitionDate("2024-12-31");
             when(genericDataService.get(eq("report"), eq("SH"), eq("000001"),
-                    eq("cash_flow_statement"), eq("2024-12-31"))).thenReturn(record);
+                    eq("cash_flow_statement"), eq("2024-12-31"))).thenReturn(Result.ok(record));
 
             mockMvc.perform(post("/api/financial-data/query")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -71,7 +72,7 @@ class FinancialDataControllerTest {
         @DisplayName("不存在时返回 data null，code 仍为 200")
         void notFound_returnsNullData() throws Exception {
             when(genericDataService.get(anyString(), anyString(), anyString(),
-                    anyString(), anyString())).thenReturn(null);
+                    anyString(), anyString())).thenReturn(Result.ok(null));
 
             mockMvc.perform(post("/api/financial-data/query")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -85,6 +86,9 @@ class FinancialDataControllerTest {
         @Test
         @DisplayName("modelCode + partitionDate 传输给 GenericDataDomainService.get()")
         void delegatesToGetMethod() throws Exception {
+            when(genericDataService.get(anyString(), anyString(), anyString(),
+                    anyString(), anyString())).thenReturn(Result.ok(null));
+
             mockMvc.perform(post("/api/financial-data/query")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{\"dataType\":\"report\",\"market\":\"SH\",\"code\":\"000001\"," +

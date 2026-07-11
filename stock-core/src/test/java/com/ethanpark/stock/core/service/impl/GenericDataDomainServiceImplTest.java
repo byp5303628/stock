@@ -3,6 +3,7 @@ package com.ethanpark.stock.core.service.impl;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.PageResult;
+import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.service.GenericDataDomainService;
 import com.ethanpark.stock.core.route.RouteDispatcher;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,7 @@ class GenericDataDomainServiceImplTest {
     }
 
     @Test
-    @DisplayName("get() 返回单条记录")
+    @DisplayName("get() 返回单条记录，success=true，data 非空")
     void get_existingRecord_returnsRecord() {
         when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
         Map<String, Object> row = new HashMap<>();
@@ -57,28 +58,30 @@ class GenericDataDomainServiceImplTest {
         when(jdbcTemplate.queryForList(anyString(), any(MapSqlParameterSource.class)))
                 .thenReturn(Collections.singletonList(row));
 
-        GenericDataRecord result = genericDataService.get(
+        Result<GenericDataRecord> result = genericDataService.get(
                 "report", "SH", "000001", "cash_flow_statement", "2024-12-31");
 
-        assertThat(result).isNotNull();
-        assertThat(result.getCode()).isEqualTo("000001");
-        assertThat(result.getMarket()).isEqualTo("SH");
-        assertThat(result.getModelCode()).isEqualTo("cash_flow_statement");
-        assertThat(result.getPartitionDate()).isEqualTo("2024-12-31");
-        assertThat(result.getDataContent()).containsEntry("totalRevenue", 1000);
+        assertThat(result.isSuccess()).isTrue();
+        assertThat(result.getData()).isNotNull();
+        assertThat(result.getData().getCode()).isEqualTo("000001");
+        assertThat(result.getData().getMarket()).isEqualTo("SH");
+        assertThat(result.getData().getModelCode()).isEqualTo("cash_flow_statement");
+        assertThat(result.getData().getPartitionDate()).isEqualTo("2024-12-31");
+        assertThat(result.getData().getDataContent()).containsEntry("totalRevenue", 1000);
     }
 
     @Test
-    @DisplayName("get() 不存在时返回 null")
+    @DisplayName("get() 不存在时返回 success=true，data 为 null")
     void get_notFound_returnsNull() {
         when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
         when(jdbcTemplate.queryForList(anyString(), any(MapSqlParameterSource.class)))
                 .thenReturn(Collections.emptyList());
 
-        GenericDataRecord result = genericDataService.get(
+        Result<GenericDataRecord> result = genericDataService.get(
                 "report", "SH", "000001", "cash_flow_statement", "2024-12-31");
 
-        assertThat(result).isNull();
+        assertThat(result.isSuccess()).isTrue();
+        assertThat(result.getData()).isNull();
     }
 
     @Test

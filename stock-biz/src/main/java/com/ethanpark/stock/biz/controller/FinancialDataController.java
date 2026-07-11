@@ -10,6 +10,7 @@ import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.PageResult;
+import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.service.GenericDataDomainService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,12 +60,15 @@ public class FinancialDataController {
 
         // 精确查询：dataType + market + code + modelCode + partitionDate
         if (request.getPartitionDate() != null && request.getModelCode() != null) {
-            GenericDataRecord record = genericDataService.get(
+            Result<GenericDataRecord> result = genericDataService.get(
                     dataType, market, code, request.getModelCode(), request.getPartitionDate());
-            if (record == null) {
+            if (!result.isSuccess()) {
+                return ResponseDTO.error(500, result.getMsg());
+            }
+            if (result.getData() == null) {
                 return ResponseDTO.success();
             }
-            return ResponseDTO.success(convert(record));
+            return ResponseDTO.success(convert(result.getData()));
         }
 
         // 分页查询

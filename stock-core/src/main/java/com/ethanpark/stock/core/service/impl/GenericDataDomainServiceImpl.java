@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.PageResult;
+import com.ethanpark.stock.core.model.Result;
 import com.ethanpark.stock.core.service.GenericDataDomainService;
 import com.ethanpark.stock.core.route.RouteDispatcher;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -28,8 +29,8 @@ public class GenericDataDomainServiceImpl implements GenericDataDomainService {
     private static final int DEFAULT_PAGE_SIZE = 20;
 
     @Override
-    public GenericDataRecord get(String dataType, String market, String code,
-                                 String modelCode, String partitionDate) {
+    public Result<GenericDataRecord> get(String dataType, String market, String code,
+                                         String modelCode, String partitionDate) {
         String table = routeDispatcher.resolveTable(dataType);
         String sql = String.format(
             "select * from %s where market = :market and code = :code " +
@@ -41,11 +42,13 @@ public class GenericDataDomainServiceImpl implements GenericDataDomainService {
                 .addValue("modelCode", modelCode)
                 .addValue("partitionDate", partitionDate);
 
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
-        if (rows.isEmpty()) {
-            return null;
+        try {
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+            GenericDataRecord record = rows.isEmpty() ? null : mapRow(rows.get(0));
+            return Result.ok(record);
+        } catch (Exception e) {
+            return Result.fail("查询失败: " + e.getMessage());
         }
-        return mapRow(rows.get(0));
     }
 
     @Override
@@ -103,61 +106,6 @@ public class GenericDataDomainServiceImpl implements GenericDataDomainService {
         result.setSize(query.getSize());
         result.setPages((int) Math.ceil((double) total / query.getSize()));
         return result;
-    }
-
-    @Override
-    public List<GenericDataRecord> queryRange(String dataType, String market, String code,
-                                              String modelCode, String startDate, String endDate) {
-        String table = routeDispatcher.resolveTable(dataType);
-        String sql = String.format(
-            "select * from %s where market = :market and code = :code " +
-            "and model_code = :modelCode and partition_date between :startDate and :endDate " +
-            "order by partition_date asc", table);
-
-        MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("market", market)
-                .addValue("code", code)
-                .addValue("modelCode", modelCode)
-                .addValue("startDate", startDate)
-                .addValue("endDate", endDate);
-
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
-        return rows.stream().map(this::mapRow).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<GenericDataRecord> queryLatest(String dataType, String market, String code, int limit) {
-        String table = routeDispatcher.resolveTable(dataType);
-        String sql = String.format(
-            "select * from %s where market = :market and code = :code " +
-            "order by partition_date desc limit :limit", table);
-
-        MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("market", market)
-                .addValue("code", code)
-                .addValue("limit", limit);
-
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
-        return rows.stream().map(this::mapRow).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<GenericDataRecord> queryLatestByModel(String dataType, String market, String code) {
-        String table = routeDispatcher.resolveTable(dataType);
-        // Subquery: per model_code, get max partition_date
-        String sql = String.format(
-            "select t.* from %s t inner join (" +
-            "  select model_code, max(partition_date) as max_date from %s" +
-            "  where market = :market and code = :code group by model_code" +
-            ") latest on t.model_code = latest.model_code and t.partition_date = latest.max_date " +
-            "where t.market = :market and t.code = :code", table, table);
-
-        MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("market", market)
-                .addValue("code", code);
-
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
-        return rows.stream().map(this::mapRow).collect(Collectors.toList());
     }
 
     @Override
