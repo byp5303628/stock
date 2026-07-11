@@ -85,6 +85,20 @@ class GenericDataDomainServiceImplTest {
     }
 
     @Test
+    @DisplayName("get() DB 异常时返回 success=false")
+    void get_dbError_returnsFail() {
+        when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
+        when(jdbcTemplate.queryForList(anyString(), any(MapSqlParameterSource.class)))
+                .thenThrow(new RuntimeException("Connection refused"));
+
+        Result<GenericDataRecord> result = genericDataService.get(
+                "report", "SH", "000001", "cash_flow_statement", "2024-12-31");
+
+        assertThat(result.isSuccess()).isFalse();
+        assertThat(result.getMsg()).contains("查询失败");
+    }
+
+    @Test
     @DisplayName("upsert() 使用 ON DUPLICATE KEY UPDATE 语义")
     void upsert_usesUpsertSemantics() {
         when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
@@ -105,6 +119,83 @@ class GenericDataDomainServiceImplTest {
 
         assertThat(sqlCaptor.getValue()).contains("duplicate key update");
         assertThat(sqlCaptor.getValue()).contains("fin_report");
+    }
+
+    @Test
+    @DisplayName("batchUpsert() 使用 batchUpdate 批量提交")
+    void batchUpsert_usesBatchUpdate() {
+        when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
+        GenericDataRecord record1 = new GenericDataRecord();
+        record1.setMarket("SH");
+        record1.setCode("000001");
+        record1.setModelCode("cash_flow_statement");
+        record1.setPartitionDate("2024-12-31");
+        GenericDataRecord record2 = new GenericDataRecord();
+        record2.setMarket("SZ");
+        record2.setCode("000002");
+        record2.setModelCode("cash_flow_statement");
+        record2.setPartitionDate("2024-12-31");
+
+        genericDataService.batchUpsert("report", List.of(record1, record2));
+
+        ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<MapSqlParameterSource[]> batchCaptor = ArgumentCaptor.forClass(MapSqlParameterSource[].class);
+        verify(jdbcTemplate).batchUpdate(sqlCaptor.capture(), batchCaptor.capture());
+
+        assertThat(sqlCaptor.getValue()).contains("duplicate key update");
+        assertThat(batchCaptor.getValue()).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("batchUpsert() 空列表不执行任何操作")
+    void batchUpsert_emptyList_doesNothing() {
+        genericDataService.batchUpsert("report", Collections.emptyList());
+        verify(jdbcTemplate, never()).batchUpdate(anyString(), any(MapSqlParameterSource[].class));
+    }
+
+    @Test
+    @DisplayName("delete() 生成正确的 SQL")
+    void delete_generatesCorrectSql() {
+        when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
+
+        genericDataService.delete("report", "SH", "000001", "cash_flow_statement", "2024-12-31");
+
+        ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(jdbcTemplate).update(sqlCaptor.capture(), any(MapSqlParameterSource.class));
+        assertThat(sqlCaptor.getValue()).contains("delete from fin_report");
+        assertThat(sqlCaptor.getValue()).contains("market = :market");
+        assertThat(sqlCaptor.getValue()).contains("partition_date = :partitionDate");
+    }
+
+    @Test
+    @DisplayName("deleteByRange() 生成范围删除 SQL")
+    void deleteByRange_generatesRangeSql() {
+        when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
+
+        genericDataService.deleteByRange("report", "SH", "000001", "cash_flow_statement",
+                "2024-01-01", "2024-12-31");
+
+        ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(jdbcTemplate).update(sqlCaptor.capture(), any(MapSqlParameterSource.class));
+        assertThat(sqlCaptor.getValue()).contains("partition_date between");
+    }
+
+    @Test
+    @DisplayName("replaceRange() 先删除后批量写入")
+    void replaceRange_deletesThenInserts() {
+        when(routeDispatcher.resolveTable("report")).thenReturn("fin_report");
+        GenericDataRecord record = new GenericDataRecord();
+        record.setMarket("SH");
+        record.setCode("000001");
+        record.setModelCode("cash_flow_statement");
+        record.setPartitionDate("2024-12-31");
+
+        genericDataService.replaceRange("report", "SH", "000001", "cash_flow_statement",
+                "2024-01-01", "2024-12-31", List.of(record));
+
+        // deleteByRange 调用 update，batchUpsert 调用 batchUpdate
+        verify(jdbcTemplate).update(anyString(), any(MapSqlParameterSource.class));
+        verify(jdbcTemplate).batchUpdate(anyString(), any(MapSqlParameterSource[].class));
     }
 
     @Test

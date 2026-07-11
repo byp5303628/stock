@@ -109,4 +109,9 @@ public class InitializerRunner {
         log.info("元数据模型初始化完成: code={}, name={}, 字段数={}",
                 code, initializer.getName(), initializer.getFields().size());
     }
+
+    // for testing
+    void setMetadataDomainService(MetadataDomainService metadataDomainService) {
+        this.metadataDomainService = metadataDomainService;
+    }
 }
