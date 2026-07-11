@@ -988,7 +988,7 @@ public class GenericDataDTO {
 // FinancialDataControllerTest.java
 package com.ethanpark.stock.biz.controller;
 
-import com.ethanpark.stock.biz.dto.GenericUpsertRequest;
+import com.ethanpark.stock.biz.dto.request.GenericUpsertRequest;
 import com.ethanpark.stock.core.model.GenericDataRecord;
 import com.ethanpark.stock.core.model.PageResult;
 import com.ethanpark.stock.core.service.GenericDataService;
@@ -1092,9 +1092,9 @@ Expected: 编译失败（FinancialDataController 不存在）
 package com.ethanpark.stock.biz.controller;
 
 import com.ethanpark.stock.biz.converter.DtoConverter;
-import com.ethanpark.stock.biz.dto.GenericBatchUpsertRequest;
+import com.ethanpark.stock.biz.dto.request.GenericBatchUpsertRequest;
 import com.ethanpark.stock.biz.dto.GenericDataDTO;
-import com.ethanpark.stock.biz.dto.GenericUpsertRequest;
+import com.ethanpark.stock.biz.dto.request.GenericUpsertRequest;
 import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.GenericDataRecord;

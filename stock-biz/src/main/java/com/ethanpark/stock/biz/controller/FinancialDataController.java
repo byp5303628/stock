@@ -1,11 +1,11 @@
 package com.ethanpark.stock.biz.controller;
 
-import com.ethanpark.stock.biz.dto.FinancialDataDeleteRequest;
-import com.ethanpark.stock.biz.dto.FinancialDataQueryRequest;
-import com.ethanpark.stock.biz.dto.GenericBatchUpsertRequest;
+import com.ethanpark.stock.biz.dto.request.FinancialDataDeleteRequest;
+import com.ethanpark.stock.biz.dto.request.FinancialDataQueryRequest;
+import com.ethanpark.stock.biz.dto.request.GenericBatchUpsertRequest;
 import com.ethanpark.stock.biz.dto.GenericDataDTO;
-import com.ethanpark.stock.biz.dto.GenericUpsertRequest;
-import com.ethanpark.stock.biz.dto.ReplaceRangeRequest;
+import com.ethanpark.stock.biz.dto.request.GenericUpsertRequest;
+import com.ethanpark.stock.biz.dto.request.ReplaceRangeRequest;
 import com.ethanpark.stock.biz.dto.ResponseDTO;
 import com.ethanpark.stock.core.model.GenericDataQuery;
 import com.ethanpark.stock.core.model.GenericDataRecord;

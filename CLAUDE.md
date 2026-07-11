@@ -220,6 +220,7 @@ Agent 协作详情见 `rules/common/agents.md`。
 - `rules/java/dto-design.md` — DTO 命名、Bean Validation、枚举输出规范
 - `rules/java/generic-data-service.md` — 泛化数据层（RouteDispatcher + GenericDataDomainService）规范
 - `rules/java/domain-service-result.md` — Domain Service 返回值 `Result<T>` 包裹规范
+- `rules/java/logging.md` — 日志规范（`@Slf4j`、占位符、级别、禁止行为）
 - `rules/java/security.md` — 安全规范
 - `rules/java/coding-style.md` — 编码风格
 
@@ -235,9 +236,9 @@ Agent 协作详情见 `rules/common/agents.md`。
 | **P1** | Action 必须实现 BusinessAction | `@Action` 标注的类必须实现对应接口 |
 | **P1** | Controller 命名 | 必须以 `Controller` 结尾，方法返回 `ResponseDTO` |
 | **P1** | DomainService 命名 | Core 层 Service 接口必须以 `DomainService` 结尾 |
-| **P1** | DTO 设计 | 所有 DTO 以 `DTO` 或 `Request` 结尾，嵌套 DTO 也须带后缀，`@NotBlank` 须带中文 `message` |
+| **P1** | DTO 设计 | `Request` 放 `dto/request/` 包、响应 `DTO` 放 `dto/` 包、以 `DTO`/`Request` 结尾、嵌套 DTO 也须带后缀、`@NotBlank` 须带中文 `message` |
 | **P1** | 泛化数据层 | 使用泛化 CRUD 而非独立 Service，upsert 语义，`@Transactional` 批量替换 |
-| **P2** | 代码规范 | 禁止 `System.out.println`，使用 Slf4j |
+| **P2** | 日志规范 | 使用 `@Slf4j` + `{}` 占位符，禁止 `System.out.println`、`e.printStackTrace()` |
 
 ```bash
 # 单独运行架构测试

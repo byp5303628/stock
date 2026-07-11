@@ -4,16 +4,30 @@
 
 ## 1. DTO 命名规范
 
-### 1.1 后缀规则
+### 1.1 包结构
+
+```
+dto/
+├── request/              ← 所有 Request DTO 放在这里
+│   ├── GenericUpsertRequest.java
+│   ├── FinancialDataQueryRequest.java
+│   └── ReplaceRangeRequest.java
+├── GenericDataDTO.java   ← 响应 DTO 直接放在 dto/ 下
+└── ResponseDTO.java
+```
+
+**Request DTO** 统一放在 `com.ethanpark.stock.biz.dto.request` 包下，响应 DTO 直接放在 `com.ethanpark.stock.biz.dto` 下。
+
+### 1.2 后缀规则
 
 **所有 DTO 类必须以 `DTO` 或 `Request` 结尾。** 没有例外。
 
-| 类型 | 后缀 | 示例 |
-|------|------|------|
-| 请求 DTO（POST/PUT Body） | `Request` | `GenericUpsertRequest`、`FinancialDataQueryRequest` |
-| 响应 DTO（返回给前端） | `DTO` | `GenericDataDTO`、`ResponseDTO` |
-| 嵌套 DTO（Request 内的记录项） | `DTO` | `RecordItemDTO`、`AttachmentDTO` |
-| 查询参数对象 | `Query` | `GenericDataQuery` |
+| 类型 | 包路径 | 后缀 | 示例 |
+|------|--------|------|------|
+| 请求 DTO | `dto/request/` | `Request` | `GenericUpsertRequest`、`FinancialDataQueryRequest` |
+| 响应 DTO | `dto/` | `DTO` | `GenericDataDTO`、`ResponseDTO` |
+| 嵌套 DTO（Request 内的记录项） | 在 Request 类内部 | `DTO` | `RecordItemDTO`、`AttachmentDTO` |
+| 查询参数对象 | `core/model/` | `Query` | `GenericDataQuery` |
 
 **不允许的命名：**
 - ❌ `XXXReq`、`XXXResp`、`XXXVO`、`XXXBO`
