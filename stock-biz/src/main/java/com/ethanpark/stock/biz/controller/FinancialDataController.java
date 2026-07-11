@@ -169,7 +169,7 @@ public class FinancialDataController {
             return record;
         }).collect(Collectors.toList());
 
-        ReplaceRangeRequest.RecordItem first = request.getRecords().get(0);
+        ReplaceRangeRequest.RecordItemDTO first = request.getRecords().get(0);
         genericDataService.replaceRange(request.getDataType(), first.getMarket(),
                 first.getCode(), first.getModelCode(),
                 request.getStartDate(), request.getEndDate(), records);

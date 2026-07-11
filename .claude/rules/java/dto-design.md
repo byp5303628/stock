@@ -6,16 +6,48 @@
 
 ### 1.1 后缀规则
 
+**所有 DTO 类必须以 `DTO` 或 `Request` 结尾。** 没有例外。
+
 | 类型 | 后缀 | 示例 |
 |------|------|------|
-| 请求 DTO（POST/PUT Body） | `Request` | `GenericUpsertRequest`、`StrategyCreateRequest` |
-| 响应 DTO（返回给前端） | `DTO` | `GenericDataDTO`、`StrategyDTO` |
-| 查询参数（GET 参数） | `Query` 或无后缀 | `GenericDataQuery` |
+| 请求 DTO（POST/PUT Body） | `Request` | `GenericUpsertRequest`、`FinancialDataQueryRequest` |
+| 响应 DTO（返回给前端） | `DTO` | `GenericDataDTO`、`ResponseDTO` |
+| 嵌套 DTO（Request 内的记录项） | `DTO` | `RecordItemDTO`、`AttachmentDTO` |
+| 查询参数对象 | `Query` | `GenericDataQuery` |
 
 **不允许的命名：**
 - ❌ `XXXReq`、`XXXResp`、`XXXVO`、`XXXBO`
+- ❌ `RecordItem`（无后缀）→ ✅ `RecordItemDTO`
 - ❌ 复用 Entity/DO 作为请求体或响应体
 - ❌ 同一个类既做请求又做响应
+
+### 1.2 嵌套 DTO 也受约束
+
+嵌套在 Request 内部的记录类也是 DTO，必须以 `DTO` 结尾：
+
+```java
+// ✅ 正确 — 嵌套 DTO 带 DTO 后缀
+public class GenericBatchUpsertRequest {
+    @NotEmpty
+    @Valid
+    private List<RecordItemDTO> records;
+
+    public static class RecordItemDTO {
+        @NotBlank(message = "市场不能为空")
+        private String market;
+        // ...
+    }
+}
+
+// ❌ 错误 — 嵌套 DTO 缺少后缀
+public class GenericBatchUpsertRequest {
+    private List<RecordItem> records;  // ← RecordItem 看不出是 DTO
+
+    public static class RecordItem {
+        // ...
+    }
+}
+```
 
 ### 1.2 每个操作专用 Request
 
@@ -97,9 +129,9 @@ public class GenericBatchUpsertRequest {
 
     @NotEmpty(message = "records 不能为空")
     @Valid
-    private List<RecordItem> records;
+    private List<RecordItemDTO> records;
 
-    public static class RecordItem {
+    public static class RecordItemDTO {
         @NotBlank(message = "market 不能为空")
         private String market;
 

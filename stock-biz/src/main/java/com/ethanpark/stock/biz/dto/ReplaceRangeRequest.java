@@ -33,11 +33,11 @@ public class ReplaceRangeRequest {
 
     @NotEmpty(message = "records 不能为空")
     @Valid
-    private List<RecordItem> records;
+    private List<RecordItemDTO> records;
 
     @Getter
     @Setter
-    public static class RecordItem {
+    public static class RecordItemDTO {
         @NotBlank(message = "市场不能为空")
         private String market;
         @NotBlank(message = "股票代码不能为空")
