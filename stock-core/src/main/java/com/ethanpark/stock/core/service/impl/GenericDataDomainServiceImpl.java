@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class GenericDataDomainServiceImpl implements GenericDataDomainService {
 
-    @Resource
+    @Resource(name = "namedParameterJdbcTemplate")
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Resource

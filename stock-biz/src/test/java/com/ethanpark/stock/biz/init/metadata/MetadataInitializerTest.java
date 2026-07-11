@@ -78,9 +78,20 @@ class MetadataInitializerTest {
     }
 
     @Test
+    @DisplayName("report 路由模型 — code/description 正确，无字段")
+    void reportModel_metadata() {
+        ReportModelInitializer init = new ReportModelInitializer();
+
+        assertThat(init.getCode()).isEqualTo("report");
+        assertThat(init.getName()).isEqualTo("财务报表");
+        assertThat(init.getFields()).isEmpty();
+    }
+
+    @Test
     @DisplayName("所有 MetadataInitializer 实现的 code 不重复")
     void allCodesAreUnique() {
         List<MetadataInitializer> initializers = List.of(
+                new ReportModelInitializer(),
                 new CashFlowStatementInitializer(),
                 new BalanceSheetInitializer(),
                 new IncomeStatementInitializer()

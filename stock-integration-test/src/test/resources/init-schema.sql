@@ -150,6 +150,20 @@ CREATE TABLE IF NOT EXISTS metadata_enum_value (
     CONSTRAINT uk_enum_value_code UNIQUE (enum_id, value_code)
 );
 
+-- ========== 统一金融数据表 ==========
+CREATE TABLE IF NOT EXISTS fin_report (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    market VARCHAR(8) NOT NULL DEFAULT 'SH',
+    code VARCHAR(32) NOT NULL,
+    model_code VARCHAR(64) NOT NULL,
+    partition_date VARCHAR(16) NOT NULL,
+    data_content TEXT NOT NULL,
+    extra_info TEXT,
+    gmt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    gmt_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uk_mkt_model_code_date UNIQUE (market, code, model_code, partition_date)
+);
+
 -- ========== 元数据模型版本管理 ==========
 CREATE TABLE IF NOT EXISTS metadata_model_version (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

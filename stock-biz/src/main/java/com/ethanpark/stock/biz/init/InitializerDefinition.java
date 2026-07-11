@@ -3,6 +3,7 @@ package com.ethanpark.stock.biz.init;
 import com.ethanpark.stock.biz.init.metadata.BalanceSheetInitializer;
 import com.ethanpark.stock.biz.init.metadata.CashFlowStatementInitializer;
 import com.ethanpark.stock.biz.init.metadata.IncomeStatementInitializer;
+import com.ethanpark.stock.biz.init.metadata.ReportModelInitializer;
 import lombok.Getter;
 
 /**
@@ -25,6 +26,8 @@ public enum InitializerDefinition {
 
     // ===== 元数据模型初始化 =====
 
+    /** 财务报告聚合类型，用于 RouteDispatcher 路由查找 */
+    REPORT(Category.METADATA, ReportModelInitializer.class),
     CASH_FLOW_STATEMENT(Category.METADATA, CashFlowStatementInitializer.class),
     BALANCE_SHEET(Category.METADATA, BalanceSheetInitializer.class),
     INCOME_STATEMENT(Category.METADATA, IncomeStatementInitializer.class),

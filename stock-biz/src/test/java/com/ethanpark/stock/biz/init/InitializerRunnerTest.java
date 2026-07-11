@@ -43,6 +43,9 @@ class InitializerRunnerTest {
         @BeforeEach
         void mockModelNotExists() {
             when(metadataDomainService.getModelByCode(anyString())).thenReturn(null);
+            // saveField 必须 mock，否则 Mockito 默认返回 null → NPE
+            when(metadataDomainService.saveField(any()))
+                    .thenReturn(Result.ok(new MetadataField()));
         }
 
         @Test
@@ -61,20 +64,17 @@ class InitializerRunnerTest {
         }
 
         @Test
-        @DisplayName("为每个枚举项调用 saveField")
+        @DisplayName("为每个枚举项调用 saveField，次数等于字段总数")
         void run_createsFields() {
             when(metadataDomainService.saveModel(any()))
                     .thenAnswer(invocation -> {
                         MetadataModel model = new MetadataModel();
-                        model.setId(invocation.getArgument(0, MetadataModel.class).hashCode() % 1000L + 1);
+                        model.setId((long) invocation.getArgument(0, MetadataModel.class).hashCode());
                         return Result.ok(model);
                     });
-            when(metadataDomainService.saveField(any()))
-                    .thenReturn(Result.ok(new MetadataField()));
 
             runner.run();
 
-            // 验证 saveField 被调用的次数为所有 METADATA 枚举项的字段总数
             int totalFields = countTotalFields();
             verify(metadataDomainService, times(totalFields)).saveField(any());
         }
